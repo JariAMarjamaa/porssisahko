@@ -1,0 +1,242 @@
+.App {
+  text-align: center; /* Center the content horizontally */
+}
+
+@media only screen and (max-width: 499px) {
+  .versio {
+    padding-top: 15px;
+  }
+
+  .price-info-and-buttons {
+    position: absolute;
+    top: 50px; /* Adjust the top value to position vertically */
+    left: 10px; /* Adjust the left value to position horizontally */
+    margin-top: 70px;
+    font-size: small;
+    text-align: left;
+  }
+
+  .separator {
+    padding-top: 30px;
+  }
+
+  .container {
+    position: relative;
+    height: 70vh; /* Full height of the viewport*/
+    width: 100vw; /* Full width of the viewport*/
+    background-color: #282c34;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+   }
+   
+   .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+}
+
+@media only screen and (min-width: 500px) and (max-width: 599px) {
+  .versio {
+    padding-top: 15px;
+  }
+
+  .separator {
+    padding-top: 50px;
+  }
+
+  .button {
+    font-size: medium; 
+  }
+
+  .price-info-and-buttons {
+    position: absolute;
+    top: 60px;
+    left: 10px; 
+    margin-top: 70px;
+    font-size: small;
+    text-align: left;
+  }
+ 
+  .container {
+    position: relative;
+    height: 70vh; 
+    width: 100vw;
+    background-color: #282c34;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+   }
+   
+   .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 750px) {
+  .versio {
+    padding-top: 15px;
+  }
+
+  .separator {
+    padding-top: 130px;
+  }
+
+  .button {
+    font-size: large;
+  }
+
+  .price-info-and-buttons {
+    position: absolute;
+    top: 140px; 
+    left: 10px; 
+    margin-top: 70px;
+    font-size: small;
+    text-align: left;
+  }
+  
+  .container {
+    position: relative;
+    height: 90vh;
+    width: 100vw;
+    background-color: #282c34;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+   }
+   
+   .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+}
+
+@media only screen and (min-width: 751px) and (max-width: 1024px) {
+  .versio {
+    padding-top: 15px;
+  }
+
+  .separator {
+    padding-top: 70px;
+  }
+
+  .price-info-and-buttons {
+    position: absolute;
+    top: 110px; 
+    left: 10px; 
+    margin-top: 70px;
+    font-size: small;
+    text-align: left;
+  }
+
+  .button {
+    font-size: large;
+  }
+  
+  .container {
+    position: relative;
+    height: 90vh;
+    width: 100vw;
+    background-color: #282c34;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+   }
+   
+   .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .versio {
+    padding-top: 15px;
+  }
+
+  .separator {
+    padding-top: 70px;
+  }
+  
+  .price-info-and-buttons {
+    position: absolute;
+    top: 10px; 
+    left: 10px; 
+    margin-top: 70px;
+    font-size: x-large;
+    text-align: left;
+  }
+
+  .button {
+    font-size: x-large;
+  }
+
+  .container {
+    position: relative;
+    height: 110vh; /* Full height of the viewport*/
+    width: 100vw; /* Full width of the viewport*/
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+   }
+   
+   .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+}

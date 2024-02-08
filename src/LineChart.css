@@ -1,0 +1,63 @@
+@media only screen and (max-width: 499px) {
+  .paper {
+    padding: 16px;
+    margin-top: 80px;
+  }
+
+  .chartContainer {
+    width: 350px;
+  }
+}
+
+@media only screen and (min-width: 500px) and (max-width: 599px) {
+  .paper {
+    padding: 16px;
+    margin-top: 60px;
+  }
+
+  .chartContainer {
+    width: 400px;
+    margin: auto; /* Center the container*/
+  }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 750px) {
+  .paper {
+    padding: 16px;
+    margin-top: 20px;
+  }
+
+.chartContainer {
+    width: 550px;
+    margin: auto; /* Center the container*/
+  }
+}
+
+
+/* For screens between 601px and 1024px */
+@media only screen and (min-width: 751px) and (max-width: 1024px) {
+  .paper {
+    padding: 16px;
+    margin-top: 20px;
+  }
+
+.chartContainer {
+    width: 550px;
+    margin: auto; /* Center the container*/
+  }
+}
+
+/* For screens larger than 1024px */
+@media only screen and (min-width: 1025px) {
+  /* Your CSS styles for large screens go here */
+  .paper {
+    padding: 16px;
+    margin-top: 16px;
+  }
+
+.chartContainer {
+    width: 1300px;
+    height: 700px;
+    margin: 'auto'; /* Center the container*/
+  }
+}

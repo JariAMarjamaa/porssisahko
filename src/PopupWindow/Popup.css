@@ -1,0 +1,55 @@
+.Popup-container {
+  border: 6px solid black;
+}
+
+.video-content {
+  /* Styles specific to 'video' type */
+  background-color: white;
+  color: black;
+  position: absolute;
+  left: 20px;
+  top: 50px;
+  margin-left: 10px;
+}
+
+.info-content {
+  /* Styles specific to 'info' type */
+  background-color: green;
+  color: black;
+  position: absolute;
+  left: 20px;
+  top: 50px;
+  white-space: pre-line;
+ }
+
+@media only screen and (max-width: 499px) {
+}
+
+@media only screen and (min-width: 500px) and (max-width: 599px) {
+  .info-content {
+    width: 500px;
+   }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 750px) {
+  .info-content {
+    width: 600px;
+   }
+}
+
+@media only screen and (min-width: 751px) and (max-width: 1024px) {
+  .info-content {
+    width: 800px;
+   }
+}
+
+@media only screen and (min-width: 1025px) {
+  .video-content {
+    padding-top: 50px;
+    margin-left: 170px;
+  }
+  
+  .info-content {
+     width: 1000px;
+   }
+}
