@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/porssisahko/static/css/main.edd20c93.css",
+    "main.js": "/porssisahko/static/js/main.a44ba3ed.js",
+    "index.html": "/porssisahko/index.html",
+    "main.edd20c93.css.map": "/porssisahko/static/css/main.edd20c93.css.map",
+    "main.a44ba3ed.js.map": "/porssisahko/static/js/main.a44ba3ed.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.edd20c93.css",
+    "static/js/main.a44ba3ed.js"
+  ]
+}
