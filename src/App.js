@@ -6,7 +6,8 @@ import { ReadElectricityPriceData } from './ElectricityPrice.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
 import Notication from "./noteHandling/note.jsx";
 
-import PopupWindow  from './PopupWindow/Popup.jsx';
+import PopupWindow    from './PopupWindow/Popup.jsx';
+import DownloadButton from './Buttons/DonwloadingButton.jsx';
 
 import './App.css';
 
@@ -31,7 +32,7 @@ function App() {
 
     if (type === "info")
     {
-      const newPopUpContent = "Jartsan opinnäytetyö \nDemoApp, kaikenlaisilla hienoilla kikkuloilla.\nKäytetyt kikkulat:\n-React\n-MaterialUI\n-Jest\n-Robot Framework";
+      const newPopUpContent = "Jartsan opinnäytetyö \nDemoApp, kaikenlaisilla hienoilla kikkuloilla.\nKäytetyt kikkulat:\n-React\n-MaterialUI\n-Jest\n-Robot Framework\nVersio 3.2";
       setPopUpContent(newPopUpContent);
       setShowInfoPopup(true);
     }
@@ -130,7 +131,9 @@ function App() {
           <br/>
           <button className="button" onClick={() => openInfoPopup("info")}>Tietoja sovelluksesta</button>
           <br/>
-          <button className="button" onClick={() => openInfoPopup("video")}>Katso video Robottitestauksesta</button>  
+          <button className="button" onClick={() => openInfoPopup("video")}>Katso video Robottitestauksesta</button>
+          <br/>
+          <DownloadButton />  
         </div>
         
         {showInfoPopup && <PopupWindow       onClose={() => handlePopupClose("info")} type="info" content={PopUpContent} />}
@@ -145,9 +148,6 @@ function App() {
         {loading && <div className="overlay" >  <CircularProgress size={100}/> </div> }
       
       </header>
-
-      <div className="versio"> Versio 3.2 </div>
-
     </div>
   );
 }
