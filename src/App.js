@@ -6,8 +6,8 @@ import { ReadElectricityPriceData } from './ElectricityPrice.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
 import Notication from "./noteHandling/note.jsx";
 
-import PopupWindow    from './PopupWindow/Popup.jsx';
-import DownloadButton from './Buttons/DonwloadingButton.jsx';
+import SecondPage from './Pages/SecondPage.jsx';
+
 
 import './App.css';
 
@@ -20,34 +20,17 @@ function App() {
 
   const [state,        setState]         = useState(null);
   const [message,      setMessage]       = useState(null);
+  const [show2Page,    setShow2Page]     = useState(false);
 
-  const [showVideoPopup, setShowVideoPopup] = useState(false);
-  const [showInfoPopup,  setShowInfoPopup]  = useState(false);
-  const [PopUpContent,   setPopUpContent]   = useState([]);
+  const handleOpenNewPage = () => {
+    setShow2Page(true);
+  };
+
+  const handleCloseNewPage = () => {
+    setShow2Page(false);
+  };
 
   var apiNotCalled = true;
-
-  const openInfoPopup = (type) => {
-    console.log("Open window: ", type);
-
-    if (type === "info")
-    {
-      const newPopUpContent = "Jartsan opinnäytetyö \nDemoApp, kaikenlaisilla hienoilla kikkuloilla.\nKäytetyt kikkulat:\n-React\n-MaterialUI\n-Jest\n-Robot Framework\nVersio 3.2";
-      setPopUpContent(newPopUpContent);
-      setShowInfoPopup(true);
-    }
-    else
-    {
-      setShowVideoPopup(true);
-    }
-  };
-
-  const handlePopupClose = (type) => {
-    console.log("Close window: ", type);
-    setShowInfoPopup(false);
-    setPopUpContent(null); // Clear content when closing the popup
-    setShowVideoPopup(false);
-  };
 
   useEffect(() => {
     /*console.log("App. UseEffect"+
@@ -129,17 +112,17 @@ function App() {
           Korkein hinta on {highestValue}
           <br/>
           <br/>
-          <button className="button" onClick={() => openInfoPopup("info")}>Tietoja sovelluksesta</button>
-          <br/>
-          <button className="button" onClick={() => openInfoPopup("video")}>Katso video Robottitestauksesta</button>
-          <br/>
-          <DownloadButton />  
+          
+          {/* Button to open the new page */}
+          <button className="button" onClick={handleOpenNewPage}>Mene toiselle sivulle</button>
+          {/* Conditionally render the NewPage component */}
+          {show2Page && 
+            <div className="modal-backdrop">
+              <SecondPage onClose={handleCloseNewPage} />
+            </div>
+          }
         </div>
-        
-        {showInfoPopup && <PopupWindow       onClose={() => handlePopupClose("info")} type="info" content={PopUpContent} />}
-
-        {showVideoPopup && <PopupWindow      onClose={() => handlePopupClose("video")} type="video" content="" />} 
-                
+              
         <div className="separator"></div>
 
         {/* Check if priceData and priceOptions are available before rendering the LineChart */}

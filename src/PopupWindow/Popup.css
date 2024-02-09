@@ -1,10 +1,10 @@
-.Popup-container {
-  border: 6px solid black;
-}
+/*.Popup-container {
+  border: 1px solid black;
+}*/
 
 .video-content {
   /* Styles specific to 'video' type */
-  background-color: white;
+  background-color:gray;
   color: black;
   position: absolute;
   left: 20px;
