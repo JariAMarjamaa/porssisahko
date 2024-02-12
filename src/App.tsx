@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
-import React from 'react';
+import * as React from 'react';
 
-import LineChart from './LineChart';
+import LineChart from './LineChart.js';
 import { ReadElectricityPriceData } from './ElectricityPrice.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
 import Notication from "./noteHandling/note.jsx";
 
-import SecondPage from './Pages/SecondPage.jsx';
+import SecondPage from './Pages/2Page.jsx';
+import ThirdPage from './Pages/3Page.jsx';
+import FourthPage from './Pages/4Page.jsx';
+
+import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 
 import './App.css';
@@ -18,16 +24,16 @@ function App() {
   const [highestValue, setHighestValue]  = useState(0);
   const [loading,      setLoadingValue]  = useState(true);
 
-  const [state,        setState]         = useState(null);
-  const [message,      setMessage]       = useState(null);
-  const [show2Page,    setShow2Page]     = useState(false);
+  const [state,        setState]         = useState("");
+  const [message,      setMessage]       = useState("");
+  const [showPage,     setShowPage]      = useState(1);
 
-  const handleOpenNewPage = () => {
-    setShow2Page(true);
+  const handleOpenNewPage = (event: React.ChangeEvent<unknown>, value: number) => {
+    setShowPage(value);
   };
 
   const handleCloseNewPage = () => {
-    setShow2Page(false);
+    setShowPage(1);
   };
 
   var apiNotCalled = true;
@@ -97,7 +103,7 @@ function App() {
       {<Notication type="warning" text="Käytetty Mockattu dataa"/>  }
 
       {/*Handle the error, e.g., show an error message to the user*/}
-      {state !== null && <Notication type={state} text={String(message)}/>  }
+      {state !== "" && <Notication type={state} text={String(message)}/>  }
       
       <header className="container">
 
@@ -106,30 +112,38 @@ function App() {
         <div> Päiväys: {formattedCurrentDate}</div>
         <div> Hae hinnat ajalta: {formattedSevenDaysAgo} - {formattedOneDayAgo}</div>
 
-        <div className="price-info-and-buttons" data-testid="RFW_LowestHighestPrices">
+        <div className="price-info" data-testid="RFW_LowestHighestPrices">
           Halvin hinta on {lowestValue}
           <br/>
           Korkein hinta on {highestValue}
           <br/>
           <br/>
           
-          {/* Button to open the new page */}
-          <button className="button" onClick={handleOpenNewPage}>Mene toiselle sivulle</button>
+          {/* Button to open the new page 
+          <button className="button" onClick={handleOpenNewPage}>Mene toiselle sivulle</button>*/}
           {/* Conditionally render the NewPage component */}
-          {show2Page && 
+        </div>
+
+        {showPage === 2 && 
             <div className="modal-backdrop">
               <SecondPage onClose={handleCloseNewPage} />
             </div>
           }
-        </div>
               
-        <div className="separator"></div>
-
         {/* Check if priceData and priceOptions are available before rendering the LineChart */}
         {!loading && priceData && priceOptions && <LineChart data={priceData} options={priceOptions} />}
 
         {loading && <div className="overlay" >  <CircularProgress size={100}/> </div> }
-      
+
+        {showPage === 1 &&
+          <div className="pagination">
+            <Stack spacing={2}>
+              <Typography>Page: {showPage}</Typography>
+              <Pagination count={4} page={showPage} onChange={handleOpenNewPage}/>
+            </Stack>
+          </div>
+        }
+
       </header>
     </div>
   );

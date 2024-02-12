@@ -24,7 +24,7 @@
 @media only screen and (min-width: 600px) and (max-width: 750px) {
   .paper {
     padding: 16px;
-    margin-top: 20px;
+    margin-top: 50px;
   }
 
 .chartContainer {
@@ -41,7 +41,7 @@
     margin-top: 20px;
   }
 
-.chartContainer {
+  .chartContainer {
     width: 550px;
     margin: auto; /* Center the container*/
   }
