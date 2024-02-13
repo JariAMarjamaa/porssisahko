@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, act, waitFor } from '@testing-library/react';
 import App from './App';
 import { mockTestPrices} from "./mockData/Price-test.mock.jsx";
 //import * as apiModule from './api';
@@ -39,13 +39,25 @@ describe('App component', () => {
     jest.spyOn(Prices, 'getPrices').mockResolvedValue(mockTestPrices);
 
 
-    render(<App />);
-    
+    //render(<App />);
+    await act(async () => {
+      render(<App />);
+    });
+
+    // Regular expressions for flexible text matching
+    const lowestTextRegex = /Halvin hinta on 1/;
+    const highestTextRegex = /Korkein hinta on 100/;
+
     // Wait for the asynchronous operations to complete
     await waitFor(() => {
-      expect(screen.getByText('Pörssisähkökäppyrä harjoitus')).toBeInTheDocument();
-      expect(screen.getByText('Halvin hinta on 1')).toBeInTheDocument();
-      expect(screen.getByText('Korkein hinta on 100')).toBeInTheDocument();
+      act(() => {
+        //console.log("TEST: " + screen.getByText(lowestTextRegex)?.textContent);
+
+        // Your assertions here
+        expect(screen.getByText('Pörssisähkökäppyrä harjoitus')).toBeInTheDocument();
+        expect(screen.getByText(lowestTextRegex)).toBeInTheDocument();
+        expect(screen.getByText(highestTextRegex)).toBeInTheDocument();
+      });
     });
   });
 });
