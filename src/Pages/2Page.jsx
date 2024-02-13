@@ -37,7 +37,7 @@ const SecondPage = ({ onClose }) => {
         {showInfoPopup && <PopupWindow onClose={() => handlePopupClose("info")} type="info" content={PopUpContent} />}
         */}
 
-        <div>Jartsan työnäytetyä opinnäytetyö</div>
+        <div>Jartsan koodausnäyte</div>
         <div>DemoApp, kaikenlaisilla hienoilla kikkuloilla.</div> 
         <div className="listing">Käytetyt kikkulat:
           <ul>
@@ -54,7 +54,7 @@ const SecondPage = ({ onClose }) => {
         <br/>
         <br/>
 
-        <button className="button" onClick={onClose}>Palaa takaisin pääsivulle</button>
+        {/*<button className="button" onClick={onClose}>Palaa takaisin pääsivulle</button>*/}
       </div>
     );
 };

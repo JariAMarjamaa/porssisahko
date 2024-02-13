@@ -124,27 +124,33 @@ function App() {
           {/* Conditionally render the NewPage component */}
         </div>
 
-        {showPage === 2 && 
-            <div className="modal-backdrop">
-              <SecondPage onClose={handleCloseNewPage} />
-            </div>
-          }
+        {showPage === 2 ? 
+          <div className="modal-backdrop">
+            <SecondPage onClose={handleCloseNewPage} />
+          </div>
+         : showPage === 3 ? 
+          <div className="modal-backdrop">
+            <ThirdPage onClose={handleCloseNewPage} />
+          </div>
+         : showPage === 4 && 
+         <div className="modal-backdrop">
+           <FourthPage onClose={handleCloseNewPage} />
+         </div>
+        }
               
         {/* Check if priceData and priceOptions are available before rendering the LineChart */}
         {!loading && priceData && priceOptions && <LineChart data={priceData} options={priceOptions} />}
 
         {loading && <div className="overlay" >  <CircularProgress size={100}/> </div> }
 
-        {showPage === 1 &&
-          <div className="pagination">
-            <Stack spacing={2}>
-              <Typography>Page: {showPage}</Typography>
-              <Pagination count={4} page={showPage} onChange={handleOpenNewPage}/>
-            </Stack>
-          </div>
-        }
-
       </header>
+     
+      <div className="pagination">
+        <Stack spacing={2} alignItems="center">
+          <Pagination count={4} page={showPage} onChange={handleOpenNewPage}/>
+        </Stack>
+      </div>
+
     </div>
   );
 }

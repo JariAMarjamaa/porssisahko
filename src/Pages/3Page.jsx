@@ -16,7 +16,7 @@ const ThirdPage = ({ onClose }) => {
       <br/>
       <br/>
 
-      <button className="button" onClick={onClose}>Palaa takaisin pääsivulle</button>
+      {/*<button className="button" onClick={onClose}>Palaa takaisin pääsivulle</button>*/}
     </div>
   );
 };

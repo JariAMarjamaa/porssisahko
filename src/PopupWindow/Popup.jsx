@@ -4,19 +4,18 @@ import './Popup.css';
 
 const PopupWindow = ({ onClose, type, content }) => {
     const contentClassName = `content ${type}-content`;
+    console.log("contentClassName: ", contentClassName);
 
     return (
     <div className="Popup-container">
       <div className={contentClassName}>
         {type === "video" ? (
           <iframe
-            width="560"
-            height="315"
+            className="responsive-iframe"  
             src="https://www.youtube.com/embed/Pq6ar4XuCPM"
-            title="YouTube video player"
-            frameborder="0"
+            title="Viteo soitin"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
+            allowFullScreen
           ></iframe>
         ) : 
         <div> {content} </div>
