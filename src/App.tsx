@@ -10,7 +10,7 @@ import SecondPage from './Pages/2Page.jsx';
 import ThirdPage from './Pages/3Page.jsx';
 import FourthPage from './Pages/4Page.jsx';
 
-import Typography from '@mui/material/Typography';
+//import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
