@@ -36,8 +36,8 @@ export const asyncFetchPrice = async () => {
 
 export const asyncFetchPorssisahkoNet = async () => {
     
-    // for github page implementation 
-    var baseUrl = "https://api.porssisahko.net/v1/price.json?date"; // =2024-02-05&hour=0";
+    // for github/versel proxy server implementation 
+    var baseUrl = "https://server-jade-kappa-86.vercel.app/api/v1/price.json?date="; // 2024-02-05&hour=0";
     
     // for localhostia varten
     //var baseUrl = "http://localhost:5000/v1/price.json?date="; // 2024-02-05&hour=0

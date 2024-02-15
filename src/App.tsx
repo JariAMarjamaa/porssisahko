@@ -6,7 +6,7 @@ import { ReadElectricityPriceData } from './ElectricityPrice.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
 import Notication from "./noteHandling/note.jsx";
 
-import SecondPage from './Pages/2Page.jsx';
+import SecondPage from './Pages/2Page.tsx';
 import ThirdPage from './Pages/3Page.jsx';
 import FourthPage from './Pages/4Page.jsx';
 
@@ -39,11 +39,6 @@ function App() {
   var apiNotCalled = true;
 
   useEffect(() => {
-    /*console.log("App. UseEffect"+
-                "\n apiNotCalled: ", apiNotCalled, 
-                "\n loading: ", loading+
-                "\n state: ", state);*/
-
     const fetchData = async () => {
       try {
         const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData();
@@ -100,7 +95,7 @@ function App() {
 
   return (
     <div className="App">
-      {<Notication type="warning" text="Käytetty Mockattu dataa"/>  }
+      {<Notication type="warning" text="Käytetään Pörssisähko.net:n tarjoamaan tietoa"/>  }
 
       {/*Handle the error, e.g., show an error message to the user*/}
       {state !== "" && <Notication type={state} text={String(message)}/>  }
@@ -145,7 +140,18 @@ function App() {
 
       </header>
      
-      <div className="pagination">
+     <div className="pagination">
+     <div className="table-of-contents">
+        Sisältöluettelo:
+        <br/>
+        - Sivu 1: Pääsivu
+        <br/>
+        - Sivu 2: Tietoja sovelluksesta
+        <br/>
+        - Sivu 3: CV
+        <br/>
+        - Sivu 4: Robottitestaus video
+      </div>
         <Stack spacing={2} alignItems="center">
           <Pagination count={4} page={showPage} onChange={handleOpenNewPage}/>
         </Stack>

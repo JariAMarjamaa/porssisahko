@@ -10,6 +10,7 @@ const WARNING_NOTIFICATION_CLOSED_KEY = 'warningNotificationClosed';
 const Notication = ({ type, text }) => {
     const [open, setOpen] = useState(true);
 
+    console.log("Notication. type: ", type, " text: ", text);
     useEffect(() => {
         // Check if the notification has been closed before
         const isWarningNotificationClosed =
@@ -19,9 +20,6 @@ const Notication = ({ type, text }) => {
     }, [type]);
 
     const jepClicked = () => {
-        // Your custom function logic here
-        console.log('JEP button clicked');
-  
         // Close the Alert
         setOpen(false);
 

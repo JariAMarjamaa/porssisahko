@@ -31,7 +31,8 @@ export async function ReadElectricityPriceData() {
             console.log("ReadElectricityPriceData. Päiväys vanhentunut. Hae uusi data");
             state = "info";
             message = "Cache vanhentunut. Luettu uusi data";
-            const hinnat = await Prices.getPrices();
+            //const hinnat = await Prices.getPrices();
+            const hinnat = await asyncFetchPorssisahkoNet();
   
             // Update the cache and last request date
             cachedPrices = {
@@ -59,8 +60,8 @@ export async function ReadElectricityPriceData() {
       } else {
         // No cached data, API request is needed
         //const hinnat = await asyncFetchPrice();
-        //const hinnat = await asyncFetchPorssisahkoNet();
-        const hinnat = await Prices.getPrices();
+        //const hinnat = await Prices.getPrices();
+        const hinnat = await asyncFetchPorssisahkoNet();
 
         console.log("ReadElectricityPriceData. Cache tyhjä. Hae hinnat: ", hinnat);
 

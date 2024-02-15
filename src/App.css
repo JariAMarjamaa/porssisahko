@@ -3,9 +3,14 @@
   text-align: center; /* Center the content horizontally */
 }
 
+.table-of-contents {
+  text-align: left;
+  padding-left: 850px;
+  padding-bottom: 30px;
+}
+
 .pagination {
   color: black;
-  padding-top: 10px;
   position: fixed;
   bottom: 0;  
   width: 100%;
@@ -15,7 +20,7 @@
 .price-info {
   position: absolute;
   top: 10px; 
-  left: 10px; 
+  left: 40px; 
   margin-top: 30px;
   font-size: x-large;
   text-align: left;
@@ -25,7 +30,35 @@
   font-size: x-large;
 }
 
+.listing {
+  text-align: left;
+  padding-left: 300px;
+  padding-right: 300px;
+}
+
+.container {
+  position: relative;
+  width: 100vw; /* Full width of the viewport*/
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  padding-bottom: 200px;
+ }
+
 @media only screen and (max-width: 499px) {
+  .pagination {
+    bottom: 160px; 
+  }
+
+  .table-of-contents {
+    padding-left: 100px;
+    padding-bottom: 20px;
+  }
+  
   .price-info {
     top: 50px; /* Adjust the top value to position vertically */
     left: 10px; /* Adjust the left value to position horizontally */
@@ -35,22 +68,10 @@
 
   .button {
     font-size: large;
+    margin-left: -40px;
   }
- 
-  .container {
-    padding-top: 0px;
-    position: relative;
-    height: 60vh; /* Full height of the viewport*/
-    width: 100vw; /* Full width of the viewport*/
-    background-color: #282c34;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-   }
    
-   .overlay {
+  .overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -77,14 +98,24 @@
   }
 
   .listing {
-    text-align: left;
-    padding-left: 100px;
-  }
+    padding-left: 10px;
+    padding-right: 50px;
+    }
 }
 
 @media only screen and (min-width: 500px) and (max-width: 599px) {
+  .pagination {
+    bottom: 160px; 
+  }
+
+  .table-of-contents {
+    padding-left: 200px;
+    padding-bottom: 20px;
+  }
+  
   .button {
-    font-size: large; 
+    font-size: large;
+    margin-left: -40px;
   }
 
   .price-info {
@@ -95,20 +126,7 @@
     text-align: left;
   }
 
-  .container {
-    padding-top: 0px;
-    position: relative;
-    height: 60vh; 
-    width: 100vw;
-    background-color: #282c34;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-   }
-   
-   .overlay {
+  .overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -135,18 +153,24 @@
   }
 
   .listing {
-    text-align: left;
-    padding-left: 200px;
+    padding-left: 20px;
+    padding-right: 60px;
   }
 }
 
 @media only screen and (min-width: 600px) and (max-width: 750px) {
   .button {
     font-size: large;
+    margin-left: -30px;
   }
 
   .pagination {
-    color: black;
+    bottom: 130px; 
+  }
+
+  .table-of-contents {
+    padding-left: 250px;
+    padding-bottom: 20px;
   }
   
   .price-info {
@@ -157,20 +181,7 @@
     text-align: left;
   }
   
-  .container {
-    position: relative;
-    height: 60vh;
-    width: 100vw;
-    background-color: #282c34;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-   }
-   
-   .overlay {
+  .overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -197,13 +208,17 @@
   }
 
   .listing {
-    text-align: left;
-    padding-left: 200px;
+    padding-left: 100px;
+    padding-right: 100px;
   }
 
 }
 
 @media only screen and (min-width: 751px) and (max-width: 1024px) {
+  .pagination {
+    bottom: 130px; 
+  }
+
   .price-info {
     top: 40px; 
     left: 10px; 
@@ -212,24 +227,17 @@
     text-align: left;
   }
 
-  .button {
-    font-size: x-large;
+  .table-of-contents {
+    padding-left: 350px;
+    padding-bottom: 20px;
   }
 
-  .container {
-    position: relative;
-    height: 60vh;
-    width: 100vw;
-    background-color: #282c34;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-   }
-   
-   .overlay {
+  .button {
+    font-size: x-large;
+    margin-left: -30px;
+  }
+
+  .overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -255,26 +263,12 @@
   }
 
   .listing {
-    text-align: left;
-    padding-left: 300px;
+    padding-left: 70px;
+    padding-right: 110px;
   }
 }
 
 @media only screen and (min-width: 1025px) {
-  .container {
-    position: relative;
-    height: 110vh; /* Full height of the viewport*/
-    width: 100vw; /* Full width of the viewport*/
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-   }
-   
    .overlay {
     position: absolute;
     top: 0;
@@ -304,23 +298,4 @@
     justify-content: center;
     align-items: center;
   }
-
-  .listing {
-    text-align: left;
-    padding-left: 850px;
-  }
-  
-  /*
-  .modal-backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-  /*  position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /*display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-  }*/
 }
