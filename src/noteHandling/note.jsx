@@ -10,7 +10,6 @@ const WARNING_NOTIFICATION_CLOSED_KEY = 'warningNotificationClosed';
 const Notication = ({ type, text }) => {
     const [open, setOpen] = useState(true);
 
-    console.log("Notication. type: ", type, " text: ", text);
     useEffect(() => {
         // Check if the notification has been closed before
         const isWarningNotificationClosed =

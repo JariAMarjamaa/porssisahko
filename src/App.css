@@ -1,20 +1,32 @@
 /* Default settings for min-width: 1025px */
+.white-text {
+  color: white;
+}
+
+.other-than-main-page {
+  color: black;
+  z-index: 1;
+}
+
+.hidden {
+  display: none;
+}
+
 .App {
   text-align: center; /* Center the content horizontally */
 }
 
 .table-of-contents {
   text-align: left;
-  padding-left: 850px;
-  padding-bottom: 30px;
+  padding-left: 200px;
 }
 
 .pagination {
-  color: black;
+  text-align: left;
+  background-color: aliceblue;
   position: fixed;
   bottom: 0;  
-  width: 100%;
-  background-color: #fff;
+  width: 70%;
 }
 
 .price-info {
@@ -32,7 +44,7 @@
 
 .listing {
   text-align: left;
-  padding-left: 300px;
+  padding-left: 350px;
   padding-right: 300px;
 }
 
@@ -46,22 +58,36 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  padding-bottom: 200px;
+  padding-bottom: 50px;
  }
+
+ .new-page-modal {
+  background-color: antiquewhite;;
+  color: black;
+  position: fixed;
+  /* popup keskelle
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;*/
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 
 @media only screen and (max-width: 499px) {
   .pagination {
-    bottom: 160px; 
+    width: 100%;
   }
 
   .table-of-contents {
-    padding-left: 100px;
-    padding-bottom: 20px;
+    padding-left: 40px;
+    padding-top: 10px;
   }
   
   .price-info {
     top: 50px; /* Adjust the top value to position vertically */
-    left: 10px; /* Adjust the left value to position horizontally */
     margin-top: 70px;
     font-size: small;
   }
@@ -105,12 +131,11 @@
 
 @media only screen and (min-width: 500px) and (max-width: 599px) {
   .pagination {
-    bottom: 160px; 
+    width: 100%;
   }
-
+  
   .table-of-contents {
-    padding-left: 200px;
-    padding-bottom: 20px;
+    padding-left: 100px;
   }
   
   .button {
@@ -165,12 +190,11 @@
   }
 
   .pagination {
-    bottom: 130px; 
+    width: 100%;
   }
 
   .table-of-contents {
-    padding-left: 250px;
-    padding-bottom: 20px;
+    padding-left: 100px;
   }
   
   .price-info {
@@ -216,7 +240,7 @@
 
 @media only screen and (min-width: 751px) and (max-width: 1024px) {
   .pagination {
-    bottom: 130px; 
+    width: 100%;
   }
 
   .price-info {
@@ -228,8 +252,7 @@
   }
 
   .table-of-contents {
-    padding-left: 350px;
-    padding-bottom: 20px;
+    padding-left: 100px;
   }
 
   .button {
@@ -280,22 +303,5 @@
     align-items: center;
     justify-content: center;
     z-index: 2;
-  }
-
-  .new-page-modal {
-    background-color: antiquewhite;;
-    color: black;
-    position: fixed;
-    /* popup keskelle
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;*/
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
   }
 }

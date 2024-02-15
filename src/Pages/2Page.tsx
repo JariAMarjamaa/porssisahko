@@ -5,13 +5,14 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-
-const SecondPage = ({ onClose }) => {
+const SecondPage = ({ onOpen }) => {
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
+      console.log("handleChange. isExpanded: ", isExpanded);
+      onOpen(isExpanded ? true : false);
     };
 
   return (
@@ -20,7 +21,7 @@ const SecondPage = ({ onClose }) => {
         <div>React DemoApp</div> 
         <div>Kaikenlaisilla hienoilla kikkuloilla.</div> 
 
-        <div className="listing">
+        <div  className={`listing ${expanded === 'panel1' ? 'extra-padding' : ''}`}>
         <br/>
         <br/>
         <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
@@ -86,16 +87,19 @@ const SecondPage = ({ onClose }) => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography sx={{ bgcolor: 'lightgray' }}>
-              Viimeisimpänä lisätty proxy serveri, jotta oikeaa hintadataa voidaan ladata.
+              Viimeisimpänä isompana juttuna lisätty proxy serveri.
               <br/>
               <br/>
+              Jotta oikeaa hintadataa voidaan ladata.
+              <br/>
+              <br/>
+              Lisäksi ulkoasua viilattu ja lisätty nämä avattavat osiot.
               <br/>
               <br/>
               Sovellus versio 4.0
             </Typography>
           </AccordionDetails>
         </Accordion>
-     
         </div>
 
         {/*<button className="button" onClick={onClose}>Palaa takaisin pääsivulle</button>*/}

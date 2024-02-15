@@ -24,6 +24,8 @@ function App() {
   const [highestValue, setHighestValue]  = useState(0);
   const [loading,      setLoadingValue]  = useState(true);
 
+  const [hideTableOfContents, setTableOfContentHide]  = useState(false);
+
   const [state,        setState]         = useState("");
   const [message,      setMessage]       = useState("");
   const [showPage,     setShowPage]      = useState(1);
@@ -32,6 +34,9 @@ function App() {
     setShowPage(value);
   };
 
+  const handleAccordion = (state) => {
+    setTableOfContentHide(state);
+  }
   const handleCloseNewPage = () => {
     setShowPage(1);
   };
@@ -100,7 +105,7 @@ function App() {
       {/*Handle the error, e.g., show an error message to the user*/}
       {state !== "" && <Notication type={state} text={String(message)}/>  }
       
-      <header className="container">
+      <div className="container">
 
         <div data-testid="RFW_MainPageText"><p>Pörssisähkökäppyrä harjoitus</p></div>
 
@@ -119,44 +124,45 @@ function App() {
           {/* Conditionally render the NewPage component */}
         </div>
 
-        {showPage === 2 ? 
-          <div className="modal-backdrop">
-            <SecondPage onClose={handleCloseNewPage} />
-          </div>
-         : showPage === 3 ? 
-          <div className="modal-backdrop">
-            <ThirdPage onClose={handleCloseNewPage} />
-          </div>
-         : showPage === 4 && 
-         <div className="modal-backdrop">
-           <FourthPage onClose={handleCloseNewPage} />
-         </div>
-        }
-              
         {/* Check if priceData and priceOptions are available before rendering the LineChart */}
         {!loading && priceData && priceOptions && <LineChart data={priceData} options={priceOptions} />}
 
         {loading && <div className="overlay" >  <CircularProgress size={100}/> </div> }
 
-      </header>
-     
-     <div className="pagination">
-     <div className="table-of-contents">
-        Sisältöluettelo:
-        <br/>
-        - Sivu 1: Pääsivu
-        <br/>
-        - Sivu 2: Tietoja sovelluksesta
-        <br/>
-        - Sivu 3: CV
-        <br/>
-        - Sivu 4: Robottitestaus video
-      </div>
-        <Stack spacing={2} alignItems="center">
-          <Pagination count={4} page={showPage} onChange={handleOpenNewPage}/>
-        </Stack>
-      </div>
+        {showPage === 2 ? 
+          <div>
+            <SecondPage onOpen={(state) => handleAccordion(state)} />
+          </div>
+         : showPage === 3 ? 
+          <div>
+            <ThirdPage onClose={handleCloseNewPage} />
+          </div>
+         : showPage === 4 && 
+         <div>
+           <FourthPage onClose={handleCloseNewPage} />
+         </div>
+        }
+              
+        <div className={`table-of-contents ${showPage === 1 ? 'white-text' : 'other-than-main-page'} ${hideTableOfContents ? 'hidden' : ''}`}>
+          Sisältöluettelo:
+          <br/>
+          - Sivu 1: Pääsivu
+          <br/>
+          - Sivu 2: Tietoja sovelluksesta
+          <br/>
+          - Sivu 3: CV
+          <br/>
+          - Sivu 4: Robottitestaus video
+          <br/>
+        </div>
+          
+        <div className="pagination">
+          <Stack spacing={2} alignItems="center">
+            <Pagination color="primary" count={4} page={showPage} onChange={handleOpenNewPage}/>
+          </Stack>
+        </div>
 
+      </div>
     </div>
   );
 }
