@@ -90,13 +90,17 @@ const SecondPage = ({ onOpen }) => {
               Viimeisimpänä isompana juttuna lisätty proxy serveri.
               <br/>
               <br/>
-              Jotta oikeaa hintadataa voidaan ladata.
+              Nyt myös ihana kalenteri. Keksisi sille vain käyttöä.
               <br/>
               <br/>
-              Lisäksi ulkoasua viilattu ja lisätty nämä avattavat osiot.
+              Fiksattu myös itse käppyrää.
+              <br/>
+              Nyt näytetään kaikki tulokset myös postimerkin näytöllä.
+              <br/>
+              Ja aikajana näyttää myös kellonajan oikein.
               <br/>
               <br/>
-              Sovellus versio 4.0
+              Sovellus versio 4.1
             </Typography>
           </AccordionDetails>
         </Accordion>

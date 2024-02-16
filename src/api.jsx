@@ -58,7 +58,7 @@ export const asyncFetchPorssisahkoNet = async () => {
             
             var str = "";
             if (z < 12)                     str = "T0" + z + ":00";
-            else if (z == 12 || z == 18)    str = "T"  + z + ":00";
+            else if (z === 12 || z === 18)  str = "T"  + z + ":00";
             else                            str = "T23:59";
 
             const part_resp = { aikaleima_suomi: formattedDate + str, hinta: one_resp.price };

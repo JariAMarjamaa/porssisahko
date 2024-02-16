@@ -154,6 +154,7 @@ function App() {
           <br/>
           - Sivu 4: Robottitestaus video
           <br/>
+          + uusi ihana kalenteri
         </div>
           
         <div className="pagination">

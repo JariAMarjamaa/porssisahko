@@ -1,9 +1,7 @@
-import { asyncFetchPrice, asyncFetchPorssisahkoNet, Prices } from "./api.jsx";
+import { asyncFetchPorssisahkoNet, /* asyncFetchPrice, Prices*/ } from "./api.jsx";
 
 let cachedPrices = null;
 const CACHE_KEY = 'electricity_price_cache';
-
-let testi = 1;
 
 export async function ReadElectricityPriceData() {
   return new Promise(async (resolve, reject) => {
@@ -149,7 +147,8 @@ function formatTime(timeString) {
   const date = new Date(timeString);
   const formattedDate = `${padWithZero(date.getDate())}.${padWithZero(date.getMonth() + 1)}.${date.getFullYear()}`;
   //const formattedTime = `${padWithZero(date.getHours())}.${padWithZero(date.getMinutes())}`;
-  const formattedTime = `${padWithZero(date.getHours())}` === "23" ? "Klo: 24" : "Klo: " +`${padWithZero(date.getHours())}`;
+  //const formattedTime = `${padWithZero(date.getHours())}` === "23" ? "Klo: 24" : "Klo: " +`${padWithZero(date.getHours())}`;
+  const formattedTime = `${padWithZero(date.getHours()) === "23" ? "Klo: 24" : "Klo: "}${padWithZero(date.getHours())}`;
   
   return `${formattedDate} - ${formattedTime}`;
 }

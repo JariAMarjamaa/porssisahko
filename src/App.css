@@ -1,4 +1,8 @@
 /* Default settings for min-width: 1025px */
+.calendar {
+  background-color: white;
+}
+
 .white-text {
   color: white;
 }
