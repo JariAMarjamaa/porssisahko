@@ -6,6 +6,7 @@
 
   .chartContainer {
     width: 350px;
+    height: 300px;
   }
 }
 
@@ -17,7 +18,7 @@
 
   .chartContainer {
     width: 400px;
-    margin: auto; /* Center the container*/
+    height: 300px;
   }
 }
 
@@ -29,7 +30,7 @@
 
 .chartContainer {
     width: 550px;
-    margin: auto; /* Center the container*/
+    height: 300px;
   }
 }
 
@@ -43,7 +44,7 @@
 
   .chartContainer {
     width: 550px;
-    margin: auto; /* Center the container*/
+    height: 300px;
   }
 }
 
@@ -58,6 +59,5 @@
   .chartContainer {
     width: 1300px;
     height: 700px;
-    margin: 'auto'; /* Center the container*/
   }
 }

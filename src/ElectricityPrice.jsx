@@ -3,6 +3,8 @@ import { asyncFetchPrice, asyncFetchPorssisahkoNet, Prices } from "./api.jsx";
 let cachedPrices = null;
 const CACHE_KEY = 'electricity_price_cache';
 
+let testi = 1;
+
 export async function ReadElectricityPriceData() {
   return new Promise(async (resolve, reject) => {
     try {
@@ -63,7 +65,7 @@ export async function ReadElectricityPriceData() {
         //const hinnat = await Prices.getPrices();
         const hinnat = await asyncFetchPorssisahkoNet();
 
-        console.log("ReadElectricityPriceData. Cache tyhjä. Hae hinnat: ", hinnat);
+        console.log("ReadElectricityPriceData. Cache tyhjä. Hae hinnat");
 
         // Update the cache and last request date
         cachedPrices = {
@@ -79,7 +81,19 @@ export async function ReadElectricityPriceData() {
       //const aikaleimat = hinnat.map((item) => formatTime(item.aikaleima_suomi)); // Format time as desired
       // Use either cached or newly fetched data
       const hintaData = cachedPrices.data.map((item) => parseFloat(item.hinta));
-      const aikaleimat = cachedPrices.data.map((item) => formatTime(item.aikaleima_suomi));
+
+      //const aikaleimat = cachedPrices.data.map((item) => formatTime(item.aikaleima_suomi));
+      //console.log("window.innerWidth: ", window.innerWidth);
+      const aikaleimat = cachedPrices.data.map((item, index) => {
+        const formattedTime = formatTime(item.aikaleima_suomi);
+        
+        // Check if window width is less than 600 and index is odd
+        if (window.innerWidth < 600 && index % 2 !== 0) {
+          return ''; // Set label as empty string
+        }
+      
+        return formattedTime;
+      });
 
       const priceData= {
         datasets: [{
@@ -92,6 +106,9 @@ export async function ReadElectricityPriceData() {
       };
 
       const priceOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        aspectRatio: 2, // Adjust chart height/width ratio, to fit the x-axsis titles
         scales: {
           x: {
             type: 'category',
@@ -106,6 +123,9 @@ export async function ReadElectricityPriceData() {
             ticks: {
               maxRotation: 90, // Set the angle of rotation
               minRotation: 90,
+              autoSkip: false, // Disable automatic skipping of labels
+              //fontSize: window.innerWidth < 600 ? 1 : 12, // Adjust the font size based on screen width
+              //maxTicksLimit: window.innerWidth < 600 ? 20 : aikaleimat.length // Maximum number of visible ticks
             },
           },
           y: {
@@ -128,8 +148,9 @@ export async function ReadElectricityPriceData() {
 function formatTime(timeString) {
   const date = new Date(timeString);
   const formattedDate = `${padWithZero(date.getDate())}.${padWithZero(date.getMonth() + 1)}.${date.getFullYear()}`;
-  const formattedTime = `${padWithZero(date.getHours())}.${padWithZero(date.getMinutes())}`;
-
+  //const formattedTime = `${padWithZero(date.getHours())}.${padWithZero(date.getMinutes())}`;
+  const formattedTime = `${padWithZero(date.getHours())}` === "23" ? "Klo: 24" : "Klo: " +`${padWithZero(date.getHours())}`;
+  
   return `${formattedDate} - ${formattedTime}`;
 }
 

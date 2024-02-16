@@ -29,7 +29,7 @@ export const asyncFetchPrice = async () => {
     //.then(json => console.log(json));
     
     //const data = await resp.json();
-    console.log("API. Resp:", finalResp);
+    //console.log("API. Resp:", finalResp);
 
     return finalResp;
 }
@@ -50,12 +50,18 @@ export const asyncFetchPorssisahkoNet = async () => {
 
         const formattedDate = currentDate.toISOString().split('T')[0]; // Format as "YYYY-MM-DD"
      
-        for (var z=0; z<25; z=z+6)
+        for (var z=6; z<25; z=z+6)
         {
             var suffixUrl = formattedDate + "&hour=" +z;
             
             const one_resp = await fetch(baseUrl + suffixUrl).then(response => response.json());
-            const part_resp = { aikaleima_suomi: formattedDate + "T00:00", hinta: one_resp.price };
+            
+            var str = "";
+            if (z < 12)                     str = "T0" + z + ":00";
+            else if (z == 12 || z == 18)    str = "T"  + z + ":00";
+            else                            str = "T23:59";
+
+            const part_resp = { aikaleima_suomi: formattedDate + str, hinta: one_resp.price };
             
             // Use push to concatenate the arrays
             finalResp.push(part_resp);
@@ -65,7 +71,7 @@ export const asyncFetchPorssisahkoNet = async () => {
     // Sort the array in ascending order based on the date and hour
     finalResp.sort((a, b) => a.aikaleima_suomi.localeCompare(b.aikaleima_suomi));
 
-    console.log("API. Resp:", finalResp);
+    //console.log("API. Resp:", finalResp);
 
     return finalResp;
 }
