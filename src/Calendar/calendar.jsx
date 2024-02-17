@@ -17,13 +17,15 @@ const Calendar = ({ dateSelected, setOKSelected }) => {
     currentDate.setDate(currentDate.getDate() - 1);
     const lastSelectableDate = new Date('2023-01-01');
 
-    const [selectedDate, setSelectedDate] = useState(null /*new Date()*/);
+    const [selectedDate, setSelectedDate] = useState(new Date());
     //const [okSelected,   setOKSelected]   = useState(false);
 
     const handleDateChange = (date) => {
       // Handle date change
       // Get selected day, month, and year as separate variables
-      setSelectedDate(date);
+      //const formattedDate = dayjs(date).format('DD/MM/YYYY');
+      const jsDate = date.toDate();
+      setSelectedDate(jsDate /*formattedDate*/);
     };
 
     const shouldDisableDate = (day) => {
@@ -34,7 +36,6 @@ const Calendar = ({ dateSelected, setOKSelected }) => {
 
     const handleCancel = () => {
       // Handle cancel button press
-      console.log('Cancel button pressed.');
       // Call the callback function in the calling component
       // cancel is always last to call from datepicker
       dateSelected(selectedDate);
@@ -42,7 +43,6 @@ const Calendar = ({ dateSelected, setOKSelected }) => {
 
     const handleAccept = () => {
       // Handle cancel button press
-      console.log('Ok button pressed');
       setOKSelected(true);
     };
 
@@ -61,7 +61,7 @@ const Calendar = ({ dateSelected, setOKSelected }) => {
               defaultValue={dayjs(""+currentDate.getFullYear()+"-"+ (currentDate.getMonth()+1) +"-" +  currentDate.getDate())}
               views={['year', 'month', 'day']}
               format="DD/MM/YYYY"
-              // value={selectedDate}
+              //value={selectedDate}
               onChange={handleDateChange}
               onAccept={handleAccept}
               onClose={handleCancel}

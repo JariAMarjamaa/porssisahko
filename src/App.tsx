@@ -39,6 +39,9 @@ function App() {
 
   const [selection,     setSelection]      = useState(false);
   const [selectionText, setSelectionText]  = useState("");
+  const [selectedDate,  setSelectedDate]   = useState(null /*new Date()*/);
+
+  const [timeSpan,      setTimeSpanText]   = useState("");
 
   const [openSnackbar,  setSnackbarOpen]   = useState(false);
 
@@ -81,12 +84,18 @@ function App() {
   );
 
   var apiNotCalled = true;
+  const currentDate = new Date();
 
-  useEffect(() => {
-    const fetchData = async () => {
+  // Get the date 7 days ago
+ var sevenDaysAgo = new Date();
+ var oneDayAgo = new Date();
+
+useEffect(() => {
+    const fetchData = async (date, state) => {
+      setLoadingValue(true);
       try {
-        const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData();
-
+        const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData(date, state);
+  
         if (respState !== null)
         {
           setLoadingValue(false);
@@ -103,56 +112,53 @@ function App() {
           const values = priceData.datasets[0].data;
           setLowestValue(Math.min(...values));
           setHighestValue(Math.max(...values));
-
         } 
       } catch (error) {
-        setState("error");
-        setMessage(`Error fetching data: ${error}`);
+          setState('error');
+          setMessage(`Error fetching data: ${error}`);
       }
     };
+  
+    if (!selection) {
+      sevenDaysAgo.setDate(currentDate.getDate() - 7);
+      oneDayAgo.setDate(currentDate.getDate() - 1);
+      // Format the dates as DD.MM.YYYY
+      const formattedSevenDaysAgo = `${sevenDaysAgo.getDate().toString().padStart(2, '0')}.${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}.${sevenDaysAgo.getFullYear()}`;
+      const formattedOneDayAgo = `${oneDayAgo.getDate().toString().padStart(2, '0')}.${(oneDayAgo.getMonth() + 1).toString().padStart(2, '0')}.${oneDayAgo.getFullYear()}`;
+      console.log("APP Hae initti");
+      setTimeSpanText(formattedSevenDaysAgo + "-" + formattedOneDayAgo);
 
-    if (apiNotCalled)
-    {
-      console.log('App. Api not yet called => Call fetchData');
-      apiNotCalled = false;
-      setLoadingValue(true);
-      fetchData();
+      fetchData(currentDate, false);
     }
- 
-  }, []); // The empty dependency array ensures that the effect runs only once
+  
+    if (selection) {
+      // Trigger data fetching when selection is true
+      console.log("APP hae valittu")
+      sevenDaysAgo.setDate(selectedDate?.getDate() - 7);
+      oneDayAgo.setDate(selectedDate?.getDate() - 1);
+      const formattedSevenDaysAgo = `${sevenDaysAgo.getDate().toString().padStart(2, '0')}.${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}.${sevenDaysAgo.getFullYear()}`;
+      const formattedOneDayAgo = `${oneDayAgo.getDate().toString().padStart(2, '0')}.${(oneDayAgo.getMonth() + 1).toString().padStart(2, '0')}.${oneDayAgo.getFullYear()}`;
+      setTimeSpanText(formattedSevenDaysAgo + "-" + formattedOneDayAgo);
 
-  // Get the current date
-  const currentDate = new Date();
+      fetchData(selectedDate, true);
+    }
+  }, [selection, selectedDate]); // Fetch data when selection or selectedDate changes
+  
 
   // Format the current date as DD.MM.YYYY
   const formattedCurrentDate = `${currentDate.getDate().toString().padStart(2, '0')}.${(currentDate.getMonth() + 1).toString().padStart(2, '0')}.${currentDate.getFullYear()}`;
 
-  // Get the date 7 days ago
-  const sevenDaysAgo = new Date(currentDate);
-  const oneDayAgo = new Date(currentDate);
-  sevenDaysAgo.setDate(currentDate.getDate() - 7);
-  oneDayAgo.setDate(currentDate.getDate() - 1);
-
-  // Format the dates as DD.MM.YYYY
-  const formattedSevenDaysAgo = `${sevenDaysAgo.getDate().toString().padStart(2, '0')}.${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}.${sevenDaysAgo.getFullYear()}`;
-  const formattedOneDayAgo = `${oneDayAgo.getDate().toString().padStart(2, '0')}.${(oneDayAgo.getMonth() + 1).toString().padStart(2, '0')}.${oneDayAgo.getFullYear()}`;
-
   // Callback function to receive the value from the subcomponent
   const handleSelectedDate = (date) => {
-    if (date !== null)
+     if (date !== null)
     {
-      const day   = date.date();
-      const month = date.month() + 1; // Month is zero-based, so add 1
-      const year  = date.year();
-      console.log('APP. Valinta. Day:', day, "-Month:", month, "-Year: ", year);
+      setSelectedDate(date);
     }
   };
 
   const handleOKSelection = (value) => {
-    console.log('APP. handleOKSelection:', value);
-    setSelection(value);
+    setSelection(true);
     setSelectionText(value === true ? "OK klikattu" : "Eiku en valitsekkaan");
-  
   };
 
   return (
@@ -167,7 +173,7 @@ function App() {
         <div data-testid="RFW_MainPageText"><p>Pörssisähkökäppyrä harjoitus</p></div>
 
         <div> Päiväys: {formattedCurrentDate}</div>
-        <div> Hae hinnat ajalta: {formattedSevenDaysAgo} - {formattedOneDayAgo}</div>
+        <div> Hae hinnat ajalta: {timeSpan} </div>
 
         <div className="price-info" data-testid="RFW_LowestHighestPrices">
           Halvin hinta on {lowestValue}
@@ -177,11 +183,12 @@ function App() {
           <br/>
         </div>
 
+        {!loading &&
         <div className="calendar">
           <Calendar dateSelected={handleSelectedDate} setOKSelected={handleOKSelection}></Calendar>
           {selectionText}
           <br></br>
-          {selection && <button className="date-button" /*onClick={handleDownload}*/>Hae hinnat</button>}
+          {!selection && <button className="date-button" /*onClick={handleDownload}*/>Hae hinnat</button>}
           <div>
             <Button onClick={handleSnackbarClick}>Kalenteri ohje</Button>
             <Snackbar
@@ -199,6 +206,7 @@ function App() {
               action={action} />
           </div>
         </div>
+        }
 
         {/* Check if priceData and priceOptions are available before rendering the LineChart */}
         {!loading && priceData && priceOptions && <LineChart data={priceData} options={priceOptions} />}
@@ -229,8 +237,6 @@ function App() {
           - Sivu 3: CV
           <br/>
           - Sivu 4: Robottitestaus video
-          <br/>
-          + uusi ihana kalenteri
         </div>
           
         <div className="pagination">

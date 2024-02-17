@@ -3,7 +3,7 @@ import { asyncFetchPorssisahkoNet, /* asyncFetchPrice, Prices*/ } from "./api.js
 let cachedPrices = null;
 const CACHE_KEY = 'electricity_price_cache';
 
-export async function ReadElectricityPriceData() {
+export async function ReadElectricityPriceData(fetchDate, userSelection) {
   return new Promise(async (resolve, reject) => {
     try {
 
@@ -11,7 +11,12 @@ export async function ReadElectricityPriceData() {
       let message = "Cache tyhjä. Data luettu";
 
       const currentDate = new Date().toDateString();
-      const cachedData = localStorage.getItem(CACHE_KEY);
+      var cachedData = localStorage.getItem(CACHE_KEY);
+
+      if (userSelection === true && fetchDate !== null)
+      {
+        cachedData = null;
+      }
 
       if (cachedData) {
         try {
@@ -31,7 +36,7 @@ export async function ReadElectricityPriceData() {
             state = "info";
             message = "Cache vanhentunut. Luettu uusi data";
             //const hinnat = await Prices.getPrices();
-            const hinnat = await asyncFetchPorssisahkoNet();
+            const hinnat = await asyncFetchPorssisahkoNet(fetchDate, userSelection);
   
             // Update the cache and last request date
             cachedPrices = {
@@ -60,9 +65,9 @@ export async function ReadElectricityPriceData() {
         // No cached data, API request is needed
         //const hinnat = await asyncFetchPrice();
         //const hinnat = await Prices.getPrices();
-        const hinnat = await asyncFetchPorssisahkoNet();
+        const hinnat = await asyncFetchPorssisahkoNet(fetchDate, userSelection);
 
-        console.log("ReadElectricityPriceData. Cache tyhjä. Hae hinnat");
+        console.log("ReadElectricityPriceData. Cache tyhjä tai päivä vaihdettu. Hae hinnat");
 
         // Update the cache and last request date
         cachedPrices = {
