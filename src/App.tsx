@@ -7,8 +7,15 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Notication from "./noteHandling/note.jsx";
 
 import SecondPage from './Pages/2Page.tsx';
-import ThirdPage from './Pages/3Page.jsx';
+import ThirdPage  from './Pages/3Page.jsx';
 import FourthPage from './Pages/4Page.jsx';
+import Calendar   from './Calendar/calendar.jsx';
+
+import Button     from '@mui/material/Button';
+import Snackbar   from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon  from '@mui/icons-material/Close';
+import Slide      from '@mui/material/Slide';
 
 //import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
@@ -30,6 +37,11 @@ function App() {
   const [message,      setMessage]       = useState("");
   const [showPage,     setShowPage]      = useState(1);
 
+  const [selection,     setSelection]      = useState(false);
+  const [selectionText, setSelectionText]  = useState("");
+
+  const [openSnackbar,  setSnackbarOpen]   = useState(false);
+
   const handleOpenNewPage = (event: React.ChangeEvent<unknown>, value: number) => {
     setShowPage(value);
   };
@@ -40,6 +52,33 @@ function App() {
   const handleCloseNewPage = () => {
     setShowPage(1);
   };
+
+  const handleSnackbarClick = () => {
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      {/*<Button color="error" size="small" onClick={handleSnackbarClose}>
+        EIKU
+        </Button>*/}
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleSnackbarClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   var apiNotCalled = true;
 
@@ -98,6 +137,24 @@ function App() {
   const formattedSevenDaysAgo = `${sevenDaysAgo.getDate().toString().padStart(2, '0')}.${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}.${sevenDaysAgo.getFullYear()}`;
   const formattedOneDayAgo = `${oneDayAgo.getDate().toString().padStart(2, '0')}.${(oneDayAgo.getMonth() + 1).toString().padStart(2, '0')}.${oneDayAgo.getFullYear()}`;
 
+  // Callback function to receive the value from the subcomponent
+  const handleSelectedDate = (date) => {
+    if (date !== null)
+    {
+      const day   = date.date();
+      const month = date.month() + 1; // Month is zero-based, so add 1
+      const year  = date.year();
+      console.log('APP. Valinta. Day:', day, "-Month:", month, "-Year: ", year);
+    }
+  };
+
+  const handleOKSelection = (value) => {
+    console.log('APP. handleOKSelection:', value);
+    setSelection(value);
+    setSelectionText(value === true ? "OK klikattu" : "Eiku en valitsekkaan");
+  
+  };
+
   return (
     <div className="App">
       {<Notication type="warning" text="Käytetään Pörssisähko.net:n tarjoamaan tietoa"/>  }
@@ -118,10 +175,29 @@ function App() {
           Korkein hinta on {highestValue}
           <br/>
           <br/>
-          
-          {/* Button to open the new page 
-          <button className="button" onClick={handleOpenNewPage}>Mene toiselle sivulle</button>*/}
-          {/* Conditionally render the NewPage component */}
+        </div>
+
+        <div className="calendar">
+          <Calendar dateSelected={handleSelectedDate} setOKSelected={handleOKSelection}></Calendar>
+          {selectionText}
+          <br></br>
+          {selection && <button className="date-button" /*onClick={handleDownload}*/>Hae hinnat</button>}
+          <div>
+            <Button onClick={handleSnackbarClick}>Kalenteri ohje</Button>
+            <Snackbar
+              TransitionComponent={Slide}
+              ContentProps={{
+                sx: {
+                  background: "green"
+                }
+              }}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+              open={openSnackbar}
+              autoHideDuration={6000}
+              onClose={handleSnackbarClose}
+              message="Valitse päivä, josta taaksepäin haluat 7 päivältä hinta tiedot"
+              action={action} />
+          </div>
         </div>
 
         {/* Check if priceData and priceOptions are available before rendering the LineChart */}
@@ -139,7 +215,7 @@ function App() {
           </div>
          : showPage === 4 && 
          <div>
-           <FourthPage onClose={handleCloseNewPage} />
+           <FourthPage />
          </div>
         }
               

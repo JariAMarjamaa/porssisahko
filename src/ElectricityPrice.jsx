@@ -28,7 +28,6 @@ export async function ReadElectricityPriceData() {
           // Check if the date has changed since the last request
           if (currentDate !== cachedPrices.lastRequestDate) {
             // API request is needed
-            console.log("ReadElectricityPriceData. Päiväys vanhentunut. Hae uusi data");
             state = "info";
             message = "Cache vanhentunut. Luettu uusi data";
             //const hinnat = await Prices.getPrices();

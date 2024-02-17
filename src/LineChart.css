@@ -1,7 +1,17 @@
+/*Default settings for min-width: 1025px*/
+.paper {
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.chartContainer {
+  width: 1200px;
+  height: 700px;
+}
+
 @media only screen and (max-width: 499px) {
   .paper {
-    padding: 16px;
-    margin-top: 80px;
+    margin-top: 160px;
   }
 
   .chartContainer {
@@ -12,8 +22,7 @@
 
 @media only screen and (min-width: 500px) and (max-width: 599px) {
   .paper {
-    padding: 16px;
-    margin-top: 60px;
+    margin-top: 160px;
   }
 
   .chartContainer {
@@ -24,8 +33,7 @@
 
 @media only screen and (min-width: 600px) and (max-width: 750px) {
   .paper {
-    padding: 16px;
-    margin-top: 50px;
+    margin-top: 150px;
   }
 
 .chartContainer {
@@ -34,16 +42,14 @@
   }
 }
 
-
 /* For screens between 601px and 1024px */
 @media only screen and (min-width: 751px) and (max-width: 1024px) {
   .paper {
-    padding: 16px;
-    margin-top: 20px;
+    margin-top: 160px;
   }
 
   .chartContainer {
-    width: 550px;
+    width: 750px;
     height: 300px;
   }
 }
@@ -51,13 +57,4 @@
 /* For screens larger than 1024px */
 @media only screen and (min-width: 1025px) {
   /* Your CSS styles for large screens go here */
-  .paper {
-    padding: 16px;
-    margin-top: 16px;
-  }
-
-  .chartContainer {
-    width: 1300px;
-    height: 700px;
-  }
 }

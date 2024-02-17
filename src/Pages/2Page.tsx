@@ -90,17 +90,10 @@ const SecondPage = ({ onOpen }) => {
               Viimeisimpänä isompana juttuna lisätty proxy serveri.
               <br/>
               <br/>
-              Nyt myös ihana kalenteri. Keksisi sille vain käyttöä.
+              Nyt pääsivulla on myös ihana kalenteri.
               <br/>
               <br/>
-              Fiksattu myös itse käppyrää.
-              <br/>
-              Nyt näytetään kaikki tulokset myös postimerkin näytöllä.
-              <br/>
-              Ja aikajana näyttää myös kellonajan oikein.
-              <br/>
-              <br/>
-              Sovellus versio 4.1
+              Sovellus versio 4.2
             </Typography>
           </AccordionDetails>
         </Accordion>
