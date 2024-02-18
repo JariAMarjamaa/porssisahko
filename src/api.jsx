@@ -43,25 +43,19 @@ export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
     //var baseUrl = "http://localhost:5000/v1/price.json?date="; // 2024-02-05&hour=0
     let finalResp = []; // Initialize the final array
 
-    const day   = fetchDate.getDate().toString();
-    const month = (fetchDate.getMonth() + 1).toString(); // Month is zero-based, so add 1
-    const year  = fetchDate.getFullYear();
-    
-    const start =  userSelection ? 0 : 1;
-    const end   =  userSelection ? 6 : 7;
+    //const day   = fetchDate.getDate().toString();
+    //const month = (fetchDate.getMonth() + 1).toString(); // Month is zero-based, so add 1
+    //const year  = fetchDate.getFullYear();
 
-    console.log("API. userSelection: ", userSelection);
+    console.log("API. date first: ", fetchDate.toISOString().split('T')[0]);
 
     for (var i=1; i <= 7; i++) // Start from yesterday
     {
-        //const currentDate = new Date();
-        fetchDate/*currentDate*/.setDate(fetchDate/*currentDate*/.getDate() - i);
+        fetchDate.setDate(fetchDate.getDate() - 1);
+        const formattedDate = fetchDate.toISOString().split('T')[0]; // Format as "YYYY-MM-DD"
+        console.log("API i: ", i, " Searched date : ", formattedDate);
 
-        const formattedDate = fetchDate/*currentDate*/.toISOString().split('T')[0]; // Format as "YYYY-MM-DD"
-
-        console.log("asyncFetchPorssisahkoNet. hae päivä: i: ",i, formattedDate);
-
-        for (var z=6; z<25; z=z+6)
+       /*for (var z=6; z<25; z=z+6)
         {
             var suffixUrl = formattedDate + "&hour=" +z;
             
@@ -76,15 +70,13 @@ export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
             
             // Use push to concatenate the arrays
             finalResp.push(part_resp);
-        }
+        }*/
     }
     
     // Sort the array in ascending order based on the date and hour
     finalResp.sort((a, b) => a.aikaleima_suomi.localeCompare(b.aikaleima_suomi));
-
     //console.log("API. Resp:", finalResp);
-
-    return finalResp;
+    return mockPrices /*finalResp*/;
 }
 
 class PriceApi {

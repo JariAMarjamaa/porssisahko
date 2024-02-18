@@ -41,7 +41,7 @@ function App() {
   const [selectionText, setSelectionText]  = useState("");
   const [selectedDate,  setSelectedDate]   = useState(new Date());
   const [requestsMadeToday, setRequestsMadeToday] = useState(0);
-  const [makeRequest,   setMakeRequest]     = useState("INIT");
+  const [makeRequest,   setMakeRequest]     = useState("");
 
   const [timeSpan,      setTimeSpanText]   = useState("");
 
@@ -85,19 +85,62 @@ function App() {
     </React.Fragment>
   );
 
+  var apiNotCalled = true
   const currentDate = new Date();
 
   // Get the date 7 days ago
   var sevenDaysAgo = new Date();
   var oneDayAgo = new Date();
 
+  //INIT request
   useEffect(() => {
-    const fetchData = async (date, state) => {
-      console.log("APP. useEffect. fetchData");
+    const fetchData = async (date: Date) => {
+      try {
+        const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData(date, false);
+  
+        if (respState !== null)
+        {
+          setLoadingValue(false);
+          setState(respState);
+          setMessage(msg);
+        }
+
+        if (priceData && priceData.datasets) {
+          setLoadingValue(false);
+        
+          setPriceData(priceData);
+          setPriceOptions(priceOptions);
+
+          const values = priceData.datasets[0].data;
+          setLowestValue(Math.min(...values));
+          setHighestValue(Math.max(...values));
+        } 
+      } catch (error) {
+        setState("error");
+        setMessage(`Error fetching data: ${error}`);
+      }
+    };
+
+    if (apiNotCalled) {
+      apiNotCalled = false;
+      console.log("APP useEffect. Hae initti");
+      sevenDaysAgo.setDate(currentDate.getDate() - 7);
+      oneDayAgo.setDate(currentDate.getDate() - 1);
+      // Format the dates as DD.MM.YYYY
+      const formattedSevenDaysAgo = `${sevenDaysAgo.getDate().toString().padStart(2, '0')}.${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}.${sevenDaysAgo.getFullYear()}`;
+      const formattedOneDayAgo = `${oneDayAgo.getDate().toString().padStart(2, '0')}.${(oneDayAgo.getMonth() + 1).toString().padStart(2, '0')}.${oneDayAgo.getFullYear()}`;
+      setTimeSpanText(formattedSevenDaysAgo + "-" + formattedOneDayAgo);
+      fetchData(currentDate);
+    }
+  }, []); // The empty dependency array ensures that the effect runs only once
+  
+  useEffect(() => {
+    const fetchData = async (date: Date) => {
+      console.log("APP. useEffect. User request");
       setMakeRequest(""); // reset request flag, cause page is rendered twice, so seach is made only once
       setLoadingValue(true);
       try {
-        const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData(date, state);
+        const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData(date, true);
   
         if (respState !== null)
         {
@@ -122,32 +165,22 @@ function App() {
       }
     };
   
-    if (makeRequest === "INIT") {
-      console.log("APP useEffect. Hae initti");
-      sevenDaysAgo.setDate(currentDate.getDate() - 7);
-      oneDayAgo.setDate(currentDate.getDate() - 1);
-      // Format the dates as DD.MM.YYYY
-      const formattedSevenDaysAgo = `${sevenDaysAgo.getDate().toString().padStart(2, '0')}.${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}.${sevenDaysAgo.getFullYear()}`;
-      const formattedOneDayAgo = `${oneDayAgo.getDate().toString().padStart(2, '0')}.${(oneDayAgo.getMonth() + 1).toString().padStart(2, '0')}.${oneDayAgo.getFullYear()}`;
-      setTimeSpanText(formattedSevenDaysAgo + "-" + formattedOneDayAgo);
-      fetchData(currentDate, false);
-    }
-  
     if (makeRequest === "USER") {
       // Trigger user selection search
       console.log("APP useEffect. käyttäjän valinta valittu")
+
       sevenDaysAgo.setDate(selectedDate.getDate() - 6);
-      oneDayAgo.setDate(selectedDate?.getDate());
+      oneDayAgo.setDate(selectedDate.getDate());
       const formattedSevenDaysAgo = `${sevenDaysAgo.getDate().toString().padStart(2, '0')}.${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}.${sevenDaysAgo.getFullYear()}`;
       const formattedOneDayAgo = `${oneDayAgo.getDate().toString().padStart(2, '0')}.${(oneDayAgo.getMonth() + 1).toString().padStart(2, '0')}.${oneDayAgo.getFullYear()}`;
       setTimeSpanText(formattedSevenDaysAgo + "-" + formattedOneDayAgo);
       
       //API vähentää oletuksena päivän, defautti toiminto.
       //Joten lisää päivä käyttäjän valintaan
-      const valinta = new Date();
-      valinta.setDate(selectedDate?.getDate() +1);
+      selectedDate.setDate(selectedDate.getDate() + 1);
+      console.log("APP useEffect. selectedDate: ", selectedDate);
 
-      fetchData(valinta, true);
+      fetchData(selectedDate);
     }
   }, [makeRequest, selectedDate]); // Fetch data when makeRequest or selectedDate changes
   
@@ -167,7 +200,7 @@ function App() {
 
   // Callback function to receive the value from the subcomponent
   const handleSelectedDate = (date: Date) => {
-    //console.log("APP. handleSelectedDate. ", date);
+    console.log("APP. handleSelectedDate. ", date);
     if (date !== null)
     {
       setSelectedDate(date);
@@ -175,9 +208,9 @@ function App() {
   };
 
   const handleOKSelection = (value: boolean) => {
-    console.log("APP. handleOKSelection. ", value, 
+    /*console.log("APP. handleOKSelection. ", value, 
                 "\n requestsMadeToday: ", requestsMadeToday,
-                "\n makeRequest: ", makeRequest);
+                "\n makeRequest: ", makeRequest);*/
 
     setSelection(value);
     setMakeRequest("");
@@ -236,14 +269,16 @@ function App() {
               TransitionComponent={Slide}
               ContentProps={{
                 sx: {
-                  background: "green"
+                  background: "green",
+                  width: '100%',
+                  height: 'auto', lineHeight: '28px'  //whiteSpace: "pre-wrap"
                 }
               }}
               anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={openSnackbar}
               autoHideDuration={6000}
               onClose={handleSnackbarClose}
-              message="Valitse päivä, josta taaksepäin haluat 7 päivältä hinta tiedot"
+              message="Valitse päivä, josta taaksepäin haluat 7 päivältä hinta tiedot. Vain max. 2 hakua päivässä"
               action={action} />
           </div>
         </div>
