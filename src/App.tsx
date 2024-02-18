@@ -39,7 +39,9 @@ function App() {
 
   const [selection,     setSelection]      = useState(false);
   const [selectionText, setSelectionText]  = useState("");
-  const [selectedDate,  setSelectedDate]   = useState(null /*new Date()*/);
+  const [selectedDate,  setSelectedDate]   = useState(new Date());
+  const [requestsMadeToday, setRequestsMadeToday] = useState(0);
+  const [makeRequest,   setMakeRequest]     = useState("INIT");
 
   const [timeSpan,      setTimeSpanText]   = useState("");
 
@@ -83,15 +85,16 @@ function App() {
     </React.Fragment>
   );
 
-  var apiNotCalled = true;
   const currentDate = new Date();
 
   // Get the date 7 days ago
- var sevenDaysAgo = new Date();
- var oneDayAgo = new Date();
+  var sevenDaysAgo = new Date();
+  var oneDayAgo = new Date();
 
-useEffect(() => {
+  useEffect(() => {
     const fetchData = async (date, state) => {
+      console.log("APP. useEffect. fetchData");
+      setMakeRequest(""); // reset request flag, cause page is rendered twice, so seach is made only once
       setLoadingValue(true);
       try {
         const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData(date, state);
@@ -119,47 +122,85 @@ useEffect(() => {
       }
     };
   
-    if (!selection) {
+    if (makeRequest === "INIT") {
+      console.log("APP useEffect. Hae initti");
       sevenDaysAgo.setDate(currentDate.getDate() - 7);
       oneDayAgo.setDate(currentDate.getDate() - 1);
       // Format the dates as DD.MM.YYYY
       const formattedSevenDaysAgo = `${sevenDaysAgo.getDate().toString().padStart(2, '0')}.${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}.${sevenDaysAgo.getFullYear()}`;
       const formattedOneDayAgo = `${oneDayAgo.getDate().toString().padStart(2, '0')}.${(oneDayAgo.getMonth() + 1).toString().padStart(2, '0')}.${oneDayAgo.getFullYear()}`;
-      console.log("APP Hae initti");
       setTimeSpanText(formattedSevenDaysAgo + "-" + formattedOneDayAgo);
-
       fetchData(currentDate, false);
     }
   
-    if (selection) {
-      // Trigger data fetching when selection is true
-      console.log("APP hae valittu")
-      sevenDaysAgo.setDate(selectedDate?.getDate() - 7);
-      oneDayAgo.setDate(selectedDate?.getDate() - 1);
+    if (makeRequest === "USER") {
+      // Trigger user selection search
+      console.log("APP useEffect. käyttäjän valinta valittu")
+      sevenDaysAgo.setDate(selectedDate.getDate() - 6);
+      oneDayAgo.setDate(selectedDate?.getDate());
       const formattedSevenDaysAgo = `${sevenDaysAgo.getDate().toString().padStart(2, '0')}.${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}.${sevenDaysAgo.getFullYear()}`;
       const formattedOneDayAgo = `${oneDayAgo.getDate().toString().padStart(2, '0')}.${(oneDayAgo.getMonth() + 1).toString().padStart(2, '0')}.${oneDayAgo.getFullYear()}`;
       setTimeSpanText(formattedSevenDaysAgo + "-" + formattedOneDayAgo);
+      
+      //API vähentää oletuksena päivän, defautti toiminto.
+      //Joten lisää päivä käyttäjän valintaan
+      const valinta = new Date();
+      valinta.setDate(selectedDate?.getDate() +1);
 
-      fetchData(selectedDate, true);
+      fetchData(valinta, true);
     }
-  }, [selection, selectedDate]); // Fetch data when selection or selectedDate changes
+  }, [makeRequest, selectedDate]); // Fetch data when makeRequest or selectedDate changes
   
+  useEffect(() => {
+    // Check and reset requestsMadeToday when the date changes
+    const today = new Date().toISOString().split('T')[0];
+    const storedDate = localStorage.getItem('lastRequestDate');
+
+    if (storedDate !== today) {
+      localStorage.setItem('lastRequestDate', today);
+      setRequestsMadeToday(0);
+    }
+  }, []);
 
   // Format the current date as DD.MM.YYYY
   const formattedCurrentDate = `${currentDate.getDate().toString().padStart(2, '0')}.${(currentDate.getMonth() + 1).toString().padStart(2, '0')}.${currentDate.getFullYear()}`;
 
   // Callback function to receive the value from the subcomponent
-  const handleSelectedDate = (date) => {
-     if (date !== null)
+  const handleSelectedDate = (date: Date) => {
+    //console.log("APP. handleSelectedDate. ", date);
+    if (date !== null)
     {
       setSelectedDate(date);
     }
   };
 
-  const handleOKSelection = (value) => {
-    setSelection(true);
+  const handleOKSelection = (value: boolean) => {
+    console.log("APP. handleOKSelection. ", value, 
+                "\n requestsMadeToday: ", requestsMadeToday,
+                "\n makeRequest: ", makeRequest);
+
+    setSelection(value);
+    setMakeRequest("");
     setSelectionText(value === true ? "OK klikattu" : "Eiku en valitsekkaan");
+
+    /*if (requestsMadeToday < 2) {
+      setSelectionText(value === true ? "OK klikattu" : "Eiku en valitsekkaan");
+    } else*/ if (value && requestsMadeToday === 2) {
+      setSelectionText("Haku kerrat on rajoitettu 2 per päivä");
+      //alert("Haku kerrat on rajoitettu 2 per päivä. Yritä huomenna uudestaan.");
+      //Request made twice already, hide button
+      setSelection(false);
+    }
   };
+
+  const handleSearch = () => {
+    console.log("APP. handleSearch");
+    setSelection(false);
+    setRequestsMadeToday(requestsMadeToday + 1);
+    //trigger user date search
+    setMakeRequest("USER");
+  };
+  
 
   return (
     <div className="App">
@@ -188,7 +229,7 @@ useEffect(() => {
           <Calendar dateSelected={handleSelectedDate} setOKSelected={handleOKSelection}></Calendar>
           {selectionText}
           <br></br>
-          {!selection && <button className="date-button" /*onClick={handleDownload}*/>Hae hinnat</button>}
+          {selection && <button className="date-button" onClick={handleSearch}>Hae hinnat</button>}
           <div>
             <Button onClick={handleSnackbarClick}>Kalenteri ohje</Button>
             <Snackbar

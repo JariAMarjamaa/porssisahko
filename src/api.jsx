@@ -47,10 +47,12 @@ export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
     const month = (fetchDate.getMonth() + 1).toString(); // Month is zero-based, so add 1
     const year  = fetchDate.getFullYear();
     
-    let start =  userSelection ? 0 : 1;
-    let end   =  userSelection ? 7 : 6;
+    const start =  userSelection ? 0 : 1;
+    const end   =  userSelection ? 6 : 7;
 
-    for (var i=start; i <= end; i++) // Start from yesterday
+    console.log("API. userSelection: ", userSelection);
+
+    for (var i=1; i <= 7; i++) // Start from yesterday
     {
         //const currentDate = new Date();
         fetchDate/*currentDate*/.setDate(fetchDate/*currentDate*/.getDate() - i);

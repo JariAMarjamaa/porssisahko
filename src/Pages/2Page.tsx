@@ -89,11 +89,18 @@ const SecondPage = ({ onOpen }) => {
             <Typography sx={{ bgcolor: 'lightgray' }}>
               Viimeisimpänä isompana juttuna lisätty proxy serveri.
               <br/>
+              Pääsivulle kalenteri, hinta haun valintaan.
               <br/>
-              Nyt pääsivulla on myös ihana kalenteri.
+              - Myös ohjeet
+              <br/>
+              - Kalenteri haku rajoitettu 2 / päivä
               <br/>
               <br/>
-              Sovellus versio 4.2
+              <br/>
+              Hox! Päivien käsittelyssä vielä bugi!
+              <br/>
+              <br/>
+              Sovellus versio 4.2.1
             </Typography>
           </AccordionDetails>
         </Accordion>

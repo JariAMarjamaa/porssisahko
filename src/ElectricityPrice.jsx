@@ -13,6 +13,7 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
       const currentDate = new Date().toDateString();
       var cachedData = localStorage.getItem(CACHE_KEY);
 
+      //console.log("ReadElectricityPriceData. fetchDate: ",fetchDate, "\nuserSelection:  ", userSelection);
       if (userSelection === true && fetchDate !== null)
       {
         cachedData = null;
@@ -50,7 +51,7 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
             // Use cached data
             state = "info";
             message = "Data luettu Cachen muistista";
-            console.log("ReadElectricityPriceData. Cache validi, käytä sitä");
+            //console.log("ReadElectricityPriceData. Cache validi, käytä sitä");
           }
         } catch (error) {
           // Handle errors related to parsing or cached data format
