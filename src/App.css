@@ -55,6 +55,9 @@
 .button {
   font-size: x-large;
 }
+.marginLeft {
+  margin-left: 50px;;
+}
 .date-button {
   font-size: large;
 }
@@ -122,6 +125,9 @@
   .button {
     font-size: large;
   }
+  .marginLeft {
+    margin-left: 60px;;
+  }
 
   .date-button {
     font-size: large;
@@ -179,6 +185,9 @@
   .button {
     font-size: large;
   }
+  .marginLeft {
+    margin-left: 70px;;
+  }
   .date-button {
     font-size: large;
   }
@@ -226,6 +235,9 @@
 @media only screen and (min-width: 600px) and (max-width: 750px) {
   .button {
     font-size: large;
+  }
+  .marginLeft {
+    margin-left: 70px;;
   }
   .date-button {
     font-size: large;

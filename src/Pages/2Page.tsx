@@ -97,10 +97,7 @@ const SecondPage = ({ onOpen }) => {
               <br/>
               <br/>
               <br/>
-              Hox! Päivien käsittelyssä vielä bugi!
-              <br/>
-              <br/>
-              Sovellus versio 4.2.1
+              Sovellus versio 4.2.2
             </Typography>
           </AccordionDetails>
         </Accordion>

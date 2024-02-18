@@ -18,10 +18,20 @@ const PopupWindow = ({ onClose, type, content }) => {
             allowFullScreen
           ></iframe>
         ) : 
-        <div> {content} </div>
+        <div> {content}
+        Sisältöluettelo:
+          <br/>
+          - Sivu 1: Pääsivu
+          <br/>
+          - Sivu 2: Tietoja sovelluksesta
+          <br/>
+          - Sivu 3: CV
+          <br/>
+          - Sivu 4: Robottitestaus video
+        </div>
         }
         <br></br>
-        <button className="button" onClick={onClose}>Sulje</button>
+        <button className="button marginLeft" onClick={onClose}>Sulje</button>
       </div>
     </div>
   );

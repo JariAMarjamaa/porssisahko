@@ -10,6 +10,7 @@ import SecondPage from './Pages/2Page.tsx';
 import ThirdPage  from './Pages/3Page.jsx';
 import FourthPage from './Pages/4Page.jsx';
 import Calendar   from './Calendar/calendar.jsx';
+import PopupWindow from './PopupWindow/Popup.jsx';
 
 import Button     from '@mui/material/Button';
 import Snackbar   from '@mui/material/Snackbar';
@@ -45,8 +46,16 @@ function App() {
 
   const [timeSpan,      setTimeSpanText]   = useState("");
 
-  const [openSnackbar,  setSnackbarOpen]   = useState(false);
+  const [openSnackbar,   setSnackbarOpen]   = useState(false);
+  const [showPopup,      setShowPopup]      = useState(false);
 
+  const openPopupWindow = (type) => {
+    setShowPopup(true);
+  };
+
+  const handlePopupClose = (type) => {
+    setShowPopup(false);
+  };
   const handleOpenNewPage = (event: React.ChangeEvent<unknown>, value: number) => {
     setShowPage(value);
   };
@@ -92,35 +101,35 @@ function App() {
   var sevenDaysAgo = new Date();
   var oneDayAgo = new Date();
 
+  //Data requestit
+  const fetchData = async (date: Date, userRequest: boolean) => {
+    setLoadingValue(true);
+    try {
+      const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData(date, userRequest);
+      setLoadingValue(false);
+
+      if (respState !== null)
+      {
+        setState(respState);
+        setMessage(msg);
+      }
+
+      if (priceData && priceData.datasets) {
+        setPriceData(priceData);
+        setPriceOptions(priceOptions);
+
+        const values = priceData.datasets[0].data;
+        setLowestValue(Math.min(...values));
+        setHighestValue(Math.max(...values));
+      } 
+    } catch (error) {
+      setState("error");
+      setMessage(`Error fetching data: ${error}`);
+    }
+  };
+
   //INIT request
   useEffect(() => {
-    const fetchData = async (date: Date) => {
-      try {
-        const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData(date, false);
-  
-        if (respState !== null)
-        {
-          setLoadingValue(false);
-          setState(respState);
-          setMessage(msg);
-        }
-
-        if (priceData && priceData.datasets) {
-          setLoadingValue(false);
-        
-          setPriceData(priceData);
-          setPriceOptions(priceOptions);
-
-          const values = priceData.datasets[0].data;
-          setLowestValue(Math.min(...values));
-          setHighestValue(Math.max(...values));
-        } 
-      } catch (error) {
-        setState("error");
-        setMessage(`Error fetching data: ${error}`);
-      }
-    };
-
     if (apiNotCalled) {
       apiNotCalled = false;
       console.log("APP useEffect. Hae initti");
@@ -130,41 +139,11 @@ function App() {
       const formattedSevenDaysAgo = `${sevenDaysAgo.getDate().toString().padStart(2, '0')}.${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}.${sevenDaysAgo.getFullYear()}`;
       const formattedOneDayAgo = `${oneDayAgo.getDate().toString().padStart(2, '0')}.${(oneDayAgo.getMonth() + 1).toString().padStart(2, '0')}.${oneDayAgo.getFullYear()}`;
       setTimeSpanText(formattedSevenDaysAgo + "-" + formattedOneDayAgo);
-      fetchData(currentDate);
+      fetchData(currentDate, false);
     }
   }, []); // The empty dependency array ensures that the effect runs only once
   
   useEffect(() => {
-    const fetchData = async (date: Date) => {
-      console.log("APP. useEffect. User request");
-      setMakeRequest(""); // reset request flag, cause page is rendered twice, so seach is made only once
-      setLoadingValue(true);
-      try {
-        const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData(date, true);
-  
-        if (respState !== null)
-        {
-          setLoadingValue(false);
-          setState(respState);
-          setMessage(msg);
-        }
-
-        if (priceData && priceData.datasets) {
-          setLoadingValue(false);
-        
-          setPriceData(priceData);
-          setPriceOptions(priceOptions);
-
-          const values = priceData.datasets[0].data;
-          setLowestValue(Math.min(...values));
-          setHighestValue(Math.max(...values));
-        } 
-      } catch (error) {
-          setState('error');
-          setMessage(`Error fetching data: ${error}`);
-      }
-    };
-  
     if (makeRequest === "USER") {
       // Trigger user selection search
       console.log("APP useEffect. käyttäjän valinta valittu")
@@ -180,7 +159,7 @@ function App() {
       selectedDate.setDate(selectedDate.getDate() + 1);
       console.log("APP useEffect. selectedDate: ", selectedDate);
 
-      fetchData(selectedDate);
+      fetchData(selectedDate, true);
     }
   }, [makeRequest, selectedDate]); // Fetch data when makeRequest or selectedDate changes
   
@@ -237,7 +216,7 @@ function App() {
 
   return (
     <div className="App">
-      {<Notication type="warning" text="Käytetään Pörssisähko.net:n tarjoamaan tietoa"/>  }
+      {<Notication type="warning" text="Käytetään Testidataa, kunnes Kalenterin käyttö korjattu!"/*"Käytetään Pörssisähko.net:n tarjoamaan tietoa"*//>  }
 
       {/*Handle the error, e.g., show an error message to the user*/}
       {state !== "" && <Notication type={state} text={String(message)}/>  }
@@ -302,17 +281,15 @@ function App() {
            <FourthPage />
          </div>
         }
-              
+ 
+        <br></br>
+        {!showPopup && 
+        <div className={`${showPage === 1 ? 'white-text' : 'other-than-main-page'}`}> 
+        <button className="button"  onClick={() => openPopupWindow("teksti")}>Avaa Sisällysluettelo</button>
+        </div>}
+
         <div className={`table-of-contents ${showPage === 1 ? 'white-text' : 'other-than-main-page'} ${hideTableOfContents ? 'hidden' : ''}`}>
-          Sisältöluettelo:
-          <br/>
-          - Sivu 1: Pääsivu
-          <br/>
-          - Sivu 2: Tietoja sovelluksesta
-          <br/>
-          - Sivu 3: CV
-          <br/>
-          - Sivu 4: Robottitestaus video
+          {showPopup && <PopupWindow  onClose={() => handlePopupClose("teksti")} type="teksti" content="" />} 
         </div>
           
         <div className="pagination">
