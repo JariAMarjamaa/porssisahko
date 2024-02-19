@@ -3,7 +3,7 @@ import PopupWindow from '../PopupWindow/Popup.jsx';
 
 import './Pages.css';
 
-const FourthPage = ({ }) => {
+const FourthPage = () => {
     const [showVideoPopup, setShowVideoPopup] = useState(false);
 
     const openPopupWindow = (type) => {

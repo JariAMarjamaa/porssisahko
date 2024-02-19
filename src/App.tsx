@@ -12,16 +12,9 @@ import FourthPage from './Pages/4Page.jsx';
 import Calendar   from './Calendar/calendar.jsx';
 import PopupWindow from './PopupWindow/Popup.jsx';
 
-import Button     from '@mui/material/Button';
-import Snackbar   from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon  from '@mui/icons-material/Close';
-import Slide      from '@mui/material/Slide';
-
 //import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-
 
 import './App.css';
 
@@ -38,15 +31,11 @@ function App() {
   const [message,      setMessage]       = useState("");
   const [showPage,     setShowPage]      = useState(1);
 
-  const [selection,     setSelection]      = useState(false);
-  const [selectionText, setSelectionText]  = useState("");
   const [selectedDate,  setSelectedDate]   = useState(new Date());
-  const [requestsMadeToday, setRequestsMadeToday] = useState(0);
-  const [makeRequest,   setMakeRequest]     = useState("");
+  const [makeRequest,   setMakeRequest]    = useState("");
 
   const [timeSpan,      setTimeSpanText]   = useState("");
 
-  const [openSnackbar,   setSnackbarOpen]   = useState(false);
   const [showPopup,      setShowPopup]      = useState(false);
 
   const openPopupWindow = (type) => {
@@ -67,17 +56,6 @@ function App() {
     setShowPage(1);
   };
 
-  const handleSnackbarClick = () => {
-    setSnackbarOpen(true);
-  };
-
-  const handleSnackbarClose = (event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackbarOpen(false);
-  };
-
   const toc = (
     <div>
     Sisältöluettelo:
@@ -91,21 +69,6 @@ function App() {
     - Sivu 4: Robottitestaus video
 
     </div>
-  );
-  const action = (
-    <React.Fragment>
-      {/*<Button color="error" size="small" onClick={handleSnackbarClose}>
-        EIKU
-        </Button>*/}
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleSnackbarClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
   );
 
   var apiNotCalled = true
@@ -160,6 +123,8 @@ function App() {
   useEffect(() => {
     if (makeRequest === "USER") {
       // Trigger user selection search
+      setMakeRequest("");
+
       console.log("APP useEffect. käyttäjän valinta valittu")
 
       sevenDaysAgo.setDate(selectedDate.getDate() - 6);
@@ -173,21 +138,10 @@ function App() {
       selectedDate.setDate(selectedDate.getDate() + 1);
       console.log("APP useEffect. selectedDate: ", selectedDate);
 
-      fetchData(selectedDate, true);
+      //fetchData(selectedDate, true);
     }
   }, [makeRequest, selectedDate]); // Fetch data when makeRequest or selectedDate changes
   
-  useEffect(() => {
-    // Check and reset requestsMadeToday when the date changes
-    const today = new Date().toISOString().split('T')[0];
-    const storedDate = localStorage.getItem('lastRequestDate');
-
-    if (storedDate !== today) {
-      localStorage.setItem('lastRequestDate', today);
-      setRequestsMadeToday(0);
-    }
-  }, []);
-
   // Format the current date as DD.MM.YYYY
   const formattedCurrentDate = `${currentDate.getDate().toString().padStart(2, '0')}.${(currentDate.getMonth() + 1).toString().padStart(2, '0')}.${currentDate.getFullYear()}`;
 
@@ -197,36 +151,9 @@ function App() {
     if (date !== null)
     {
       setSelectedDate(date);
+      setMakeRequest("USER");
     }
   };
-
-  const handleOKSelection = (value: boolean) => {
-    /*console.log("APP. handleOKSelection. ", value, 
-                "\n requestsMadeToday: ", requestsMadeToday,
-                "\n makeRequest: ", makeRequest);*/
-
-    setSelection(value);
-    setMakeRequest("");
-    setSelectionText(value === true ? "OK klikattu" : "Eiku en valitsekkaan");
-
-    /*if (requestsMadeToday < 2) {
-      setSelectionText(value === true ? "OK klikattu" : "Eiku en valitsekkaan");
-    } else*/ if (value && requestsMadeToday === 2) {
-      setSelectionText("Haku kerrat on rajoitettu 2 per päivä");
-      //alert("Haku kerrat on rajoitettu 2 per päivä. Yritä huomenna uudestaan.");
-      //Request made twice already, hide button
-      setSelection(false);
-    }
-  };
-
-  const handleSearch = () => {
-    console.log("APP. handleSearch");
-    setSelection(false);
-    setRequestsMadeToday(requestsMadeToday + 1);
-    //trigger user date search
-    setMakeRequest("USER");
-  };
-  
 
   return (
     <div className="App">
@@ -252,28 +179,7 @@ function App() {
 
         {!loading &&
         <div className="calendar">
-          <Calendar dateSelected={handleSelectedDate} setOKSelected={handleOKSelection}></Calendar>
-          {selectionText}
-          <br></br>
-          {selection && <button className="date-button" onClick={handleSearch}>Hae hinnat</button>}
-          <div>
-            <Button onClick={handleSnackbarClick}>Kalenteri ohje</Button>
-            <Snackbar
-              TransitionComponent={Slide}
-              ContentProps={{
-                sx: {
-                  background: "green",
-                  width: '100%',
-                  height: 'auto', lineHeight: '28px'  //whiteSpace: "pre-wrap"
-                }
-              }}
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-              open={openSnackbar}
-              autoHideDuration={6000}
-              onClose={handleSnackbarClose}
-              message="Valitse päivä, josta taaksepäin haluat 7 päivältä hinta tiedot. Vain max. 2 hakua päivässä"
-              action={action} />
-          </div>
+          <Calendar dateSelected={handleSelectedDate}></Calendar>
         </div>
         }
 
