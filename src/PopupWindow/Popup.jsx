@@ -3,7 +3,7 @@ import './Popup.css';
 
 
 const PopupWindow = ({ onClose, type, content }) => {
-    const contentClassName = `content ${type}-content`;
+    const contentClassName = `${type}-content`;
     console.log("contentClassName: ", contentClassName);
 
     return (
@@ -18,17 +18,7 @@ const PopupWindow = ({ onClose, type, content }) => {
             allowFullScreen
           ></iframe>
         ) : 
-        <div> {content}
-        Sisältöluettelo:
-          <br/>
-          - Sivu 1: Pääsivu
-          <br/>
-          - Sivu 2: Tietoja sovelluksesta
-          <br/>
-          - Sivu 3: CV
-          <br/>
-          - Sivu 4: Robottitestaus video
-        </div>
+        <div> {content}</div>
         }
         <br></br>
         <button className="button marginLeft" onClick={onClose}>Sulje</button>

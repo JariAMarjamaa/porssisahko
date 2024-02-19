@@ -30,11 +30,6 @@
   text-align: center; /* Center the content horizontally */
 }
 
-.table-of-contents {
-  text-align: left;
-  padding-left: 200px;
-}
-
 .pagination {
   text-align: left;
   background-color: aliceblue;
@@ -62,12 +57,6 @@
   font-size: large;
 }
 
-.listing {
-  text-align: left;
-  padding-left: 350px;
-  padding-right: 300px;
-}
-
 .container {
   position: relative;
   width: 100%;
@@ -80,21 +69,6 @@
   color: white;
   padding-bottom: 50px;
  }
-
- .new-page-modal {
-  background-color: antiquewhite;;
-  color: black;
-  position: fixed;
-  /* popup keskelle
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;*/
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
 
 @media only screen and (max-width: 499px) {
   /* Default settings for min-width: 1025px */
@@ -110,11 +84,6 @@
     width: 100%;
   }
 
-  .table-of-contents {
-    padding-left: 40px;
-    padding-top: 10px;
-  }
-  
   .price-info {
     top: 50px; /* Adjust the top value to position vertically */
     left: 30px; 
@@ -145,24 +114,6 @@
     justify-content: center;
     z-index: 2;
   }
-  
-  .new-page-modal {
-    background-color: antiquewhite;;
-    color: black;
-    padding: 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .listing {
-    padding-left: 10px;
-    padding-right: 50px;
-    }
 }
 
 @media only screen and (min-width: 500px) and (max-width: 599px) {
@@ -178,10 +129,6 @@
     font-size: small !important;
   }
 
-  .table-of-contents {
-    padding-left: 100px;
-  }
-  
   .button {
     font-size: large;
   }
@@ -212,24 +159,6 @@
     justify-content: center;
     z-index: 2;
   }
-
-  .new-page-modal {
-    background-color: antiquewhite;;
-    color: black;
-    padding: 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .listing {
-    padding-left: 20px;
-    padding-right: 60px;
-  }
 }
 
 @media only screen and (min-width: 600px) and (max-width: 750px) {
@@ -256,10 +185,6 @@
     font-size: small !important;
   }
 
-  .table-of-contents {
-    padding-left: 100px;
-  }
-  
   .price-info {
     top: 110px; 
     left: 100px; 
@@ -279,25 +204,6 @@
     justify-content: center;
     z-index: 2;
   }
-
-  .new-page-modal {
-    background-color: antiquewhite;;
-    color: black;
-    padding: 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .listing {
-    padding-left: 100px;
-    padding-right: 100px;
-  }
-
 }
 
 @media only screen and (min-width: 751px) and (max-width: 1024px) {
@@ -321,10 +227,6 @@
     font-size: small !important;
   }
 
-  .table-of-contents {
-    padding-left: 100px;
-  }
-
   .button {
     font-size: x-large;
   }
@@ -342,24 +244,6 @@
     align-items: center;
     justify-content: center;
     z-index: 2;
-  }
-
-  .new-page-modal {
-    background-color: antiquewhite;;
-    color: black;
-    padding: 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .listing {
-    padding-left: 70px;
-    padding-right: 110px;
   }
 }
 

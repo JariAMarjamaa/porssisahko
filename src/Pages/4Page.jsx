@@ -1,6 +1,8 @@
 import { React, useState } from 'react';
 import PopupWindow from '../PopupWindow/Popup.jsx';
 
+import './Pages.css';
+
 const FourthPage = ({ }) => {
     const [showVideoPopup, setShowVideoPopup] = useState(false);
 

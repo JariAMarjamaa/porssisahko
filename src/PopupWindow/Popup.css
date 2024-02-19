@@ -1,7 +1,3 @@
-/*.Popup-container {
-  border: 1px solid black;
-}*/
-
 /* Default styles */
 .responsive-iframe {
   width: 1000px;
@@ -18,15 +14,10 @@
   margin-left: 10px;
 }
 
-.info-content {
-  /* Styles specific to 'info' type */
-  background-color: green;
-  color: black;
-  position: absolute;
-  left: 20px;
-  top: 50px;
-  white-space: pre-line;
- }
+.toc-content {
+  text-align: left;
+  padding-left: 150px;
+}
 
 @media only screen and (max-width: 499px) {
   .responsive-iframe {
@@ -38,6 +29,10 @@
     top: 50px;
     margin-left: 0px;
   }
+
+  .toc-content {
+    padding-left: 70px;
+  }
 }
 
 @media only screen and (min-width: 500px) and (max-width: 599px) {
@@ -45,29 +40,21 @@
     width: 500px;
   }
 
-  .info-content {
-    width: 500px;
-   }
+  .toc-content {
+    padding-left: 70px;
+  }
 }
 
 @media only screen and (min-width: 600px) and (max-width: 750px) {
   .responsive-iframe {
     width: 600px;
   }
-
-  .info-content {
-    width: 600px;
-   }
 }
 
 @media only screen and (min-width: 751px) and (max-width: 1024px) {
   .responsive-iframe {
     width: 750px;
   }
-
-  .info-content {
-    width: 800px;
-   }
 }
 
 @media only screen and (min-width: 1025px) {
@@ -79,8 +66,4 @@
     padding-top: 50px;
     margin-left: 300px;
   }
-  
-  .info-content {
-     width: 1000px;
-   }
 }

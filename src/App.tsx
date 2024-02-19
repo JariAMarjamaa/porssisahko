@@ -78,6 +78,20 @@ function App() {
     setSnackbarOpen(false);
   };
 
+  const toc = (
+    <div>
+    Sisältöluettelo:
+    <br/>
+    - Sivu 1: Pääsivu
+    <br/>
+    - Sivu 2: Tietoja sovelluksesta
+    <br/>
+    - Sivu 3: CV
+    <br/>
+    - Sivu 4: Robottitestaus video
+
+    </div>
+  );
   const action = (
     <React.Fragment>
       {/*<Button color="error" size="small" onClick={handleSnackbarClose}>
@@ -284,12 +298,13 @@ function App() {
  
         <br></br>
         {!showPopup && 
-        <div className={`${showPage === 1 ? 'white-text' : 'other-than-main-page'}`}> 
+        <div className={`${showPage === 1 ? 'white-text' : 'other-than-main-page'} ${hideTableOfContents ? 'hidden' : ''}`}> 
         <button className="button"  onClick={() => openPopupWindow("teksti")}>Avaa Sisällysluettelo</button>
         </div>}
 
-        <div className={`table-of-contents ${showPage === 1 ? 'white-text' : 'other-than-main-page'} ${hideTableOfContents ? 'hidden' : ''}`}>
-          {showPopup && <PopupWindow  onClose={() => handlePopupClose("teksti")} type="teksti" content="" />} 
+        {/*hideTableOfContents sitä varten, että jos osio avataan sivulta 2, niin aukinainen sisällysluettelo piiloitetaan*/}
+        <div className={`${showPage === 1 ? 'white-text' : 'other-than-main-page'} ${hideTableOfContents ? 'hidden' : ''}`}>
+          {showPopup && <PopupWindow  onClose={() => handlePopupClose("toc")} type="toc" content={toc} />} 
         </div>
           
         <div className="pagination">

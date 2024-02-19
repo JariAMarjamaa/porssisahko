@@ -5,6 +5,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import './Pages.css';
+
 const SecondPage = ({ onOpen }) => {
   const [expanded, setExpanded] = React.useState<string | false>(false);
 

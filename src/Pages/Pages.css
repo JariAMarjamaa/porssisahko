@@ -1,0 +1,105 @@
+/* Default settings for min-width: 1025px */
+.listing {
+  text-align: left;
+  padding-left: 350px;
+  padding-right: 300px;
+}
+
+.new-page-modal {
+  background-color: antiquewhite;;
+  color: black;
+  position: fixed;
+  /* popup keskelle
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;*/
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media only screen and (max-width: 499px) {
+  .new-page-modal {
+    background-color: antiquewhite;;
+    color: black;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .listing {
+    padding-left: 10px;
+    padding-right: 50px;
+    }
+}
+
+@media only screen and (min-width: 500px) and (max-width: 599px) {
+  .new-page-modal {
+    background-color: antiquewhite;;
+    color: black;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .listing {
+    padding-left: 20px;
+    padding-right: 60px;
+  }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 750px) {
+ .new-page-modal {
+    background-color: antiquewhite;;
+    color: black;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .listing {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+
+}
+
+@media only screen and (min-width: 751px) and (max-width: 1024px) {
+  .new-page-modal {
+    background-color: antiquewhite;;
+    color: black;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .listing {
+    padding-left: 70px;
+    padding-right: 110px;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+}

@@ -1,6 +1,8 @@
 import { React } from 'react';
 import DownloadButton from '../Buttons/DonwloadingButton.jsx';
 
+import './Pages.css';
+
 const ThirdPage = ({ onClose }) => {
 
   return (
