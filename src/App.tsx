@@ -73,10 +73,8 @@ function App() {
 
   var apiNotCalled = true
   const currentDate = new Date();
-
-  // Get the date 7 days ago
-  var sevenDaysAgo = new Date();
-  var oneDayAgo = new Date();
+  // Title. Format the current date as DD.MM.YYYY
+  const formattedCurrentDate = `${currentDate.getDate().toString().padStart(2, '0')}.${(currentDate.getMonth() + 1).toString().padStart(2, '0')}.${currentDate.getFullYear()}`;
 
   //Data requestit
   const fetchData = async (date: Date, userRequest: boolean) => {
@@ -105,17 +103,29 @@ function App() {
     }
   };
 
+  const createTitleText = (date: Date, seven: number, one: number) => {
+    console.log("createTitleText. date: ", date );
+    // Get the date 7 days ago
+    var start = new Date();
+    var end = new Date();
+
+    start.setDate(date.getDate() - 7);
+    end.setDate(date.getDate() - 1);
+
+    // Format the dates as DD.MM.YYYY
+    const formattedStart = `${start.getDate().toString().padStart(2, '0')}.${(start.getMonth() + 1).toString().padStart(2, '0')}.${start.getFullYear()}`;
+    const formattedEnd   = `${end.getDate().toString().padStart(2, '0')}.${(end.getMonth() + 1).toString().padStart(2, '0')}.${end.getFullYear()}`;
+
+    console.log("=> ", formattedStart + "-" + formattedEnd);
+    setTimeSpanText(formattedStart + "-" + formattedEnd);
+  };
+
   //INIT request
   useEffect(() => {
     if (apiNotCalled) {
       apiNotCalled = false;
       console.log("APP useEffect. Hae initti");
-      sevenDaysAgo.setDate(currentDate.getDate() - 7);
-      oneDayAgo.setDate(currentDate.getDate() - 1);
-      // Format the dates as DD.MM.YYYY
-      const formattedSevenDaysAgo = `${sevenDaysAgo.getDate().toString().padStart(2, '0')}.${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}.${sevenDaysAgo.getFullYear()}`;
-      const formattedOneDayAgo = `${oneDayAgo.getDate().toString().padStart(2, '0')}.${(oneDayAgo.getMonth() + 1).toString().padStart(2, '0')}.${oneDayAgo.getFullYear()}`;
-      setTimeSpanText(formattedSevenDaysAgo + "-" + formattedOneDayAgo);
+      createTitleText(currentDate, 7, 1);
       fetchData(currentDate, false);
     }
   }, []); // The empty dependency array ensures that the effect runs only once
@@ -124,30 +134,20 @@ function App() {
     if (makeRequest === "USER") {
       // Trigger user selection search
       setMakeRequest("");
+      selectedDate.setDate(selectedDate.getDate() + 1);
+      console.log("APP useEffect. käyttäjän valinta");
 
-      console.log("APP useEffect. käyttäjän valinta valittu")
-
-      sevenDaysAgo.setDate(selectedDate.getDate() - 6);
-      oneDayAgo.setDate(selectedDate.getDate());
-      const formattedSevenDaysAgo = `${sevenDaysAgo.getDate().toString().padStart(2, '0')}.${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}.${sevenDaysAgo.getFullYear()}`;
-      const formattedOneDayAgo = `${oneDayAgo.getDate().toString().padStart(2, '0')}.${(oneDayAgo.getMonth() + 1).toString().padStart(2, '0')}.${oneDayAgo.getFullYear()}`;
-      setTimeSpanText(formattedSevenDaysAgo + "-" + formattedOneDayAgo);
-      
+      // päivän lisäys jo effektinä, joten samat kuin initissä
+      createTitleText(selectedDate, 7, 1);
       //API vähentää oletuksena päivän, defautti toiminto.
       //Joten lisää päivä käyttäjän valintaan
-      selectedDate.setDate(selectedDate.getDate() + 1);
-      console.log("APP useEffect. selectedDate: ", selectedDate);
-
-      //fetchData(selectedDate, true);
+      fetchData(selectedDate, true);
     }
   }, [makeRequest, selectedDate]); // Fetch data when makeRequest or selectedDate changes
   
-  // Format the current date as DD.MM.YYYY
-  const formattedCurrentDate = `${currentDate.getDate().toString().padStart(2, '0')}.${(currentDate.getMonth() + 1).toString().padStart(2, '0')}.${currentDate.getFullYear()}`;
-
   // Callback function to receive the value from the subcomponent
   const handleSelectedDate = (date: Date) => {
-    console.log("APP. handleSelectedDate. ", date);
+    //console.log("APP. handleSelectedDate. ", date);
     if (date !== null)
     {
       setSelectedDate(date);

@@ -34,7 +34,7 @@ export const asyncFetchPrice = async () => {
     return finalResp;
 }
 
-export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
+export const asyncFetchPorssisahkoNet = async (fetchDate) => {
     
     // for github/versel proxy server implementation 
     var baseUrl = "https://server-jade-kappa-86.vercel.app/api/v1/price.json?date="; // 2024-02-05&hour=0";
@@ -43,11 +43,7 @@ export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
     //var baseUrl = "http://localhost:5000/v1/price.json?date="; // 2024-02-05&hour=0
     let finalResp = []; // Initialize the final array
 
-    //const day   = fetchDate.getDate().toString();
-    //const month = (fetchDate.getMonth() + 1).toString(); // Month is zero-based, so add 1
-    //const year  = fetchDate.getFullYear();
-
-    console.log("API. date first: ", fetchDate.toISOString().split('T')[0]);
+    console.log("API. date first: ", fetchDate);
 
     for (var i=1; i <= 7; i++) // Start from yesterday
     {

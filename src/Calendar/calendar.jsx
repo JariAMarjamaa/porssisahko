@@ -9,6 +9,12 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon  from '@mui/icons-material/Close';
 import Slide      from '@mui/material/Slide';
 
+import Dialog             from '@mui/material/Dialog';
+import DialogActions      from '@mui/material/DialogActions';
+import DialogContent      from '@mui/material/DialogContent';
+import DialogContentText  from '@mui/material/DialogContentText';
+import DialogTitle        from '@mui/material/DialogTitle';
+
 import dayjs from 'dayjs';
 import 'dayjs/locale/fi';
 
@@ -23,12 +29,11 @@ const Calendar = ({ dateSelected }) => {
     const lastSelectableDate = new Date('2023-01-01');
 
     const [selectedDate,      setSelectedDate]      = useState(null);
-    const [selectionText,     setSelectionText]     = useState(null);
     const [okSelected,        setOKSelected]        = useState(false);
-    const [cancelSelected,    setCancelSelected]    = useState(false);
     const [requestsMadeToday, setRequestsMadeToday] = useState(0);
 
     const [openSnackbar,   setSnackbarOpen]   = useState(false);
+    const [openDialog,     setDialogOpen]     = useState(false);
 
     useEffect(() => {
       // Check and reset requestsMadeToday when the date changes
@@ -40,20 +45,7 @@ const Calendar = ({ dateSelected }) => {
         setRequestsMadeToday(0);
       }
     }, []);
-
-    useEffect(() => {
-      console.log("Calendar: Effect. okSelected: ",     okSelected);
-      console.log("Calendar: Effect. cancelSelected: ", cancelSelected);
-      console.log("Calendar: Effect. selectedDate: ",   selectedDate);
-      if (!okSelected && cancelSelected)
-      {
-        setSelectionText("Eiku en valitsekkaan");
-      }
-      else{
-        dateSelected(selectedDate);
-      }
-    }, [selectedDate, okSelected, cancelSelected]);
-
+   
     const handleSnackbarClick = () => {
       setSnackbarOpen(true);
     };
@@ -93,7 +85,6 @@ const Calendar = ({ dateSelected }) => {
       // Handle calendar opening
       dateSelected(null);
       setOKSelected(false);
-      setSelectionText(null);
     };
 
     const handleDateChange = (date) => {
@@ -112,29 +103,33 @@ const Calendar = ({ dateSelected }) => {
     };
 
     const handleCancel = () => {
-      // Handle cancel button press
       // Call the callback function in the calling component
       // cancel is always last to call from datepicker
-      setCancelSelected(true);
     };
 
     const handleAccept = () => {
-      // Handle cancel button press
-      console.log("Calendar: handleAccept");
-      setSelectionText("OK klikattu" /*: "Eiku en valitsekkaan"*/);
-      setOKSelected(true);
+      console.log("Calendar: handleAccept. requestsMadeToday: ",requestsMadeToday);
       if (requestsMadeToday === 2) {
         //alert("Haku kerrat on rajoitettu 2 per päivä. Yritä huomenna uudestaan.");
         //Request made twice already, hide button
         setOKSelected(false);
-        setSelectionText("Haku kerrat on rajoitettu 2 per päivä");
+        setDialogOpen(true);
+        setOKSelected(false);
+      }
+      else {
+        setOKSelected(true);
       }
     };
 
+    const handleDialogClose = () => {
+      setDialogOpen(false);
+    };
+
     const handleSearch = () => {
-      console.log("Calendaer. handleSearch");
-      setRequestsMadeToday(requestsMadeToday + 1);
       //trigger user date search
+      console.log("Calendar. handleSearch");
+      setRequestsMadeToday(requestsMadeToday + 1);
+      dateSelected(selectedDate);
     };
 
     return (
@@ -164,10 +159,6 @@ const Calendar = ({ dateSelected }) => {
               //orientation	'landscape' | 'portrait'
             />
           </LocalizationProvider>
-          
-          <br></br>
-          {selectionText}
-          
           <br></br>
           {okSelected && <button className="date-button" onClick={handleSearch}>Hae hinnat</button>}
           
@@ -190,6 +181,23 @@ const Calendar = ({ dateSelected }) => {
               onClose={handleSnackbarClose}
               message={calendarInfo}
               action={action} />
+
+            <Dialog
+              open={openDialog}
+              TransitionComponent={Slide}
+              keepMounted
+              onClose={handleDialogClose}
+              aria-describedby="alert-dialog-slide-description" >
+              <DialogTitle>{"Hakukerrat!"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-slide-description">
+                  Haku kerrat on rajoitettu 2 viikossa
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleDialogClose}>JEP</Button>
+              </DialogActions>
+            </Dialog>
           </div>
         </div>
       </div>
