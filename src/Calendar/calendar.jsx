@@ -28,24 +28,16 @@ const Calendar = ({ dateSelected }) => {
     currentDate.setDate(currentDate.getDate() - 1);
     const lastSelectableDate = new Date('2023-01-01');
 
+    // Count user made reguests
+    const today = new Date().toISOString().split('T')[0];
+    const CACHE_KEY = 'userReguests';
+    let cachedCountData = null;
+
     const [selectedDate,      setSelectedDate]      = useState(null);
     const [okSelected,        setOKSelected]        = useState(false);
-    const [requestsMadeToday, setRequestsMadeToday] = useState(0);
-
     const [openSnackbar,   setSnackbarOpen]   = useState(false);
     const [openDialog,     setDialogOpen]     = useState(false);
 
-    useEffect(() => {
-      // Check and reset requestsMadeToday when the date changes
-      const today = new Date().toISOString().split('T')[0];
-      const storedDate = localStorage.getItem('lastRequestDate');
-  
-      if (storedDate !== today) {
-        localStorage.setItem('lastRequestDate', today);
-        setRequestsMadeToday(0);
-      }
-    }, []);
-   
     const handleSnackbarClick = () => {
       setSnackbarOpen(true);
     };
@@ -89,11 +81,12 @@ const Calendar = ({ dateSelected }) => {
 
     const handleDateChange = (date) => {
       // Handle date change
-      // Get selected day, month, and year as separate variables
-      //const formattedDate = dayjs(date).format('DD/MM/YYYY');
       const jsDate = date.toDate();
-      console.log("Calendar: handleDateChange. jsDate: ", jsDate);
-      setSelectedDate(jsDate /*formattedDate*/);
+      const formatDate = new Date(jsDate);
+      // Return date has time 00:00:00 which causes API to reduce 2 days in first round
+      // Add 11hrs, so reducing works correctly.
+      formatDate.setHours(formatDate.getHours() + 11);
+      setSelectedDate(formatDate /*jsDate*/);
     };
 
     const shouldDisableDate = (day) => {
@@ -108,8 +101,12 @@ const Calendar = ({ dateSelected }) => {
     };
 
     const handleAccept = () => {
-      console.log("Calendar: handleAccept. requestsMadeToday: ",requestsMadeToday);
-      if (requestsMadeToday === 2) {
+      var cacheDate = localStorage.getItem(CACHE_KEY);
+      // Parse the cached data
+      cachedCountData = JSON.parse(cacheDate);
+      console.log("Calendar: handleAccept. cachedCountData: ",cachedCountData);
+
+      if (cachedCountData && cachedCountData.count === 2) {
         //alert("Haku kerrat on rajoitettu 2 per päivä. Yritä huomenna uudestaan.");
         //Request made twice already, hide button
         setOKSelected(false);
@@ -117,6 +114,7 @@ const Calendar = ({ dateSelected }) => {
         setOKSelected(false);
       }
       else {
+          // Update the cache and last request date
         setOKSelected(true);
       }
     };
@@ -127,9 +125,30 @@ const Calendar = ({ dateSelected }) => {
 
     const handleSearch = () => {
       //trigger user date search
-      console.log("Calendar. handleSearch");
-      setRequestsMadeToday(requestsMadeToday + 1);
+      var cacheDate = localStorage.getItem(CACHE_KEY);
+      // Parse the cached data
+      cachedCountData = JSON.parse(cacheDate);
+
+      console.log("Calendar. handleSearch. cachedCountData: ",cachedCountData);
+
+      if (cachedCountData) {
+        const i = cachedCountData.count + 1;
+        cachedCountData = {
+          date: today,
+          count: i
+        };
+      }
+      else
+      {
+        cachedCountData = {
+          date: today,
+          count: 1
+        };
+      }
+      
+      localStorage.setItem(CACHE_KEY, JSON.stringify(cachedCountData));
       dateSelected(selectedDate);
+      setOKSelected(false);
     };
 
     return (
@@ -138,7 +157,7 @@ const Calendar = ({ dateSelected }) => {
         <div>
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fi">
             <DatePicker
-              defaultValue={dayjs(""+currentDate.getFullYear()+"-"+ (currentDate.getMonth()+1) +"-" +  currentDate.getDate())}
+              defaultValue={dayjs(""+currentDate.getFullYear()+"-"+ (currentDate.getMonth()+1) +"-" +  currentDate.getDate())} 
               views={['year', 'month', 'day']}
               format="DD/MM/YYYY"
               //value={selectedDate}

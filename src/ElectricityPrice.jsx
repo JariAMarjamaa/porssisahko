@@ -13,7 +13,6 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
       const currentDate = new Date().toDateString();
       var cachedData = localStorage.getItem(CACHE_KEY);
 
-      console.log("ReadElectricityPriceData. userSelection:  ", userSelection);
       if (userSelection === true && fetchDate !== null)
       {
         cachedData = null;

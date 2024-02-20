@@ -104,7 +104,7 @@ function App() {
   };
 
   const createTitleText = (date: Date, seven: number, one: number) => {
-    console.log("createTitleText. date: ", date );
+    //console.log("createTitleText. date: ", date );
     // Get the date 7 days ago
     var start = new Date();
     var end = new Date();
@@ -116,7 +116,7 @@ function App() {
     const formattedStart = `${start.getDate().toString().padStart(2, '0')}.${(start.getMonth() + 1).toString().padStart(2, '0')}.${start.getFullYear()}`;
     const formattedEnd   = `${end.getDate().toString().padStart(2, '0')}.${(end.getMonth() + 1).toString().padStart(2, '0')}.${end.getFullYear()}`;
 
-    console.log("=> ", formattedStart + "-" + formattedEnd);
+    //console.log("=> ", formattedStart + "-" + formattedEnd);
     setTimeSpanText(formattedStart + "-" + formattedEnd);
   };
 
