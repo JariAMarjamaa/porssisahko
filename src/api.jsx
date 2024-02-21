@@ -82,7 +82,6 @@ class PriceApi {
 
     getPrices() {
         // Simulate a 5-second delay
-        console.log("'API' call");
         return new Promise((resolve) => {
             setTimeout(() => {
                 //console.log(`API call. Hinnat: ${this.prices}`);    //hox `` täytyy käyttä ko merkkejä, kun interpoloidaan dollarilla
