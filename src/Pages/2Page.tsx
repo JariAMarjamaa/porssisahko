@@ -97,8 +97,11 @@ const SecondPage = ({ onOpen }) => {
               - Kalenteri haku rajoitettu 2 / päivä
               <br/>
               <br/>
+              - Korjattu kalenterin käyttöä
               <br/>
-              Sovellus versio 4.2.2
+              <br/>
+              <br/>
+              Sovellus versio 4.3
             </Typography>
           </AccordionDetails>
         </Accordion>

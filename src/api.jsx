@@ -16,8 +16,6 @@ export const asyncFetchPrice = async () => {
 
         const formattedDate = currentDate.toISOString().split('T')[0]; // Format as "YYYY-MM-DD"
 
-        console.log("i:", i, "formattedDate:", formattedDate);
-
         const one_resp = await fetch(baseUrl + formattedDate).then(response => response.json());
         // Use the spread operator to concatenate the arrays
         finalResp.push(...one_resp);
@@ -43,13 +41,11 @@ export const asyncFetchPorssisahkoNet = async (fetchDate) => {
     //var baseUrl = "http://localhost:5000/v1/price.json?date="; // 2024-02-05&hour=0
     let finalResp = []; // Initialize the final array
 
-    console.log("API. date first: ", fetchDate);
-
     for (var i=1; i <= 7; i++) // Start from yesterday
     {
         fetchDate.setDate(fetchDate.getDate() - 1);
         const formattedDate = fetchDate.toISOString().split('T')[0]; // Format as "YYYY-MM-DD"
-        console.log("API i: ", i, " Searched date : ", formattedDate);
+        if (i === 1 || i === 7) console.log("API i: ", i, " Get date : ", formattedDate);
 
        /*for (var z=6; z<25; z=z+6)
         {

@@ -56,6 +56,15 @@ function App() {
     setShowPage(1);
   };
 
+  /*Käytetään Pörssisähko.net:n tarjoamaan tietoa*/
+  const info = (
+    <div>
+      Korjattu kalenteri käyttöä.
+      <br/>
+      Mutta vielä käytössä Testidata
+    </div>
+  );
+
   const toc = (
     <div>
     Sisältöluettelo:
@@ -157,7 +166,7 @@ function App() {
 
   return (
     <div className="App">
-      {<Notication type="warning" text="Käytetään Testidataa, kunnes Kalenterin käyttö korjattu!"/*"Käytetään Pörssisähko.net:n tarjoamaan tietoa"*//>  }
+      {<Notication type="warning" text={info}/>  }
 
       {/*Handle the error, e.g., show an error message to the user*/}
       {state !== "" && <Notication type={state} text={String(message)}/>  }

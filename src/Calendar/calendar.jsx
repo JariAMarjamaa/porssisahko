@@ -1,4 +1,4 @@
-import { React, useState, useEffect, Fragment } from 'react';
+import { React, useState, Fragment } from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -18,6 +18,8 @@ import DialogTitle        from '@mui/material/DialogTitle';
 import dayjs from 'dayjs';
 import 'dayjs/locale/fi';
 
+import { getISOWeek, getISOWeekYear } from 'date-fns'; // /porssisahko/ npm install date-fns
+
 // npm install @mui/x-date-pickers
 // npm install dayjs
 
@@ -29,14 +31,12 @@ const Calendar = ({ dateSelected }) => {
     const lastSelectableDate = new Date('2023-01-01');
 
     // Count user made reguests
-    const today = new Date().toISOString().split('T')[0];
     const CACHE_KEY = 'userReguests';
-    let cachedCountData = null;
 
-    const [selectedDate,      setSelectedDate]      = useState(null);
-    const [okSelected,        setOKSelected]        = useState(false);
-    const [openSnackbar,   setSnackbarOpen]   = useState(false);
-    const [openDialog,     setDialogOpen]     = useState(false);
+    const [selectedDate,  setSelectedDate]  = useState(null);
+    const [okSelected,    setOKSelected]    = useState(false);
+    const [openSnackbar,  setSnackbarOpen]  = useState(false);
+    const [openDialog,    setDialogOpen]    = useState(false);
 
     const handleSnackbarClick = () => {
       setSnackbarOpen(true);
@@ -51,9 +51,9 @@ const Calendar = ({ dateSelected }) => {
 
     const calendarInfo = (
       <div>
-      Valitse päivä, josta taaksepäin haluat 7 päivältä hinta tiedot.
-      <br/>
-      Vain max. 2 hakua päivässä
+        Valitse päivä, josta taaksepäin haluat 7 päivältä hinta tiedot.
+        <br/>
+        Vain max. 2 hakua viikossa
       </div>
     );
 
@@ -103,19 +103,20 @@ const Calendar = ({ dateSelected }) => {
     const handleAccept = () => {
       var cacheDate = localStorage.getItem(CACHE_KEY);
       // Parse the cached data
-      cachedCountData = JSON.parse(cacheDate);
-      console.log("Calendar: handleAccept. cachedCountData: ",cachedCountData);
+      const cachedData = JSON.parse(cacheDate) || { count: 0, week: 0, year: 0 };
+      const today = new Date();
 
-      if (cachedCountData && cachedCountData.count === 2) {
-        //alert("Haku kerrat on rajoitettu 2 per päivä. Yritä huomenna uudestaan.");
-        //Request made twice already, hide button
+      console.log("handleAccept. Tämä vuosi: ", getISOWeekYear(today));
+      console.log("handleAccept. cache vuosi: ",cachedData.year);
+
+      if (cachedData.count < 2 || getISOWeekYear(today) > cachedData.year) {
+        // Update the cache and last request date
+        setOKSelected(true);
+      } else {
+        //Request made twice already this week, hide button
         setOKSelected(false);
         setDialogOpen(true);
         setOKSelected(false);
-      }
-      else {
-          // Update the cache and last request date
-        setOKSelected(true);
       }
     };
 
@@ -125,28 +126,29 @@ const Calendar = ({ dateSelected }) => {
 
     const handleSearch = () => {
       //trigger user date search
-      var cacheDate = localStorage.getItem(CACHE_KEY);
+      const cacheDate = localStorage.getItem(CACHE_KEY);
       // Parse the cached data
-      cachedCountData = JSON.parse(cacheDate);
+      const cachedData = JSON.parse(cacheDate) || { count: 0, week: 0, year: 0 };
 
-      console.log("Calendar. handleSearch. cachedCountData: ",cachedCountData);
+      //Laskee vuoden alusta?? startOfWeek(new Date(cachedData.year, 0, 1))
+      const today = new Date();
+    
+      console.log("Calendar. handleSearch. cachedData : ", cachedData);
+      console.log("Calendar. handleSearch. this week : ", getISOWeek(today));
+    
+      if (getISOWeek(today) !== cachedData.week || getISOWeekYear(today) > cachedData.year) {
+        // New week, reset count
+        cachedData.count = 0;
+        console.log("Calendar. handleSearch. reset count to 0");
+      }
+    
+      cachedData.count += 1;
+      cachedData.week = getISOWeek(today);
+      cachedData.year = getISOWeekYear(today);
+  
+      console.log("Calendar. handleSearch. updated cachedData : ",cachedData );
 
-      if (cachedCountData) {
-        const i = cachedCountData.count + 1;
-        cachedCountData = {
-          date: today,
-          count: i
-        };
-      }
-      else
-      {
-        cachedCountData = {
-          date: today,
-          count: 1
-        };
-      }
-      
-      localStorage.setItem(CACHE_KEY, JSON.stringify(cachedCountData));
+      localStorage.setItem(CACHE_KEY, JSON.stringify(cachedData));
       dateSelected(selectedDate);
       setOKSelected(false);
     };
