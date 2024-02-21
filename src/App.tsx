@@ -6,15 +6,17 @@ import { ReadElectricityPriceData } from './ElectricityPrice.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
 import Notication from "./noteHandling/note.jsx";
 
-import SecondPage from './Pages/2Page.tsx';
-import ThirdPage  from './Pages/3Page.jsx';
-import FourthPage from './Pages/4Page.jsx';
-import Calendar   from './Calendar/calendar.jsx';
-import PopupWindow from './PopupWindow/Popup.jsx';
+import SecondPage  from './Pages/2Page.tsx';
+import ThirdPage   from './Pages/3Page.jsx';
+import FourthPage  from './Pages/4Page.jsx';
+import Calendar    from './Calendar/calendar.jsx';
+import ButtonList  from './Buttons/ButtonList.jsx';
 
 //import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+
+import { info } from './content/text_content.jsx';
 
 import './App.css';
 
@@ -25,8 +27,6 @@ function App() {
   const [highestValue, setHighestValue]  = useState(0);
   const [loading,      setLoadingValue]  = useState(true);
 
-  const [hideTableOfContents, setTableOfContentHide]  = useState(false);
-
   const [state,        setState]         = useState("");
   const [message,      setMessage]       = useState("");
   const [showPage,     setShowPage]      = useState(1);
@@ -36,49 +36,13 @@ function App() {
 
   const [timeSpan,      setTimeSpanText]   = useState("");
 
-  const [showPopup,      setShowPopup]      = useState(false);
-
-  const openPopupWindow = (type) => {
-    setShowPopup(true);
-  };
-
-  const handlePopupClose = (type) => {
-    setShowPopup(false);
-  };
   const handleOpenNewPage = (event: React.ChangeEvent<unknown>, value: number) => {
     setShowPage(value);
   };
 
-  const handleAccordion = (state) => {
-    setTableOfContentHide(state);
-  }
   const handleCloseNewPage = () => {
     setShowPage(1);
   };
-
-  /*Käytetään Pörssisähko.net:n tarjoamaan tietoa*/
-  const info = (
-    <div>
-      Korjattu kalenteri käyttöä.
-      <br/>
-      Mutta vielä käytössä Testidata
-    </div>
-  );
-
-  const toc = (
-    <div>
-    Sisältöluettelo:
-    <br/>
-    - Sivu 1: Pääsivu
-    <br/>
-    - Sivu 2: Tietoja sovelluksesta
-    <br/>
-    - Sivu 3: CV
-    <br/>
-    - Sivu 4: Robottitestaus video
-
-    </div>
-  );
 
   var apiNotCalled = true
   const currentDate = new Date();
@@ -173,22 +137,20 @@ function App() {
       
       <div className="container">
 
-        <div data-testid="RFW_MainPageText"><p>Pörssisähkökäppyrä harjoitus</p></div>
+        <p data-testid="RFW_MainPageText ">Pörssisähkökäppyrä harjoitus</p>
 
         <div> Päiväys: {formattedCurrentDate}</div>
         <div> Hae hinnat ajalta: {timeSpan} </div>
 
-        <div className="price-info" data-testid="RFW_LowestHighestPrices">
-          Halvin hinta on {lowestValue}
-          <br/>
-          Korkein hinta on {highestValue}
-          <br/>
-          <br/>
-        </div>
-
         {!loading &&
         <div className="calendar">
           <Calendar dateSelected={handleSelectedDate}></Calendar>
+        </div>
+        }
+
+        {!loading && showPage === 1 &&
+        <div className="buttonList">
+          <ButtonList lowestPrice={lowestValue} highestPrice={highestValue} ></ButtonList>
         </div>
         }
 
@@ -199,7 +161,7 @@ function App() {
 
         {showPage === 2 ? 
           <div>
-            <SecondPage onOpen={(state) => handleAccordion(state)} />
+            <SecondPage />
           </div>
          : showPage === 3 ? 
           <div>
@@ -212,15 +174,9 @@ function App() {
         }
  
         <br></br>
-        {!showPopup && 
-        <div className={`${showPage === 1 ? 'white-text' : 'other-than-main-page'} ${hideTableOfContents ? 'hidden' : ''}`}> 
-        <button className="button"  onClick={() => openPopupWindow("teksti")}>Avaa Sisällysluettelo</button>
-        </div>}
 
-        {/*hideTableOfContents sitä varten, että jos osio avataan sivulta 2, niin aukinainen sisällysluettelo piiloitetaan*/}
-        <div className={`${showPage === 1 ? 'white-text' : 'other-than-main-page'} ${hideTableOfContents ? 'hidden' : ''}`}>
-          {showPopup && <PopupWindow  onClose={() => handlePopupClose("toc")} type="toc" content={toc} />} 
-        </div>
+        {/* hideTableOfContents sitä varten, että jos osio avataan sivulta 2, niin aukinainen sisällysluettelo piiloitetaan*/}
+        {/* className={`${showPage === 1 ? 'white-text' : 'other-than-main-page'} ${hideTableOfContents ? 'hidden' : ''}`} */}
           
         <div className="pagination">
           <Stack spacing={2} alignItems="center">

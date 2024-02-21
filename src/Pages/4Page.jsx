@@ -21,7 +21,8 @@ const FourthPage = () => {
         <br/>
         <br/>
 
-        <button className="button" onClick={() => openPopupWindow("video")}>Katso video Robottitestauksesta</button>
+        <h3>Robottitestaus:</h3>
+        <button className="button" onClick={() => openPopupWindow("video")}>Katso video</button>
         {showVideoPopup && <PopupWindow   onClose={() => handlePopupClose("video")} type="video" content="" />} 
 
         <br/>

@@ -1,12 +1,9 @@
-import { React, useState, Fragment } from 'react';
+import { React, useState } from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import Button     from '@mui/material/Button';
-import Snackbar   from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon  from '@mui/icons-material/Close';
 import Slide      from '@mui/material/Slide';
 
 import Dialog             from '@mui/material/Dialog';
@@ -35,43 +32,7 @@ const Calendar = ({ dateSelected }) => {
 
     const [selectedDate,  setSelectedDate]  = useState(null);
     const [okSelected,    setOKSelected]    = useState(false);
-    const [openSnackbar,  setSnackbarOpen]  = useState(false);
     const [openDialog,    setDialogOpen]    = useState(false);
-
-    const handleSnackbarClick = () => {
-      setSnackbarOpen(true);
-    };
-  
-    const handleSnackbarClose = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-      setSnackbarOpen(false);
-    };
-
-    const calendarInfo = (
-      <div>
-        Valitse päivä, josta taaksepäin haluat 7 päivältä hinta tiedot.
-        <br/>
-        Vain max. 2 hakua viikossa
-      </div>
-    );
-
-    const action = (
-      <Fragment>
-        {/*<Button color="error" size="small" onClick={handleSnackbarClose}>
-          EIKU
-          </Button>*/}
-        <IconButton
-          size="small"
-          aria-label="close"
-          color="inherit"
-          onClick={handleSnackbarClose}
-        >
-          <CloseIcon fontSize="small" />
-        </IconButton>
-      </Fragment>
-    );
 
     const handleOpen = () => {
       // Handle calendar opening
@@ -185,24 +146,6 @@ const Calendar = ({ dateSelected }) => {
           
           <br></br>
           <div>
-            <Button onClick={handleSnackbarClick}>Kalenteri ohje</Button>
-            <Snackbar
-              TransitionComponent={Slide}
-              ContentProps={{
-                sx: {
-                  textAlign: 'left',
-                  background: "green",
-                  width: '100%',
-                  height: 'auto', lineHeight: '28px'  //whiteSpace: "pre-wrap"
-                }
-              }}
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-              open={openSnackbar}
-              autoHideDuration={6000}
-              onClose={handleSnackbarClose}
-              message={calendarInfo}
-              action={action} />
-
             <Dialog
               open={openDialog}
               TransitionComponent={Slide}

@@ -1,7 +1,6 @@
 import React from 'react';
 import './Popup.css';
 
-
 const PopupWindow = ({ onClose, type, content }) => {
     const contentClassName = `${type}-content`;
     console.log("contentClassName: ", contentClassName);

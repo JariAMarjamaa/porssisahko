@@ -3,23 +3,20 @@
   background-color: white;
   color: black;
   position: absolute;
-  top: 80px; 
+  top: 0px; 
   left: 40px; 
   margin-top: 30px;
   font-size: xx-small;
 }
 
+.buttonList {
+  position: absolute;
+  left: 40px;
+  top: 150px;
+}
+
 .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
   font-size: medium !important;
-}
-
-.white-text {
-  color: white;
-}
-
-.other-than-main-page {
-  color: black;
-  z-index: 1;
 }
 
 .hidden {
@@ -38,18 +35,12 @@
   width: 65%;
 }
 
-.price-info {
-  position: absolute;
-  top: 10px; 
-  left: 40px; 
-  margin-top: 30px;
-  font-size: x-large;
-  text-align: left;
-}
-
 .button {
   font-size: x-large;
+  width: 260px;       /* Calenterin kanssa sama pituus */
+  text-align: center; /* Teksti keskelle */
 }
+
 .marginLeft {
   margin-left: 50px;;
 }
@@ -76,6 +67,13 @@
     top: 90px; 
     left: 180px; 
   }
+
+  .buttonList {
+    left: 10px;
+    top: 110px;
+    font-size: x-large;
+  }
+
   .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
     font-size: small !important;
   }
@@ -84,16 +82,11 @@
     width: 100%;
   }
 
-  .price-info {
-    top: 50px; /* Adjust the top value to position vertically */
-    left: 30px; 
-    margin-top: 70px;
-    font-size: small;
-  }
-
   .button {
     font-size: large;
+    width: 160px; 
   }
+
   .marginLeft {
     margin-left: 60px;;
   }
@@ -125,26 +118,27 @@
     top: 100px; 
     left: 260px; 
   }
+
+  .buttonList {
+    left: 70px;
+    top: 120px;
+    font-size: x-large;
+  }
+
   .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
     font-size: small !important;
   }
 
   .button {
     font-size: large;
+    width: 170px; 
   }
+
   .marginLeft {
     margin-left: 70px;;
   }
   .date-button {
     font-size: large;
-  }
-
-  .price-info {
-    top: 60px;
-    left: 70px; 
-    margin-top: 70px;
-    font-size: small;
-    text-align: left;
   }
 
   .overlay {
@@ -164,7 +158,9 @@
 @media only screen and (min-width: 600px) and (max-width: 750px) {
   .button {
     font-size: large;
+    width: 170px; 
   }
+
   .marginLeft {
     margin-left: 70px;;
   }
@@ -181,17 +177,14 @@
     left: 260px; 
   }
 
+  .buttonList {
+    top: 140px;
+  }
+
   .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
     font-size: small !important;
   }
 
-  .price-info {
-    top: 110px; 
-    left: 100px; 
-    font-size: small;
-    text-align: left;
-  }
-  
   .overlay {
     position: absolute;
     top: 0;
@@ -211,16 +204,14 @@
     width: 100%;
   }
 
-  .price-info {
-    top: 120px; 
-    left: 180px; 
-    font-size: small;
-    text-align: left;
-  }
-
   .calendar {
     top: 120px; 
     left: 360px; 
+  }
+
+  .buttonList {
+    top: 150px;
+    font-size: large;
   }
 
   .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
@@ -228,8 +219,9 @@
   }
 
   .button {
-    font-size: x-large;
+    width: 230px; 
   }
+
   .date-button {
     font-size: large;
   }

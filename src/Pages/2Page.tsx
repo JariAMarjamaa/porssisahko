@@ -7,13 +7,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import './Pages.css';
 
-const SecondPage = ({ onOpen }) => {
+const SecondPage = () => {
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
-      onOpen(isExpanded ? true : false);
     };
 
   return (
@@ -92,16 +91,17 @@ const SecondPage = ({ onOpen }) => {
               <br/>
               Pääsivulle kalenteri, hinta haun valintaan.
               <br/>
-              - Myös ohjeet
-              <br/>
-              - Kalenteri haku rajoitettu 2 / päivä
-              <br/>
-              <br/>
               - Korjattu kalenterin käyttöä
               <br/>
               <br/>
               <br/>
-              Sovellus versio 4.3
+              - Siivottu etusivua ja lisätty
+              <br/>
+              ÄksönPuttoni lista
+              <br/>
+              <br/>
+              <br/>
+              Sovellus versio 4.4
             </Typography>
           </AccordionDetails>
         </Accordion>
