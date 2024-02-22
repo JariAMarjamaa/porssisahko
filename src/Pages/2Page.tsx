@@ -29,11 +29,11 @@ const SecondPage = () => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1bh-content"
             id="panel1bh-header">
-            <Typography sx={{ width: '33%', flexShrink: 0 }}> UI työkalut </Typography>
+            <Typography sx={{ width: '33%', flexShrink: 0 }} data-testid="RFW_AccordionContent_1"> UI työkalut </Typography>
             <Typography sx={{ color: 'text.secondary' }}></Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography sx={{ bgcolor: 'lightgray' }}>
+            <Typography sx={{ bgcolor: 'lightgray' }} >
                 React
                 <br/>
                 <br/>

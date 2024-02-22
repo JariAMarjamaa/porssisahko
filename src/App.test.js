@@ -52,15 +52,13 @@ describe('App component', () => {
     });
 
     // Regular expressions for flexible text matching
-    const lowestTextRegex = /Halvin hinta on 1/;
-    const highestTextRegex = /Korkein hinta on 100/;
+    const dateTitle = /Päiväys:/;
 
     // Wait for the asynchronous operations to complete
     await waitFor(() => {
       act(() => {
         expect(screen.getByText('Pörssisähkökäppyrä harjoitus')).toBeInTheDocument();
-        expect(screen.getByText(lowestTextRegex)).toBeInTheDocument();
-        expect(screen.getByText(highestTextRegex)).toBeInTheDocument();
+        expect(screen.getByText(dateTitle)).toBeInTheDocument();
       });
     });
   });

@@ -137,7 +137,7 @@ function App() {
       
       <div className="container">
 
-        <p data-testid="RFW_MainPageText ">Pörssisähkökäppyrä harjoitus</p>
+        <p data-testid="RFW_MainPageText">Pörssisähkökäppyrä harjoitus</p>
 
         <div> Päiväys: {formattedCurrentDate}</div>
         <div> Hae hinnat ajalta: {timeSpan} </div>

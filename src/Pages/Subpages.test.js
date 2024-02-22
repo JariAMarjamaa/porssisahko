@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import App from '../App';
 
 import SecondPage from './2Page.tsx';
@@ -45,34 +45,23 @@ describe('Subpage tests', () => {
         expect(screen.getByText('Neljäs sivu')).toBeInTheDocument();
     });
 
-    test('render Page 2 component', () => {
-        const mockAccordionOpen = jest.fn();
-        render(<SecondPage  onOpen={mockAccordionOpen} />);
-        
+    test('render Page 2 component',  async () => {
+        //const mockAccordionOpen = jest.fn();
+        //accordion open callback removed
+        //render(<SecondPage  onOpen={mockAccordionOpen} />);
+        render(<SecondPage />);
+
         expect(screen.getByText('React DemoApp')).toBeInTheDocument();
         expect(screen.getByText('UI työkalut')).toBeInTheDocument();
+        // wholly component is seen from DOM, so just check that test-id is found also
+        expect(screen.getByTestId('RFW_AccordionContent_1')).toBeInTheDocument();
+        //const ReactTextRegex      = /React/;  <= react word is found multiple places from the DOM, so use unigue text
+        const MaterialUITextRegex = /MaterialUI/;
+        expect(screen.getByText(MaterialUITextRegex)).toBeInTheDocument();
 
         // Simulate expanding an Accordion
         const accordionPanel = screen.getByText('UI työkalut');
         fireEvent.click(accordionPanel);
-
-        // Assertions for the accordion content
-        //const ReactTextRegex      = /React/;  <= react sana löytyy monesta kohtaa DOM:a
-        const MaterialUITextRegex = /MaterialUI/;
-        //expect(screen.getByText(ReactTextRegex)).toBeInTheDocument();
-        expect(screen.getByText(MaterialUITextRegex)).toBeInTheDocument();
-;
-
-        // Verify that onOpen callback is called with true when expanded
-        expect(mockAccordionOpen).toHaveBeenCalledWith(true);
-
-        // Simulate collapsing the Accordion
-        fireEvent.click(accordionPanel);
-
-        // Your additional assertions related to the collapsed state can go here
-
-        // Verify that onOpen callback is called with false when collapsed
-        expect(mockAccordionOpen).toHaveBeenCalledWith(false);
     });
 
     test('render Page 3 component', () => {
@@ -101,7 +90,8 @@ describe('Subpage tests', () => {
         expect(screen.getByText('Neljäs sivu')).toBeInTheDocument();
 
         // Assert that the "Katso video Robottitestauksesta" button is present
-        const videoButton = screen.getByText('Katso video Robottitestauksesta');
+        expect(screen.getByText('Robottitestaus:')).toBeInTheDocument();
+        const videoButton = screen.getByText('Katso video');
         expect(videoButton).toBeInTheDocument();
 
         // Create a spy on document.createElement to track calls

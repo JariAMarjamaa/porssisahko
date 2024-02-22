@@ -102,7 +102,7 @@ const ButtonList = ({ lowestPrice, highestPrice }) => {
       aria-describedby="alert-dialog-slide-description" >
       <DialogTitle>{dialogTitle}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-slide-description">
+        <DialogContentText id="alert-dialog-slide-description" data-testid="RFW_ButtonListDialogContent">
           {dialogContent}
         </DialogContentText>
       </DialogContent>
