@@ -1,9 +1,7 @@
 /*Käytetään Pörssisähko.net:n tarjoamaan tietoa*/
 export const info = (
     <div>
-      Korjattu kalenteri käyttöä.
-      <br/>
-      Mutta vielä käytössä Testidata
+      Taas käytetään Pörssisähko.net:n tarjoamaan tietoa
     </div>
 );
 
@@ -41,5 +39,16 @@ export const APITestContent = (
     API Fail simulaatiota ei vielä tehty!!
   </div>
 );
+
+export const PriceRequestFail = (
+  <div>
+    Pörssi rikki!!
+    <br/>
+    Ei oo sähköä kenellekkään!
+    <br/>
+    Teslat talliin parkkiin, hus!!
+  </div>
+);
+
 
 

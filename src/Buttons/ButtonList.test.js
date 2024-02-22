@@ -58,7 +58,7 @@ fdescribe('ButtonList component', () => {
 
   test('Render API test info button and dialog correctly', async () => {
     render(<ButtonList lowestPrice={10} highestPrice={20} />);
-    const apiButton = screen.getByText('API Fail Simulation');
+    const apiButton = screen.getByText('Simuloi, jos sähköt on poikki');
     fireEvent.click(apiButton);
 
     const apiContentRegex = /API Fail simulaatiota ei vielä tehty!!/;

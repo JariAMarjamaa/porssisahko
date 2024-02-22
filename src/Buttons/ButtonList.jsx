@@ -15,7 +15,7 @@ import CloseIcon          from '@mui/icons-material/Close';
 import { toc, APITestContent, CalendarInfoContent, priceInfo }  from '../content/text_content.jsx';
 
 
-const ButtonList = ({ lowestPrice, highestPrice }) => { 
+const ButtonList = ({ lowestPrice, highestPrice, simulationCallback }) => { 
   const [openDialog,      setDialogOpen]    = useState(false);
   const [dialogContent,   setDialogContent] = useState("");
   const [dialogTitle,     setdialogTitle]   = useState("");
@@ -35,6 +35,7 @@ const ButtonList = ({ lowestPrice, highestPrice }) => {
     {
       setSnackbarBGColor("red");
       setSnackbarContent(APITestContent);
+      simulationCallback();
     }
   };
 
@@ -92,7 +93,7 @@ const ButtonList = ({ lowestPrice, highestPrice }) => {
     <button className="button" onClick={() => handleSnackbarClick("calendar")}>Kalenterin ohje</button>
     <br></br>
     
-    <button className="button" onClick={() => handleSnackbarClick("apiFailSimulation")} >API Fail Simulation</button>
+    <button className="button" onClick={() => handleSnackbarClick("apiFailSimulation")} >Simuloi, jos sähköt on poikki</button>
 
     <Dialog
       open={openDialog}

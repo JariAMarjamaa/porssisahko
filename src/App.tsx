@@ -13,10 +13,12 @@ import Calendar    from './Calendar/calendar.jsx';
 import ButtonList  from './Buttons/ButtonList.jsx';
 
 //import Typography from '@mui/material/Typography';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
+import Pagination   from '@mui/material/Pagination';
+import Stack        from '@mui/material/Stack';
 
-import { info } from './content/text_content.jsx';
+import PopupWindow  from './PopupWindow/Popup.jsx';
+
+import { info, PriceRequestFail } from './content/text_content.jsx';
 
 import './App.css';
 
@@ -36,6 +38,8 @@ function App() {
 
   const [timeSpan,      setTimeSpanText]   = useState("");
 
+  const [SystemFailure, setSystemFailure]  = useState(false);
+
   const handleOpenNewPage = (event: React.ChangeEvent<unknown>, value: number) => {
     setShowPage(value);
   };
@@ -44,20 +48,29 @@ function App() {
     setShowPage(1);
   };
 
+  const closePopup = () => {
+    setSystemFailure(false);
+  }
+
   var apiNotCalled = true
   const currentDate = new Date();
   // Title. Format the current date as DD.MM.YYYY
   const formattedCurrentDate = `${currentDate.getDate().toString().padStart(2, '0')}.${(currentDate.getMonth() + 1).toString().padStart(2, '0')}.${currentDate.getFullYear()}`;
 
   //Data requestit
-  const fetchData = async (date: Date, userRequest: boolean) => {
+  const fetchData = async (date: Date, userRequest: string) => {
     setLoadingValue(true);
     try {
       const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData(date, userRequest);
       setLoadingValue(false);
 
-      if (respState !== null)
+      if (respState === "error")
       {
+        setSystemFailure(true);
+      }
+      else if (respState !== null)
+      {
+        setSystemFailure(false);
         setState(respState);
         setMessage(msg);
       }
@@ -99,7 +112,7 @@ function App() {
       apiNotCalled = false;
       console.log("APP useEffect. Hae initti");
       createTitleText(currentDate, 7, 1);
-      fetchData(currentDate, false);
+      fetchData(currentDate, "FALSE");
     }
   }, []); // The empty dependency array ensures that the effect runs only once
   
@@ -114,7 +127,7 @@ function App() {
       createTitleText(selectedDate, 7, 1);
       //API vähentää oletuksena päivän, defautti toiminto.
       //Joten lisää päivä käyttäjän valintaan
-      fetchData(selectedDate, true);
+      fetchData(selectedDate, "TRUE");
     }
   }, [makeRequest, selectedDate]); // Fetch data when makeRequest or selectedDate changes
   
@@ -128,6 +141,11 @@ function App() {
     }
   };
 
+  const makeSimulatoinFailReq = (status) => {
+    fetchData(currentDate, "PörssiFailSimulaatio");
+  };
+
+
   return (
     <div className="App">
       {<Notication type="warning" text={info}/>  }
@@ -139,6 +157,11 @@ function App() {
 
         <p data-testid="RFW_MainPageText">Pörssisähkökäppyrä harjoitus</p>
 
+        {SystemFailure ?
+          <PopupWindow onClose={closePopup} type="error-text" content={PriceRequestFail}></PopupWindow>
+        :
+        <div>
+        
         <div> Päiväys: {formattedCurrentDate}</div>
         <div> Hae hinnat ajalta: {timeSpan} </div>
 
@@ -150,7 +173,7 @@ function App() {
 
         {!loading && showPage === 1 &&
         <div className="buttonList">
-          <ButtonList lowestPrice={lowestValue} highestPrice={highestValue} ></ButtonList>
+          <ButtonList lowestPrice={lowestValue} highestPrice={highestValue} simulationCallback={makeSimulatoinFailReq}></ButtonList>
         </div>
         }
 
@@ -183,8 +206,9 @@ function App() {
             <Pagination color="primary" count={4} page={showPage} onChange={handleOpenNewPage}/>
           </Stack>
         </div>
-
-      </div>
+        </div>
+    }
+    </div>
     </div>
   );
 }

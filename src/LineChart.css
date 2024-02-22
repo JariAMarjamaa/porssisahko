@@ -11,7 +11,7 @@
 
 @media only screen and (max-width: 499px) {
   .paper {
-    margin-top: 160px;
+    margin-top: 170px;
   }
 
   .chartContainer {
@@ -22,7 +22,7 @@
 
 @media only screen and (min-width: 500px) and (max-width: 599px) {
   .paper {
-    margin-top: 150px;
+    margin-top: 160px;
   }
 
   .chartContainer {
@@ -45,7 +45,7 @@
 /* For screens between 601px and 1024px */
 @media only screen and (min-width: 751px) and (max-width: 1024px) {
   .paper {
-    margin-top: 170px;
+    margin-top: 180px;
   }
 
   .chartContainer {

@@ -91,17 +91,15 @@ const SecondPage = () => {
               <br/>
               Pääsivulle kalenteri, hinta haun valintaan.
               <br/>
-              - Korjattu kalenterin käyttöä
               <br/>
               <br/>
               <br/>
-              - Siivottu etusivua ja lisätty
-              <br/>
-              ÄksönPuttoni lista
+              - Lisätty hintatietojen lukemisen epäonnistuminen
               <br/>
               <br/>
               <br/>
-              Sovellus versio 4.4
+              <br/>
+              Sovellus versio 5.0
             </Typography>
           </AccordionDetails>
         </Accordion>

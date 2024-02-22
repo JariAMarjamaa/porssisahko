@@ -32,7 +32,7 @@ export const asyncFetchPrice = async () => {
     return finalResp;
 }
 
-export const asyncFetchPorssisahkoNet = async (fetchDate) => {
+export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
     
     // for github/versel proxy server implementation 
     var baseUrl = "https://server-jade-kappa-86.vercel.app/api/v1/price.json?date="; // 2024-02-05&hour=0";
@@ -41,33 +41,46 @@ export const asyncFetchPorssisahkoNet = async (fetchDate) => {
     //var baseUrl = "http://localhost:5000/v1/price.json?date="; // 2024-02-05&hour=0
     let finalResp = []; // Initialize the final array
 
-    for (var i=1; i <= 7; i++) // Start from yesterday
+    if (userSelection === "PörssiFailSimulaatio")
     {
-        fetchDate.setDate(fetchDate.getDate() - 1);
-        const formattedDate = fetchDate.toISOString().split('T')[0]; // Format as "YYYY-MM-DD"
-        if (i === 1 || i === 7) console.log("API i: ", i, " Get date : ", formattedDate);
-
-       /*for (var z=6; z<25; z=z+6)
+        const errorTestUrl = "https://server-jade-kappa-86.vercel.app/api/v1/price.json?date=2024-02-05&hour=-1";
+        const one_resp = await fetch(errorTestUrl).then(response => response.json());
+        finalResp.push(one_resp);
+    }
+    else{
+        for (var i=1; i <= 7; i++) // Start from yesterday
         {
-            var suffixUrl = formattedDate + "&hour=" +z;
-            
-            const one_resp = await fetch(baseUrl + suffixUrl).then(response => response.json());
-            
-            var str = "";
-            if (z < 12)                     str = "T0" + z + ":00";
-            else if (z === 12 || z === 18)  str = "T"  + z + ":00";
-            else                            str = "T23:59";
-
-            const part_resp = { aikaleima_suomi: formattedDate + str, hinta: one_resp.price };
-            
-            // Use push to concatenate the arrays
-            finalResp.push(part_resp);
-        }*/
+            fetchDate.setDate(fetchDate.getDate() - 1);
+            const formattedDate = fetchDate.toISOString().split('T')[0]; // Format as "YYYY-MM-DD"
+            //if (i === 1 || i === 7) console.log("API i: ", i, " Get date : ", formattedDate);
+    
+            for (var z=6; z<25; z=z+6)
+            {
+                var suffixUrl = formattedDate + "&hour=" +z;
+                
+                const one_resp = await fetch(baseUrl + suffixUrl).then(response => response.json());
+                
+                var str = "";
+                if (z < 12)                     str = "T0" + z + ":00";
+                else if (z === 12 || z === 18)  str = "T"  + z + ":00";
+                else                            str = "T23:59";
+    
+                const part_resp = { aikaleima_suomi: formattedDate + str, hinta: one_resp.price };
+                
+                // Use push to concatenate the arrays
+                finalResp.push(part_resp);
+            }
+        }
     }
     
     // Sort the array in ascending order based on the date and hour
-    finalResp.sort((a, b) => a.aikaleima_suomi.localeCompare(b.aikaleima_suomi));
-    //console.log("API. Resp:", finalResp);
+    if (userSelection !== "TestiSimulaatio")
+    {
+        finalResp.sort((a, b) => a.aikaleima_suomi.localeCompare(b.aikaleima_suomi));
+    }
+
+    //console.log("API. Resp:", one_resp);
+    
     return mockPrices /*finalResp*/;
 }
 
