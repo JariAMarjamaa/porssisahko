@@ -101,11 +101,7 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
         var cachedPriceData = localStorage.getItem(CACHE_KEY_DATA);
         if (cachedPriceData) {
           let cachedPrices = JSON.parse(cachedPriceData); 
-          
-          console.log("Calendar. handleAccept. currentDate: ", formatDate(currentDate));
-
           const lastItem = cachedPrices.data[cachedPrices.data.length - 1].aikaleima_suomi ;
-          console.log("Calendar. handleAccept. cache item ", formatDate (lastItem) );
          
           // Check if the data is already latest
           if (formatDate(currentDate) === formatDate (lastItem) /*&& cachedPrices.userRequest === "FALSE"*/) {

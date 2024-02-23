@@ -1,4 +1,5 @@
 import { asyncFetchPorssisahkoNet, /* asyncFetchPrice, Prices*/ } from "./api.jsx";
+import { formatTime }  from './helpers/stringFormating';
 
 let cachedPrices = null;
 const CACHE_KEY = 'electricity_price_cache';
@@ -145,20 +146,3 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
     }
   });
 }
-
-// Helper function to format time
-function formatTime(timeString) {
-  const date = new Date(timeString);
-  const formattedDate = `${padWithZero(date.getDate())}.${padWithZero(date.getMonth() + 1)}.${date.getFullYear()}`;
-  //const formattedTime = `${padWithZero(date.getHours())}.${padWithZero(date.getMinutes())}`;
-  const formattedTime = `${padWithZero(date.getHours())}` === "23" ? "Klo: 24" : "Klo: " +`${padWithZero(date.getHours())}`;
-  return `${formattedDate} - ${formattedTime}`;
-}
-
-// Helper function to pad a number with a leading zero if needed
-function padWithZero(number) {
-  return number.toString().padStart(2, '0');
-}
-
-// for unit testing
-export { formatTime, padWithZero };

@@ -1,4 +1,4 @@
-import { ReadElectricityPriceData, formatTime, padWithZero } from "./ElectricityPrice.jsx";
+import { ReadElectricityPriceData } from "./ElectricityPrice.jsx";
 import { mockTestPrices /*, mockTestPriceData, mockTestPriceOptions*/ } from "./mockData/Price-test.mock.jsx";
 import { renderHook, act, waitFor } from '@testing-library/react'
 
@@ -74,21 +74,4 @@ describe('ElectricityPrice file tests', () => {
     });
 });
 
-describe('Helper functions tests', () => {
-    test('ElectricityPrice formats time correctly', () => {
-        const timeString = '2022-11-20T08:30:00';
-        const formattedTime = formatTime(timeString);
-        expect(formattedTime).toBe('20.11.2022 - Klo: 08');
-    });
-
-    test('padWithZero pads single-digit number with zero', () => {
-        const paddedNumber = padWithZero(5);
-        expect(paddedNumber).toBe('05');
-    });
-    
-    test('padWithZero does not pad double-digit number', () => {
-        const paddedNumber = padWithZero(15);
-        expect(paddedNumber).toBe('15');
-    });
-});
   
