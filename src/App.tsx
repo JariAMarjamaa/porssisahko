@@ -105,7 +105,7 @@ function App() {
   useEffect(() => {
     if (apiNotCalled) {
       apiNotCalled = false;
-      console.log("APP useEffect. Hae initti");
+      //console.log("APP useEffect. Hae initti");
       fetchData(currentDate, "FALSE");
     }
   }, []); // The empty dependency array ensures that the effect runs only once
@@ -115,7 +115,7 @@ function App() {
       // Trigger user selection search
       setMakeRequest("");
       selectedDate.setDate(selectedDate.getDate() + 1);
-      console.log("APP useEffect. käyttäjän valinta");
+      //console.log("APP useEffect. käyttäjän valinta");
 
       // päivän lisäys jo effektinä, joten samat kuin initissä
       //API vähentää oletuksena päivän, defautti toiminto.
@@ -135,7 +135,7 @@ function App() {
   };
 
   const updateChartDefaultData = () => {
-    console.log("APP. updateChartDefaultData");
+    //console.log("APP. updateChartDefaultData");
     fetchData(currentDate, "RESET");
   }
 

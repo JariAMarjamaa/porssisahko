@@ -60,14 +60,14 @@ export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
             {
                 var suffixUrl = formattedDate + "&hour=" +z;
                 
-               // const one_resp = await fetch(baseUrl + suffixUrl).then(response => response.json());
+                const one_resp = await fetch(baseUrl + suffixUrl).then(response => response.json());
                 
                 var str = "";
                 if (z < 12)                     str = "T0" + z + ":00";
                 else if (z === 12 || z === 18)  str = "T"  + z + ":00";
                 else                            str = "T23:59";
     
-                const part_resp = { aikaleima_suomi: formattedDate + str, hinta: mockPrices[q].hinta /*one_resp.price*/ };
+                const part_resp = { aikaleima_suomi: formattedDate + str, hinta: /*mockPrices[q].hinta*/ one_resp.price };
                 
                 // Use push to concatenate the arrays
                 finalResp.push(part_resp);
@@ -82,7 +82,7 @@ export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
         finalResp.sort((a, b) => a.aikaleima_suomi.localeCompare(b.aikaleima_suomi));
     }
 
-    //console.log("API. Resp:", finalResp);
+   // console.log("API. Resp:", finalResp);
     
     return finalResp;
 }
