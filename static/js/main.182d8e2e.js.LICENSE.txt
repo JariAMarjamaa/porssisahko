@@ -12,6 +12,8 @@
  * Released under the MIT License
  */
 
+/*!== "PörssiFailSimulaatio"*/
+
 /**
  * @license React
  * react-dom.production.min.js
