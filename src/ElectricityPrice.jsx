@@ -31,10 +31,10 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
           }
   
           // Check if the date has changed since the last request
-          if (currentDate !== cachedPrices.lastRequestDate) {
+          if (currentDate !== cachedPrices.lastRequestDate && cachedPrices.userRequest === "FALSE") {
             // API request is needed
             state = "info";
-            message = "Cache vanhentunut. Luettu uusi data";
+            message = "Cachen oletustieto vanhentunut. Luettu uusi data";
             //const hinnat = await Prices.getPrices();
             const hinnat = await asyncFetchPorssisahkoNet(fetchDate, userSelection);
   
@@ -42,6 +42,7 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
             cachedPrices = {
               data: hinnat,
               lastRequestDate: currentDate,
+              userRequest: userSelection /*!== "PörssiFailSimulaatio"*/
             };
   
             // Save updated cache to localStorage
@@ -49,7 +50,7 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
           } else {
             // Use cached data
             state = "info";
-            message = "Data luettu Cachen muistista";
+            message = cachedPrices.userRequest === "TRUE" ? "Käyttäjän valitsema data luettu Cachesta" : "Oletustieto luettu Cachesta";
             //console.log("ReadElectricityPriceData. Cache validi, käytä sitä");
           }
         } catch (error) {
@@ -58,14 +59,14 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
   
           // Proceed with fetching data from the API
           //throw new Error('Fetch from API needed.');
-          console.error("ReadElectricityPriceData. Cache virhe! Data luku epäonnistui!");
+          //console.error("ReadElectricityPriceData. Cache virhe! Data luku epäonnistui!");
           resolve({ priceData: null, priceOptions: null, respState: "error", msg: "Cache virhe! Data luku epäonnistui!" });
         }
       } else {
         // No cached data, API request is needed
         //const hinnat = await asyncFetchPrice();
         //const hinnat = await Prices.getPrices();
-        console.log("ReadElectricityPriceData. Cache tyhjä tai päivä vaihdettu. Hae hinnat. Date: ",fetchDate);
+        //console.log("ReadElectricityPriceData. Cache tyhjä tai päivä vaihdettu. Hae hinnat. Date: ",fetchDate);
 
         const hinnat = await asyncFetchPorssisahkoNet(fetchDate, userSelection);
 
@@ -73,6 +74,7 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
         cachedPrices = {
           data: hinnat,
           lastRequestDate: currentDate,
+          userRequest: userSelection === "USER" ? "USER" : "FALSE" //reseting is also default action, not made by user 
         };
   
         // Save cache to localStorage
@@ -151,9 +153,7 @@ function formatTime(timeString) {
   const date = new Date(timeString);
   const formattedDate = `${padWithZero(date.getDate())}.${padWithZero(date.getMonth() + 1)}.${date.getFullYear()}`;
   //const formattedTime = `${padWithZero(date.getHours())}.${padWithZero(date.getMinutes())}`;
-  //const formattedTime = `${padWithZero(date.getHours())}` === "23" ? "Klo: 24" : "Klo: " +`${padWithZero(date.getHours())}`;
-  const formattedTime = `${padWithZero(date.getHours()) === "23" ? "Klo: 24" : "Klo: "}${padWithZero(date.getHours())}`;
-  
+  const formattedTime = `${padWithZero(date.getHours())}` === "23" ? "Klo: 24" : "Klo: " +`${padWithZero(date.getHours())}`;
   return `${formattedDate} - ${formattedTime}`;
 }
 

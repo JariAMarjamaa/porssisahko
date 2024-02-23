@@ -1,8 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import ButtonList from './ButtonList';
-import { toc } from '../content/text_content';
 
-fdescribe('ButtonList component', () => {
+describe('ButtonList component', () => {
   test('Render TOC button and dialog correctly', async () => {
     // Render the ButtonList component
     render(<ButtonList lowestPrice={10} highestPrice={20} />);
@@ -25,8 +24,8 @@ fdescribe('ButtonList component', () => {
 
     // Alternatively, lets compare the whole rendered content
     expect(screen.getByTestId('RFW_ButtonListDialogContent')).toBeInTheDocument();
-    expect(screen.getByTestId('RFW_ButtonListDialogContent').innerHTML).toBe("<div>- Sivu 1: Pääsivu<br>- Sivu 2: Tietoja sovelluksesta<br>- Sivu 3: CV<br>- Sivu 4: Robottitestaus video</div>");
-});
+    expect(screen.getByTestId('RFW_ButtonListDialogContent').innerHTML).toBe("- Sivu 1: Pääsivu<br>- Sivu 2: Tietoja sovelluksesta<br>- Sivu 3: CV<br>- Sivu 4: Robottitestaus video");
+  });
 
   test('Render Prices info button and dialog correctly', async () => {
     // Render the ButtonList component
@@ -57,11 +56,14 @@ fdescribe('ButtonList component', () => {
   });
 
   test('Render API test info button and dialog correctly', async () => {
-    render(<ButtonList lowestPrice={10} highestPrice={20} />);
-    const apiButton = screen.getByText('Simuloi, jos sähköt on poikki');
+    // Create a mock function for the simulationCallback
+    const mockSimulationCallback = jest.fn();
+
+    render(<ButtonList lowestPrice={10} highestPrice={20} simulationCallback={mockSimulationCallback}/>);
+    const apiButton = screen.getByText('Simuloi sähkökatko!');
     fireEvent.click(apiButton);
 
-    const apiContentRegex = /API Fail simulaatiota ei vielä tehty!!/;
-    expect(screen.getByText(apiContentRegex)).toBeInTheDocument();
+    // Check that the simulationCallback was called once
+    expect(mockSimulationCallback).toHaveBeenCalledTimes(1);
   });
 });

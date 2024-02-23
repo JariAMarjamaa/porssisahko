@@ -28,8 +28,8 @@ const Notication = ({ type, text }) => {
         }
     };
     
-    return (
- <div>
+  return (
+    <div>
       {open && (
         <Alert
           severity={type}

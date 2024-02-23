@@ -12,7 +12,7 @@ import Snackbar           from '@mui/material/Snackbar';
 import IconButton         from '@mui/material/IconButton';
 import CloseIcon          from '@mui/icons-material/Close';
 
-import { toc, APITestContent, CalendarInfoContent, priceInfo }  from '../content/text_content.jsx';
+import { toc, CalendarInfoContent, priceInfo/*, APITestContent*/ }  from '../content/text_content.jsx';
 
 
 const ButtonList = ({ lowestPrice, highestPrice, simulationCallback }) => { 
@@ -25,17 +25,18 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback }) => {
   const [snackbarContent, setSnackbarContent] = useState("");
   
   const handleSnackbarClick = (type) => {
-    setSnackbarOpen(true);
     if (type === "calendar")
     {
       setSnackbarBGColor("green");
       setSnackbarContent(CalendarInfoContent);
+      setSnackbarOpen(true);
     }
     else
     {
-      setSnackbarBGColor("red");
-      setSnackbarContent(APITestContent);
-      simulationCallback();
+      //setSnackbarBGColor("red");
+      //setSnackbarContent(APITestContent);
+      //setSnackbarOpen(true);
+      simulationCallback(); // make real api call, instead of showing snackbar note
     }
   };
 
@@ -93,7 +94,7 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback }) => {
     <button className="button" onClick={() => handleSnackbarClick("calendar")}>Kalenterin ohje</button>
     <br></br>
     
-    <button className="button" onClick={() => handleSnackbarClick("apiFailSimulation")} >Simuloi, jos sähköt on poikki</button>
+    <button className="button" onClick={() => handleSnackbarClick("apiFailSimulation")} >Simuloi sähkökatko!</button>
 
     <Dialog
       open={openDialog}

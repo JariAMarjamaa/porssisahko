@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -12,6 +12,8 @@ import DialogContent      from '@mui/material/DialogContent';
 import DialogContentText  from '@mui/material/DialogContentText';
 import DialogTitle        from '@mui/material/DialogTitle';
 
+import { maxRequestMade } from '../content/text_content';
+
 import dayjs from 'dayjs';
 import 'dayjs/locale/fi';
 
@@ -20,7 +22,7 @@ import { getISOWeek, getISOWeekYear } from 'date-fns'; // /porssisahko/ npm inst
 // npm install @mui/x-date-pickers
 // npm install dayjs
 
-const Calendar = ({ dateSelected }) => {
+const Calendar = ({ dateSelected, UpdateChart }) => {
     // Load the Finnish locale for dayjs
     dayjs.locale('fi');
     const currentDate = new Date();
@@ -31,8 +33,22 @@ const Calendar = ({ dateSelected }) => {
     const CACHE_KEY = 'userReguests';
 
     const [selectedDate,  setSelectedDate]  = useState(null);
+    const [value,         setValue]         = useState(dayjs(""+currentDate.getFullYear()+"-"+ (currentDate.getMonth()+1) +"-" +  currentDate.getDate()) );
     const [okSelected,    setOKSelected]    = useState(false);
     const [openDialog,    setDialogOpen]    = useState(false);
+
+    //Reseting user date selection
+    const [resetDate,     setResetDate]    = useState(false);
+    const [resetDateKey,  setResetDateKey] = useState(0);
+
+    useEffect(() => {
+      if (resetDate) {
+        setValue( dayjs(""+currentDate.getFullYear()+"-"+ (currentDate.getMonth()+1) +"-" +  currentDate.getDate()) );
+        setSelectedDate(currentDate);
+        setResetDate(false); // prevent infinite loop
+        setResetDateKey((prevKey) => prevKey + 1); // force DatePicker to remount
+      }
+    }, [resetDate, currentDate]);
 
     const handleOpen = () => {
       // Handle calendar opening
@@ -67,8 +83,8 @@ const Calendar = ({ dateSelected }) => {
       const cachedData = JSON.parse(cacheDate) || { count: 0, week: 0, year: 0 };
       const today = new Date();
 
-      console.log("handleAccept. Tämä vuosi: ", getISOWeekYear(today));
-      console.log("handleAccept. cache vuosi: ",cachedData.year);
+      //console.log("handleAccept. Tämä vuosi: ", getISOWeekYear(today));
+      //console.log("handleAccept. cache vuosi: ",cachedData.year);
 
       if (cachedData.count < 2 || getISOWeekYear(today) > cachedData.year) {
         // Update the cache and last request date
@@ -77,12 +93,16 @@ const Calendar = ({ dateSelected }) => {
         //Request made twice already this week, hide button
         setOKSelected(false);
         setDialogOpen(true);
-        setOKSelected(false);
       }
     };
 
-    const handleDialogClose = () => {
+    const handleDialogClose = (action) => {
       setDialogOpen(false);
+      setResetDate(true);
+      if (action === "CloseAndUpdate")
+      {
+        UpdateChart();
+      }
     };
 
     const handleSearch = () => {
@@ -94,20 +114,20 @@ const Calendar = ({ dateSelected }) => {
       //Laskee vuoden alusta?? startOfWeek(new Date(cachedData.year, 0, 1))
       const today = new Date();
     
-      console.log("Calendar. handleSearch. cachedData : ", cachedData);
-      console.log("Calendar. handleSearch. this week : ", getISOWeek(today));
+      //console.log("Calendar. handleSearch. cachedData : ", cachedData);
+      //console.log("Calendar. handleSearch. this week : ", getISOWeek(today));
     
       if (getISOWeek(today) !== cachedData.week || getISOWeekYear(today) > cachedData.year) {
         // New week, reset count
         cachedData.count = 0;
-        console.log("Calendar. handleSearch. reset count to 0");
+        //console.log("Calendar. handleSearch. reset count to 0");
       }
     
       cachedData.count += 1;
       cachedData.week = getISOWeek(today);
       cachedData.year = getISOWeekYear(today);
   
-      console.log("Calendar. handleSearch. updated cachedData : ",cachedData );
+      //console.log("Calendar. handleSearch. updated cachedData : ",cachedData );
 
       localStorage.setItem(CACHE_KEY, JSON.stringify(cachedData));
       dateSelected(selectedDate);
@@ -120,10 +140,12 @@ const Calendar = ({ dateSelected }) => {
         <div>
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fi">
             <DatePicker
-              defaultValue={dayjs(""+currentDate.getFullYear()+"-"+ (currentDate.getMonth()+1) +"-" +  currentDate.getDate())} 
+              key={resetDateKey}
+              //defaultValue={dayjs(""+currentDate.getFullYear()+"-"+ (currentDate.getMonth()+1) +"-" +  currentDate.getDate())} 
               views={['year', 'month', 'day']}
               format="DD/MM/YYYY"
-              //value={selectedDate}
+              label="Valitse päätöspäivä" 
+              value={value}
               onChange={handleDateChange}
               onAccept={handleAccept}
               onClose={handleCancel}
@@ -155,11 +177,12 @@ const Calendar = ({ dateSelected }) => {
               <DialogTitle>{"Hakukerrat!"}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
-                  Haku kerrat on rajoitettu 2 viikossa
+                  {maxRequestMade}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleDialogClose}>JEP</Button>
+                <Button onClick={() => handleDialogClose("Close")}>Asia selvä</Button>
+                <Button onClick={() => handleDialogClose("CloseAndUpdate")}>Haluan päivittää käppyrän</Button>
               </DialogActions>
             </Dialog>
           </div>

@@ -59,6 +59,7 @@ function App() {
 
   //Data requestit
   const fetchData = async (date: Date, userRequest: string) => {
+    
     setLoadingValue(true);
     try {
       const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData(date, userRequest);
@@ -82,6 +83,8 @@ function App() {
         const values = priceData.datasets[0].data;
         setLowestValue(Math.min(...values));
         setHighestValue(Math.max(...values));
+        
+        createTitleText(priceOptions.scales.x.labels);
       } 
     } catch (error) {
       setState("error");
@@ -89,21 +92,13 @@ function App() {
     }
   };
 
-  const createTitleText = (date: Date, seven: number, one: number) => {
-    //console.log("createTitleText. date: ", date );
-    // Get the date 7 days ago
-    var start = new Date();
-    var end = new Date();
+  const createTitleText = (dateLabels: any /* date: Date*/) => {
+    // Extract the dates from the first and last items
+    const startDate = dateLabels[0].split(" - ")[0];
+    const endDate = dateLabels[dateLabels.length - 1].split(" - ")[0];
 
-    start.setDate(date.getDate() - 7);
-    end.setDate(date.getDate() - 1);
-
-    // Format the dates as DD.MM.YYYY
-    const formattedStart = `${start.getDate().toString().padStart(2, '0')}.${(start.getMonth() + 1).toString().padStart(2, '0')}.${start.getFullYear()}`;
-    const formattedEnd   = `${end.getDate().toString().padStart(2, '0')}.${(end.getMonth() + 1).toString().padStart(2, '0')}.${end.getFullYear()}`;
-
-    //console.log("=> ", formattedStart + "-" + formattedEnd);
-    setTimeSpanText(formattedStart + "-" + formattedEnd);
+    // Create the title
+    setTimeSpanText(`${startDate} - ${endDate}`);
   };
 
   //INIT request
@@ -111,7 +106,6 @@ function App() {
     if (apiNotCalled) {
       apiNotCalled = false;
       console.log("APP useEffect. Hae initti");
-      createTitleText(currentDate, 7, 1);
       fetchData(currentDate, "FALSE");
     }
   }, []); // The empty dependency array ensures that the effect runs only once
@@ -124,7 +118,6 @@ function App() {
       console.log("APP useEffect. käyttäjän valinta");
 
       // päivän lisäys jo effektinä, joten samat kuin initissä
-      createTitleText(selectedDate, 7, 1);
       //API vähentää oletuksena päivän, defautti toiminto.
       //Joten lisää päivä käyttäjän valintaan
       fetchData(selectedDate, "TRUE");
@@ -140,6 +133,11 @@ function App() {
       setMakeRequest("USER");
     }
   };
+
+  const updateChartDefaultData = () => {
+    console.log("APP. updateChartDefaultData");
+    fetchData(currentDate, "RESET");
+  }
 
   const makeSimulatoinFailReq = (status) => {
     fetchData(currentDate, "PörssiFailSimulaatio");
@@ -163,11 +161,11 @@ function App() {
         <div>
         
         <div> Päiväys: {formattedCurrentDate}</div>
-        <div> Hae hinnat ajalta: {timeSpan} </div>
+        <div> Hinnat ajalta: {timeSpan} </div>
 
-        {!loading &&
+        {!loading && showPage === 1 &&
         <div className="calendar">
-          <Calendar dateSelected={handleSelectedDate}></Calendar>
+          <Calendar dateSelected={handleSelectedDate} UpdateChart={updateChartDefaultData}></Calendar>
         </div>
         }
 

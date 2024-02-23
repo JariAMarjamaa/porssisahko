@@ -94,12 +94,16 @@ const SecondPage = () => {
               <br/>
               <br/>
               <br/>
-              - Lisätty hintatietojen lukemisen epäonnistuminen
+              - Korjattu kalenterin käyttöä
+              <br/>
+              - Korjattu hakujakso teksti, luetun datan mukaan
+              <br/>
+              - Lisätty käppyrän resetointi mahdollisuus, kun käytetty maksimi hakukerrat
               <br/>
               <br/>
               <br/>
               <br/>
-              Sovellus versio 5.0
+              Sovellus versio 5.1
             </Typography>
           </AccordionDetails>
         </Accordion>

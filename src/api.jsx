@@ -48,6 +48,8 @@ export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
         finalResp.push(one_resp);
     }
     else{
+        var q = 0;
+
         for (var i=1; i <= 7; i++) // Start from yesterday
         {
             fetchDate.setDate(fetchDate.getDate() - 1);
@@ -58,30 +60,31 @@ export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
             {
                 var suffixUrl = formattedDate + "&hour=" +z;
                 
-                const one_resp = await fetch(baseUrl + suffixUrl).then(response => response.json());
+               // const one_resp = await fetch(baseUrl + suffixUrl).then(response => response.json());
                 
                 var str = "";
                 if (z < 12)                     str = "T0" + z + ":00";
                 else if (z === 12 || z === 18)  str = "T"  + z + ":00";
                 else                            str = "T23:59";
     
-                const part_resp = { aikaleima_suomi: formattedDate + str, hinta: one_resp.price };
+                const part_resp = { aikaleima_suomi: formattedDate + str, hinta: mockPrices[q].hinta /* one_resp.price*/ };
                 
                 // Use push to concatenate the arrays
                 finalResp.push(part_resp);
+                q++;
             }
         }
     }
     
     // Sort the array in ascending order based on the date and hour
-    if (userSelection !== "TestiSimulaatio")
+    if (userSelection !== "PörssiFailSimulaatio")
     {
         finalResp.sort((a, b) => a.aikaleima_suomi.localeCompare(b.aikaleima_suomi));
     }
 
-    //console.log("API. Resp:", one_resp);
+    //console.log("API. Resp:", finalResp);
     
-    return mockPrices /*finalResp*/;
+    return finalResp;
 }
 
 class PriceApi {

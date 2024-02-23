@@ -1,12 +1,16 @@
 /*Käytetään Pörssisähko.net:n tarjoamaan tietoa*/
 export const info = (
     <div>
-      Taas käytetään Pörssisähko.net:n tarjoamaan tietoa
+      Käytetään Pörssisähko.net:n tarjoamaan tietoa
+      <br/>
+      Korjattu kalenteria ja käppyrää
     </div>
 );
 
+//Joko <Fragment> tai tyhjä elementti <> niin ei tule warningia, että div ei olla p elementi sisässä
+//Koska MUI komponentit käyttää sitä
 export const toc = (
-  <div>
+  <>
     - Sivu 1: Pääsivu
     <br/>
     - Sivu 2: Tietoja sovelluksesta
@@ -14,16 +18,16 @@ export const toc = (
     - Sivu 3: CV
     <br/>
     - Sivu 4: Robottitestaus video
-  </div>
+  </>
 );
 
 export const priceInfo = (lowestPrice, highestPrice) => (
-  <div>
+  <>
     Halvin hinta on {lowestPrice}
     <br/>
     Korkein hinta on {highestPrice}
     <br/>
-  </div>
+  </>
 );
 
 export const CalendarInfoContent = (
@@ -48,6 +52,14 @@ export const PriceRequestFail = (
     <br/>
     Teslat talliin parkkiin, hus!!
   </div>
+);
+
+export const maxRequestMade = (
+  <>
+    Haku kerrat on rajoitettu 2 viikossa!
+    <br/>
+    Haluatko päivittää käppyrän viimeisimmällä tiedolla?
+  </>
 );
 
 
