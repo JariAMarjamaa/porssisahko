@@ -67,7 +67,7 @@ export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
                 else if (z === 12 || z === 18)  str = "T"  + z + ":00";
                 else                            str = "T23:59";
     
-                const part_resp = { aikaleima_suomi: formattedDate + str, hinta: mockPrices[q].hinta /* one_resp.price*/ };
+                const part_resp = { aikaleima_suomi: formattedDate + str, hinta: mockPrices[q].hinta /*one_resp.price*/ };
                 
                 // Use push to concatenate the arrays
                 finalResp.push(part_resp);

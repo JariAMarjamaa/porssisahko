@@ -8,7 +8,7 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
     try {
 
       let state = "success";
-      let message = "Cache tyhjä. Data luettu";
+      let message = "Data luettu";
 
       const currentDate = new Date().toDateString();
       var cachedData = localStorage.getItem(CACHE_KEY);
@@ -74,15 +74,13 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
         cachedPrices = {
           data: hinnat,
           lastRequestDate: currentDate,
-          userRequest: userSelection === "USER" ? "USER" : "FALSE" //reseting is also default action, not made by user 
+          userRequest: userSelection === "TRUE" ? "TRUE" : "FALSE" //reseting is also default action, not made by user 
         };
   
         // Save cache to localStorage
         localStorage.setItem(CACHE_KEY, JSON.stringify(cachedPrices));
       }
 
-      //const hintaData = hinnat.map((item) => parseFloat(item.hinta));
-      //const aikaleimat = hinnat.map((item) => formatTime(item.aikaleima_suomi)); // Format time as desired
       // Use either cached or newly fetched data
       const hintaData = cachedPrices.data.map((item) => parseFloat(item.hinta));
 

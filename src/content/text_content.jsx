@@ -54,11 +54,17 @@ export const PriceRequestFail = (
   </div>
 );
 
-export const maxRequestMade = (
+export const maxRequestMadeUpdate = (
   <>
     Haku kerrat on rajoitettu 2 viikossa!
     <br/>
     Haluatko päivittää käppyrän viimeisimmällä tiedolla?
+  </>
+);
+
+export const maxRequestMade = (
+  <>
+    Haku kerrat on rajoitettu 2 viikossa!
   </>
 );
 

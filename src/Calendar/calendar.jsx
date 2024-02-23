@@ -12,7 +12,9 @@ import DialogContent      from '@mui/material/DialogContent';
 import DialogContentText  from '@mui/material/DialogContentText';
 import DialogTitle        from '@mui/material/DialogTitle';
 
-import { maxRequestMade } from '../content/text_content';
+import { maxRequestMade, maxRequestMadeUpdate } from '../content/text_content';
+
+import { formatDate }  from '../helpers/stringFormating';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/fi';
@@ -25,17 +27,20 @@ import { getISOWeek, getISOWeekYear } from 'date-fns'; // /porssisahko/ npm inst
 const Calendar = ({ dateSelected, UpdateChart }) => {
     // Load the Finnish locale for dayjs
     dayjs.locale('fi');
+    const today = new Date();
     const currentDate = new Date();
     currentDate.setDate(currentDate.getDate() - 1);
     const lastSelectableDate = new Date('2023-01-01');
 
     // Count user made reguests
-    const CACHE_KEY = 'userReguests';
+    const CACHE_KEY      = 'userReguests';
+    const CACHE_KEY_DATA = 'electricity_price_cache';
 
     const [selectedDate,  setSelectedDate]  = useState(null);
     const [value,         setValue]         = useState(dayjs(""+currentDate.getFullYear()+"-"+ (currentDate.getMonth()+1) +"-" +  currentDate.getDate()) );
     const [okSelected,    setOKSelected]    = useState(false);
     const [openDialog,    setDialogOpen]    = useState(false);
+    const [show2button,   setshow2button]   = useState(true);
 
     //Reseting user date selection
     const [resetDate,     setResetDate]    = useState(false);
@@ -81,7 +86,6 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
       var cacheDate = localStorage.getItem(CACHE_KEY);
       // Parse the cached data
       const cachedData = JSON.parse(cacheDate) || { count: 0, week: 0, year: 0 };
-      const today = new Date();
 
       //console.log("handleAccept. Tämä vuosi: ", getISOWeekYear(today));
       //console.log("handleAccept. cache vuosi: ",cachedData.year);
@@ -90,9 +94,32 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
         // Update the cache and last request date
         setOKSelected(true);
       } else {
-        //Request made twice already this week, hide button
+        //Request made twice already this week, hide search button
         setOKSelected(false);
-        setDialogOpen(true);
+
+        today.toDateString();
+        var cachedPriceData = localStorage.getItem(CACHE_KEY_DATA);
+        if (cachedPriceData) {
+          let cachedPrices = JSON.parse(cachedPriceData); 
+          
+          console.log("Calendar. handleAccept. currentDate: ", formatDate(currentDate));
+
+          const lastItem = cachedPrices.data[cachedPrices.data.length - 1].aikaleima_suomi ;
+          console.log("Calendar. handleAccept. cache item ", formatDate (lastItem) );
+         
+          // Check if the data is already latest
+          if (formatDate(currentDate) === formatDate (lastItem) /*&& cachedPrices.userRequest === "FALSE"*/) {
+            setshow2button(false);
+          }
+          else
+          {
+            setshow2button(true);
+          }
+        }
+        else {
+          console.error("Calendar. Price cache null!!");
+        }
+       setDialogOpen(true);
       }
     };
 
@@ -177,12 +204,12 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
               <DialogTitle>{"Hakukerrat!"}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
-                  {maxRequestMade}
+                  {show2button ? maxRequestMadeUpdate : maxRequestMade}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={() => handleDialogClose("Close")}>Asia selvä</Button>
-                <Button onClick={() => handleDialogClose("CloseAndUpdate")}>Haluan päivittää käppyrän</Button>
+                <Button onClick={() => handleDialogClose("Close")}>Asia pihvi</Button>
+                {show2button && <Button onClick={() => handleDialogClose("CloseAndUpdate")}>Haluan päivittää käppyrän</Button>}
               </DialogActions>
             </Dialog>
           </div>

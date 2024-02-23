@@ -70,11 +70,9 @@ describe('ElectricityPrice file tests', () => {
 
       // Check status and message
       expect(respState).toBe("success");
-      expect(msg).toBe("Cache tyhjä. Data luettu");      
-      
+      expect(msg).toBe("Data luettu");
     });
 });
-
 
 describe('Helper functions tests', () => {
     test('ElectricityPrice formats time correctly', () => {
