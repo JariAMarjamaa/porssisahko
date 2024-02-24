@@ -15,6 +15,9 @@ Chart.register(...registerables);
 
 const LineChart = ({ type, data, options }) => {
 
+  if (type === "LineChartSelected") data.datasets[0].backgroundColor = "blue";
+  else                              data.datasets[0].backgroundColor = "green";
+
   return (
     <Paper className="paper">
       {/*<Typography variant="h6" data-testid="RFW_ChartTitle">Pörssisähkö</Typography>*/}

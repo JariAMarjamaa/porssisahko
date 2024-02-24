@@ -23,8 +23,11 @@ export default function ChartSwitch({switchChanged}) {
     const [chartType, setChartType] = React.useState('LineChartSelected');
 
     const handleSwitchChange = () => {
+        console.log('ChartSwitch. handleSwitchChange triggered');
+
         const updatedChartType = chartType === 'LineChartSelected' ? 'BarChartSelected' : 'LineChartSelected';
         setChartType(updatedChartType);
+        console.log('ChartSwitch. handleSwitchChange. chartType:', updatedChartType);
         switchChanged(updatedChartType);
     };
     
@@ -32,7 +35,7 @@ export default function ChartSwitch({switchChanged}) {
       <FormGroup>
         <Stack direction="row" spacing={1} alignItems="center">
           <Typography>Viivakäppyrä</Typography>
-          <CustomSizeSwitch onChange={handleSwitchChange} />
+          <CustomSizeSwitch onChange={handleSwitchChange} data-testid="RFW_Switch"/>
           <Typography>Palkkikäppyrä</Typography>
         </Stack>
       </FormGroup>
