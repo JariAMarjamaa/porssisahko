@@ -20,6 +20,8 @@ import PopupWindow  from './PopupWindow/Popup.jsx';
 
 import { info, PriceRequestFail } from './content/text_content.jsx';
 
+import ChartSwitch from './Switch/switch.tsx';
+
 import './App.css';
 
 function App() {
@@ -39,6 +41,9 @@ function App() {
   const [timeSpan,      setTimeSpanText]   = useState("");
 
   const [SystemFailure, setSystemFailure]  = useState(false);
+
+  const [chartType,     setChartType]      = useState('LineChartSelected');
+
 
   const handleOpenNewPage = (event: React.ChangeEvent<unknown>, value: number) => {
     setShowPage(value);
@@ -95,7 +100,9 @@ function App() {
   const createTitleText = (dateLabels: any /* date: Date*/) => {
     // Extract the dates from the first and last items
     const startDate = dateLabels[0].split(" - ")[0];
-    const endDate = dateLabels[dateLabels.length - 1].split(" - ")[0];
+    //lue end date toiseksi viimeisestä itemistä, koska alle 600px joka toinen tyhjä,
+    //jotta kalenterin lukeminen on selvempää
+    const endDate = dateLabels[dateLabels.length - 2].split(" - ")[0];
 
     // Create the title
     setTimeSpanText(`${startDate} - ${endDate}`);
@@ -143,6 +150,15 @@ function App() {
     fetchData(currentDate, "PörssiFailSimulaatio");
   };
 
+  const handleSwitchChange = () => {
+    setChartType((prevChartType) =>
+      prevChartType === 'LineChartSelected' ? 'BarChartSelected' : 'LineChartSelected'
+    );
+  };
+
+  //useEffect(() => {
+  // console.log("APP. handleSwitchChange. chartType: ", chartType);
+  //}, [chartType]);
 
   return (
     <div className="App">
@@ -170,13 +186,19 @@ function App() {
         }
 
         {!loading && showPage === 1 &&
+        <div className="switch">
+          <ChartSwitch switchChanged={handleSwitchChange}></ChartSwitch>
+        </div>
+        }
+
+        {!loading && showPage === 1 &&
         <div className="buttonList">
           <ButtonList lowestPrice={lowestValue} highestPrice={highestValue} simulationCallback={makeSimulatoinFailReq}></ButtonList>
         </div>
         }
 
         {/* Check if priceData and priceOptions are available before rendering the LineChart */}
-        {!loading && priceData && priceOptions && <LineChart data={priceData} options={priceOptions} />}
+        {!loading && priceData && priceOptions && <LineChart type={chartType} data={priceData} options={priceOptions} />}
 
         {loading && <div className="overlay" >  <CircularProgress size={100}/> </div> }
 

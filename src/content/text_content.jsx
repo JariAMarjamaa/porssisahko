@@ -2,8 +2,6 @@
 export const info = (
     <div>
       Käytetään Pörssisähko.net:n tarjoamaan tietoa
-      <br/>
-      Korjattu kalenteria ja käppyrää
     </div>
 );
 

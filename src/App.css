@@ -66,11 +66,19 @@
   padding-bottom: 50px;
  }
 
+ .css-1yjjitx-MuiSwitch-track {
+  background-color: white !important;
+ }
+
 @media only screen and (max-width: 499px) {
   /* Default settings for min-width: 1025px */
   .calendar {
     top: 90px; 
     left: 180px; 
+  }
+
+  .switch {
+    margin-top: 180px;
   }
 
   .buttonList {
@@ -122,6 +130,10 @@
   .calendar {
     top: 100px; 
     left: 260px; 
+  }
+
+  .switch {
+    margin-top: 180px;
   }
 
   .buttonList {
@@ -182,6 +194,10 @@
     left: 260px; 
   }
 
+  .switch {
+    margin-top: 180px;
+  }
+
   .buttonList {
     top: 140px;
   }
@@ -213,6 +229,11 @@
     top: 120px; 
     left: 360px; 
   }
+
+  .switch {
+    margin-top: 180px;
+  }
+
 
   .buttonList {
     top: 150px;

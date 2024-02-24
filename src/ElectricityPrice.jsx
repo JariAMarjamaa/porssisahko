@@ -104,6 +104,7 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
           data: hintaData,
           fill: false,
           borderColor: 'blue',
+          backgroundColor: 'green',
           tension: 0.1,
         },],
       };

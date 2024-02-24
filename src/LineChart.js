@@ -1,6 +1,6 @@
 import React from 'react';
 import { Paper /*, Typography*/ } from '@mui/material';
-import { Line } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 
 import './LineChart.css';
@@ -13,14 +13,17 @@ Chart.register(...registerables);
 	Asentaa: react-chartjs-2, chart.js, and @material-ui/core: 
 */
 
-const LineChart = ({ data, options }) => {
+const LineChart = ({ type, data, options }) => {
 
   return (
     <Paper className="paper">
       {/*<Typography variant="h6" data-testid="RFW_ChartTitle">Pörssisähkö</Typography>*/}
-      <div className="chartContainer" data-testid="chart-container">
-        <Line data={data} options={options} />
-      </div>
+
+      {type === "LineChartSelected" ?
+        <div className="chartContainer" data-testid="chart-container"> <Line data={data} options={options} /> </div>
+      :
+        <div className="chartContainer" data-testid="chart-container"> <Bar data={data} options={options} /> </div>
+      }
     </Paper>
   );
 };

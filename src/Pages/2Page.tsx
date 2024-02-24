@@ -21,15 +21,15 @@ const SecondPage = () => {
         <div>React DemoApp</div> 
         <div>Kaikenlaisilla hienoilla kikkuloilla.</div> 
 
-        <div  className={`listing ${expanded === 'panel1' ? 'extra-padding' : ''}`}>
+        <div className={`listing ${expanded === 'panel1' ? 'extra-padding' : ''}`}>
         <br/>
         <br/>
-        <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+        <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className={`${expanded === 'panel4' ? 'hidden' : ''}`}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1bh-content"
             id="panel1bh-header">
-            <Typography sx={{ width: '33%', flexShrink: 0 }} data-testid="RFW_AccordionContent_1"> UI työkalut </Typography>
+            <Typography sx={{ width: '70%', flexShrink: 0 }} data-testid="RFW_AccordionContent_1"> UI työkalut </Typography>
             <Typography sx={{ color: 'text.secondary' }}></Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -47,7 +47,7 @@ const SecondPage = () => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2bh-content"
             id="panel2bh-header">
-            <Typography sx={{ width: '33%', flexShrink: 0 }}> Testaus työkalut</Typography>
+            <Typography sx={{ width: '70%', flexShrink: 0 }}> Testaus työkalut</Typography>
             <Typography sx={{ color: 'text.secondary' }}></Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -65,7 +65,7 @@ const SecondPage = () => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel3bh-content"
             id="panel3bh-header">
-            <Typography sx={{ width: '33%', flexShrink: 0 }}> Tuotantoon deploymentti </Typography>
+            <Typography sx={{ width: '70%', flexShrink: 0 }}> Tuotantoon deploymentti </Typography>
             <Typography sx={{ color: 'text.secondary' }}></Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -83,7 +83,7 @@ const SecondPage = () => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel4bh-content"
             id="panel4bh-header">
-            <Typography sx={{ width: '33%', flexShrink: 0 }}> Versio historia </Typography>
+            <Typography sx={{ width: '70%', flexShrink: 0 }}> Versio historia </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography sx={{ bgcolor: 'lightgray' }}>
@@ -94,16 +94,15 @@ const SecondPage = () => {
               <br/>
               <br/>
               <br/>
-              - Korjattu kalenterin käyttöä
               <br/>
               - Korjattu hakujakso teksti, luetun datan mukaan
               <br/>
-              - Lisätty käppyrän resetointi mahdollisuus, kun käytetty maksimi hakukerrat
+              - Lisätty käppyrän esitysmuodon vaihto
               <br/>
               <br/>
               <br/>
               <br/>
-              Sovellus versio 5.1
+              Sovellus versio 5.2
             </Typography>
           </AccordionDetails>
         </Accordion>

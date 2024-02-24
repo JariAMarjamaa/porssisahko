@@ -11,7 +11,7 @@ jest.mock('react-chartjs-2', () => ({
 describe('LineChart tests', () => {
 
     test('renders LineChart without crashing', () => {
-        render(<LineChart data={mockChartData} options={mockChartOptions} />);
+        render(<LineChart type="LineChartSelected" data={mockChartData} options={mockChartOptions} />);
     });
 
     /*Turha ylimääräinen otsikko elementti: Typography, kommentoitu pois
