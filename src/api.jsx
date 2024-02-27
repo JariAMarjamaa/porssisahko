@@ -48,7 +48,7 @@ export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
         finalResp.push(one_resp);
     }
     else{
-        var q = 0;
+        //var q = 0;  //mockPrices
 
         for (var i=1; i <= 7; i++) // Start from yesterday
         {
@@ -71,7 +71,7 @@ export const asyncFetchPorssisahkoNet = async (fetchDate, userSelection) => {
                 
                 // Use push to concatenate the arrays
                 finalResp.push(part_resp);
-                q++;
+                //q++;
             }
         }
     }

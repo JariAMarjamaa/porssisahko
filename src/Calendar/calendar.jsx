@@ -19,8 +19,9 @@ import { formatDate }  from '../helpers/stringFormating';
 import dayjs from 'dayjs';
 import 'dayjs/locale/fi';
 
-import { getISOWeek, getISOWeekYear } from 'date-fns'; // /porssisahko/ npm install date-fns
+import { getISOWeek, getISOWeekYear } from 'date-fns'; 
 
+// /porssisahko/ npm install date-fns
 // npm install @mui/x-date-pickers
 // npm install dayjs
 
@@ -28,16 +29,16 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
     // Load the Finnish locale for dayjs
     dayjs.locale('fi');
     const today = new Date();
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() - 1);
+    const yesterDay = new Date();
+    yesterDay.setDate(yesterDay.getDate()/* - 1*/);
     const lastSelectableDate = new Date('2023-01-01');
 
     // Count user made reguests
     const CACHE_KEY      = 'userReguests';
     const CACHE_KEY_DATA = 'electricity_price_cache';
 
-    const [selectedDate,  setSelectedDate]  = useState(null);
-    const [value,         setValue]         = useState(dayjs(""+currentDate.getFullYear()+"-"+ (currentDate.getMonth()+1) +"-" +  currentDate.getDate()) );
+    const [selectedDate,  setSelectedDate]  = useState(yesterDay/*null*/);
+    const [value,         setValue]         = useState(dayjs(""+yesterDay.getFullYear()+"-"+ (yesterDay.getMonth()+1) +"-" +  yesterDay.getDate()) );
     const [okSelected,    setOKSelected]    = useState(false);
     const [openDialog,    setDialogOpen]    = useState(false);
     const [show2button,   setshow2button]   = useState(true);
@@ -48,17 +49,19 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
 
     useEffect(() => {
       if (resetDate) {
-        setValue( dayjs(""+currentDate.getFullYear()+"-"+ (currentDate.getMonth()+1) +"-" +  currentDate.getDate()) );
-        setSelectedDate(currentDate);
+        console.log("Calendar. useEffect. resetDate ");
+        setValue( dayjs(""+yesterDay.getFullYear()+"-"+ (yesterDay.getMonth()+1) +"-" + yesterDay.getDate()) );
+        setSelectedDate(yesterDay);
         setResetDate(false); // prevent infinite loop
         setResetDateKey((prevKey) => prevKey + 1); // force DatePicker to remount
       }
-    }, [resetDate, currentDate]);
+    }, [resetDate, yesterDay]);
 
     const handleOpen = () => {
       // Handle calendar opening
-      dateSelected(null);
+      //dateSelected(null);
       setOKSelected(false);
+      setDialogOpen(false);
     };
 
     const handleDateChange = (date) => {
@@ -67,14 +70,15 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
       const formatDate = new Date(jsDate);
       // Return date has time 00:00:00 which causes API to reduce 2 days in first round
       // Add 11hrs, so reducing works correctly.
+      console.log("Calendar. handleDateChange. formatDate: ", formatDate);
+
       formatDate.setHours(formatDate.getHours() + 11);
-      setSelectedDate(formatDate /*jsDate*/);
+      setSelectedDate(formatDate);
     };
 
     const shouldDisableDate = (day) => {
-      //  return dayjs(day).isAfter(currentDate, 'day');
       const selectedDate = dayjs(day);
-      return selectedDate.isAfter(currentDate, 'day') || selectedDate.isBefore(lastSelectableDate, 'day');
+      return selectedDate.isAfter(yesterDay, 'day') || selectedDate.isBefore(lastSelectableDate, 'day');
     };
 
     const handleCancel = () => {
@@ -82,13 +86,12 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
       // cancel is always last to call from datepicker
     };
 
-    const handleAccept = () => {
+    const handleAccept = (value) => {
       var cacheDate = localStorage.getItem(CACHE_KEY);
       // Parse the cached data
       const cachedData = JSON.parse(cacheDate) || { count: 0, week: 0, year: 0 };
 
-      //console.log("handleAccept. Tämä vuosi: ", getISOWeekYear(today));
-      //console.log("handleAccept. cache vuosi: ",cachedData.year);
+      console.log("Calendar. handleAccept. cachedData: ", cachedData);
 
       if (cachedData.count < 2 || getISOWeekYear(today) > cachedData.year) {
         // Update the cache and last request date
@@ -99,12 +102,15 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
 
         today.toDateString();
         var cachedPriceData = localStorage.getItem(CACHE_KEY_DATA);
+
+       //console.log("Calendar. handleAccept. cachedPriceData: ", cachedPriceData);
+
         if (cachedPriceData) {
           let cachedPrices = JSON.parse(cachedPriceData); 
           const lastItem = cachedPrices.data[cachedPrices.data.length - 1].aikaleima_suomi ;
          
           // Check if the data is already latest
-          if (formatDate(currentDate) === formatDate (lastItem) /*&& cachedPrices.userRequest === "FALSE"*/) {
+          if (formatDate(yesterDay) === formatDate (lastItem) /*&& cachedPrices.userRequest === "FALSE"*/) {
             setshow2button(false);
           }
           else
@@ -120,6 +126,8 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
     };
 
     const handleDialogClose = (action) => {
+      console.log("Calendar. handleDialogClose: ", action);
+      
       setDialogOpen(false);
       setResetDate(true);
       if (action === "CloseAndUpdate")
@@ -129,8 +137,12 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
     };
 
     const handleSearch = () => {
+      console.log("Calendar. handleSearch. selectedDate: ", selectedDate);
+
       //trigger user date search
       const cacheDate = localStorage.getItem(CACHE_KEY);
+      console.log("Calendar. handleSearch. cacheDate: ", cacheDate);
+
       // Parse the cached data
       const cachedData = JSON.parse(cacheDate) || { count: 0, week: 0, year: 0 };
 
@@ -150,7 +162,7 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
       cachedData.week = getISOWeek(today);
       cachedData.year = getISOWeekYear(today);
   
-      //console.log("Calendar. handleSearch. updated cachedData : ",cachedData );
+      console.log("Calendar. handleSearch. updated cachedData : ",cachedData );
 
       localStorage.setItem(CACHE_KEY, JSON.stringify(cachedData));
       dateSelected(selectedDate);
@@ -160,26 +172,41 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
     return (
       <div>
         <h2>Kalenteri</h2>
-        <div>
+        <div data-testid="RFW_CalendarTitle">
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fi">
             <DatePicker
+              //name = "RFW_DatePickerInputName"
               key={resetDateKey}
-              //defaultValue={dayjs(""+currentDate.getFullYear()+"-"+ (currentDate.getMonth()+1) +"-" +  currentDate.getDate())} 
               views={['year', 'month', 'day']}
               format="DD/MM/YYYY"
               label="Valitse päätöspäivä" 
               value={value}
               onChange={handleDateChange}
               onAccept={handleAccept}
+              //onAccept={() => {}}
               onClose={handleCancel}
               onOpen={handleOpen}
-              localeText={{ datePickerToolbarTitle: 'Valittu päivä', cancelButtonLabel: 'Peruuta', }}
+              localeText={{ datePickerToolbarTitle: 'Valittu päivä', 
+                            previousMonth: 'Edellinen kuukausi',
+                            nextMonth: 'Seuraava kuukausi',              
+                            cancelButtonLabel: 'Peruuta',
+                            todayButtonLabel: "Valitse eilinen päivä" }}
               shouldDisableDate={shouldDisableDate}
+              closeOnSelect={false} // estä auto ok-selection
               slotProps={{
-                textField: {
+                actionBar: {
+                  // The actions will be the same between desktop and mobile
+                  actions: ["cancel", "accept"] // "today", "clear"
+              },
+               
+              textField: {
                     readOnly: true,
+                    //id: 'RFW_DatePickerInputSlotProp',
+                    inputProps: {
+                      "data-testid": "RFW_DatePickerInputID"
+                  }
                 },
-            }}
+              }}
               //readOnly
               //disabled
               //openTo= 'day' | 'month'  | 'year'"year"

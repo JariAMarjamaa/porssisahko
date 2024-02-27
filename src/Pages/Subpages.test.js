@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import App from '../App';
 
 import SecondPage from './2Page.tsx';

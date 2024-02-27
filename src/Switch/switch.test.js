@@ -16,17 +16,14 @@ describe('Switch component', () => {
     expect(screen.getByText('Palkkikäppyrä')).toBeInTheDocument();
   });
 
-/*  test('calls switchChanged callback with updated chartType on switch change', () => {
+  test('calls switchChanged callback with updated chartType on switch change', () => {
     const switchChangedMock = jest.fn();
     const { getByTestId } = render(<ChartSwitch switchChanged={switchChangedMock} />);
 
-    console.log("TEST. getByTestId: ", getByTestId);
-    const switchElement = getByTestId('RFW_Switch'); 
-    console.log("TEST. switchElement: ", switchElement);
-
+    const switchElement = getByTestId('RFW_Switch').querySelector('input');
     fireEvent.click(switchElement); // Simulate switch change
 
     expect(switchChangedMock).toHaveBeenCalledWith('BarChartSelected');
-  });*/
+  });
 
 });

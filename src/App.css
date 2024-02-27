@@ -71,6 +71,19 @@
   background-color: white !important;
  }
 
+ .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
 @media only screen and (max-width: 499px) {
   /* Default settings for min-width: 1025px */
   .calendar {
@@ -80,6 +93,7 @@
 
   .switch {
     margin-top: 180px;
+    margin-left: 60px;
   }
 
   .buttonList {
@@ -135,6 +149,7 @@
 
   .switch {
     margin-top: 180px;
+    margin-left: 10px;
   }
 
   .buttonList {
@@ -197,6 +212,7 @@
 
   .switch {
     margin-top: 180px;
+    margin-left: 10px;
   }
 
   .buttonList {
@@ -233,6 +249,7 @@
 
   .switch {
     margin-top: 180px;
+    margin-left: 10px;
   }
 
 
@@ -267,16 +284,5 @@
 }
 
 @media only screen and (min-width: 1025px) {
-   .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-  }
+ 
 }

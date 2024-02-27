@@ -1,7 +1,7 @@
 import { Prices } from './api';
 import { mockTestPrices } from "./mockData/Price-test.mock";
 
-jest.setTimeout(15000); // Set a global timeout of 15000 milliseconds (15 seconds)
+jest.setTimeout(11000); // Set a global timeout of 11000 milliseconds (11 seconds), min to pass api test
 
 describe('PriceApi class tests', () => {
   
@@ -14,5 +14,5 @@ describe('PriceApi class tests', () => {
 
     // Assert the resolved value
     expect(result).toEqual(expectedPrices);
-  }); // Set a timeout of 15000 milliseconds (15 seconds) for this test
+  }); // Set a timeout for this test
 });
