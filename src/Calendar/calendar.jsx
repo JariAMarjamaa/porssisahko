@@ -91,7 +91,7 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
       // Parse the cached data
       const cachedData = JSON.parse(cacheDate) || { count: 0, week: 0, year: 0 };
 
-      console.log("Calendar. handleAccept. cachedData: ", cachedData);
+      console.log("Calendar. handleAccept");
 
       if (cachedData.count < 2 || getISOWeekYear(today) > cachedData.year) {
         // Update the cache and last request date
@@ -141,7 +141,6 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
 
       //trigger user date search
       const cacheDate = localStorage.getItem(CACHE_KEY);
-      console.log("Calendar. handleSearch. cacheDate: ", cacheDate);
 
       // Parse the cached data
       const cachedData = JSON.parse(cacheDate) || { count: 0, week: 0, year: 0 };
@@ -162,8 +161,6 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
       cachedData.week = getISOWeek(today);
       cachedData.year = getISOWeekYear(today);
   
-      console.log("Calendar. handleSearch. updated cachedData : ",cachedData );
-
       localStorage.setItem(CACHE_KEY, JSON.stringify(cachedData));
       dateSelected(selectedDate);
       setOKSelected(false);

@@ -3,7 +3,7 @@ import './Popup.css';
 
 const PopupWindow = ({ onClose, type, content }) => {
     const contentClassName = `${type}-content`;
-    console.log("contentClassName: ", contentClassName);
+    //console.log("contentClassName: ", contentClassName);
 
     return (
     <div className="Popup-container">

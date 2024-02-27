@@ -35,17 +35,13 @@ fdescribe('Calendar component', () => {
     delete window.matchMedia
   })*/
 
-  // Count user made reguests
-  const CACHE_KEY = 'userReguests';
-  
-
-  dayjs.locale('fi');
+  //dayjs.locale('fi');
   // Set a specific date for testing
-  const mockDate = new Date('2023-05-31');
-  //const mockDate = new Date('2023-05-31T00:00:00.000');
+  const mockDate = new Date('2023-05-31T00:00:00.000');
+  //const mockDate = new Date('2023-05-31');
   mockDate.setDate(mockDate.getDate() /*- 1*/); 
 
-  console.log("TEST. mockDate: ", mockDate);
+  //console.log("TEST. mockDate: ", mockDate.toString());
 
   beforeEach(() => {
     MockDate.set(mockDate);
@@ -79,37 +75,45 @@ fdescribe('Calendar component', () => {
     expect(startDateInput.value).toBe('31/05/2023');
   });
 
- xtest('Just OK click returns null as selected date', () => {
+  test('OK without day selection, and Cancel wont do anything', () => {
     const mockUpdateChart = jest.fn();
     const mockhandleSelectedDate = jest.fn(); //(date: Date) => {
 
-    jest.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(JSON.stringify({ count: 0, week: 0, year: 0 }));
+    // Class componentille, mutta ei toimi functionaalisella komponentilla
+    // Spy on the handleAccept function
+    //jest.spyOn(Calendar.prototype, 'handleAccept');
 
     render(<Calendar dateSelected={mockhandleSelectedDate} UpdateChart={mockUpdateChart} />);
     
-    // Simulate Calendar opening data-testid="CalendarIcon"
-    const CalendarElement = screen.getByTestId('CalendarIcon'); // RFW_CalendarTitle
+    // Simulate Calendar opening
+    const CalendarElement = screen.getByTestId('CalendarIcon');
     fireEvent.click(CalendarElement);
     
     const OkButton = screen.getByText('OK');
     fireEvent.click(OkButton);
 
-    expect(mockhandleSelectedDate).toHaveBeenCalledTimes(1);
-    expect(mockhandleSelectedDate).toHaveBeenCalledWith(null);
+    expect(mockhandleSelectedDate).not.toHaveBeenCalled();
+    expect(mockUpdateChart).not.toHaveBeenCalled();
+    //expect(Calendar.prototype.handleAccept).not.toHaveBeenCalled();
+
+    const CancelButton = screen.getByText('Peruuta');
+    fireEvent.click(CancelButton);
+
+    expect(mockhandleSelectedDate).not.toHaveBeenCalled();
+    expect(mockUpdateChart).not.toHaveBeenCalled();
+
+
   });
 
-  xtest('Day selection button is found', () => {
+  test('Day selection button is found', () => {
     const mockUpdateChart = jest.fn();
     const mockhandleSelectedDate = jest.fn(); //(date: Date) => {
-
-    jest.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(JSON.stringify({ count: 0, week: 0, year: 0 }));
 
     render(<Calendar dateSelected={mockhandleSelectedDate} UpdateChart={mockUpdateChart} />);
     
     // Simulate Calendar opening data-testid="CalendarIcon"
-    const CalendarElement = screen.getByTestId('CalendarIcon'); // RFW_CalendarTitle
+    const CalendarElement = screen.getByTestId('CalendarIcon');
     fireEvent.click(CalendarElement);
-    // screen.debug(CalendarElement);
 
     const chosenDate = screen.getByRole('gridcell', { name: "15"}); // choose any date that the calender shows
     expect(chosenDate).toBeInTheDocument();
@@ -121,9 +125,6 @@ fdescribe('Calendar component', () => {
     const mockhandleSelectedDate = jest.fn(); //(date: Date) => {
 
     jest.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(JSON.stringify({ count: 0, week: 0, year: 0 }));
-
-    const cacheDate = localStorage.getItem(CACHE_KEY);
-    console.log("TEST. cacheDate: ", cacheDate);
 
     render(<Calendar dateSelected={mockhandleSelectedDate} UpdateChart={mockUpdateChart} />);
     
@@ -143,8 +144,12 @@ fdescribe('Calendar component', () => {
     expect(searchButton).toBeInTheDocument();
     fireEvent.click(searchButton);
 
-    screen.debug(searchButton);
+    //screen.debug(searchButton);
 
+    //Jostain syystä kalenteri palauttaa aina tässä muodossa
+    //Wed May 15 2023 00:00:00 GMT+0300 (Itä-Euroopan kesäaika) <= varsinainen implementaatio
+    //Calendar. handleDateChange. formatDate: 2023-05-14T21:00:00.000Z
+    //Calendar. handleSearch. selectedDate:  2023-05-15T08:00:00.000Z <= lisätty se11hrs
     const selectedDate = new Date('2023-05-15');
     selectedDate.setHours(selectedDate.getHours() + 8);
 
