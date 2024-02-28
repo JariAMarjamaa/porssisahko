@@ -91,7 +91,7 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
       // Parse the cached data
       const cachedData = JSON.parse(cacheDate) || { count: 0, week: 0, year: 0 };
 
-      //console.log("Calendar. handleAccept. cachedData: ", cachedData);
+      //console.log("Calendar. handleAccept. CACHE_KEY: ", cachedData);
 
       if (cachedData.count < 2 || getISOWeekYear(today) > cachedData.year) {
         // Update the cache and last request date
@@ -105,9 +105,9 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
         today.toDateString();
         var cachedPriceData = localStorage.getItem(CACHE_KEY_DATA);
 
-        console.log("Calendar. handleAccept. FAIL. 2 request already made."+ 
-                    "\n cachedPriceData: ", cachedPriceData,
-                    "\n Show info dialog");
+        //console.log("Calendar. handleAccept. FAIL. 2 request already made."+ 
+        //"\n CACHE_KEY_DATA: ", JSON.parse(cachedPriceData),
+        //"\n Show info dialog");
 
         if (cachedPriceData) {
           let cachedPrices = JSON.parse(cachedPriceData); 
@@ -224,13 +224,14 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
           <div>
             <Dialog
               open={openDialog}
+              data-testid="RFW_CaleandarDialog"
               TransitionComponent={Slide}
               keepMounted
               onClose={handleDialogClose}
               aria-describedby="alert-dialog-slide-description" >
               <DialogTitle>{"Hakukerrat!"}</DialogTitle>
               <DialogContent>
-                <DialogContentText id="alert-dialog-slide-description">
+                <DialogContentText id="alert-dialog-slide-description" data-testid="RFW_CaleandarDialogContent">
                   {show2button ? maxRequestMadeUpdate : maxRequestMade}
                 </DialogContentText>
               </DialogContent>

@@ -1,6 +1,6 @@
 //import { renderHook, act, waitFor } from '@testing-library/react'
 import React from 'react';
-import { render, fireEvent, screen, act } from '@testing-library/react';
+import { render, fireEvent, screen /*, act, waitFor*/ } from '@testing-library/react';
 //import userEvent from '@testing-library/user-event';
 import Calendar from './calendar';
 import MockDate from 'mockdate';
@@ -34,6 +34,8 @@ describe('Calendar component', () => {
   })*/
 
   const CACHE_KEY = 'userReguests';
+  const CACHE_KEY_DATA = 'electricity_price_cache';
+
   //dayjs.locale('fi');
   // Set a specific date for testing
   const mockDate = new Date('2023-05-31T00:00:00.000');
@@ -42,15 +44,15 @@ describe('Calendar component', () => {
 
   //console.log("TEST. mockDate: ", mockDate.toString());
 
-/*  const localStorageMock = {
+  const localStorageMock = {
     getItem: jest.fn(key => {
       if (key === CACHE_KEY) {
         return JSON.stringify({ count: 0, week: 0, year: 0 });
       } else if (key === CACHE_KEY_DATA) {
         return JSON.stringify({
           data: [
-            { aikaleima_suomi: 'someDate1' },
-            { aikaleima_suomi: 'someDate2' },
+            { aikaleima_suomi: '2023-02-27T23:59',   //2024-02-27T23:59
+              hinta: 7.301  },
             // Add more data as needed
           ],
           // Add other properties as needed
@@ -59,12 +61,12 @@ describe('Calendar component', () => {
       return null;
     }),
     setItem: jest.fn(),
-  };*/
-
-  const localStorageMock = {
-    getItem: jest.fn(),
-    setItem: jest.fn(),
   };
+
+//  const localStorageMock = {
+//    getItem: jest.fn(),
+//    setItem: jest.fn(),
+//  };
   
   beforeEach(() => {
     MockDate.set(mockDate);
@@ -102,7 +104,6 @@ describe('Calendar component', () => {
     const startDateInput = screen.getByTestId('RFW_DatePickerInputID');
     fireEvent.click(startDateInput);
 
-    screen.debug(startDateInput);
     // Assert that the selected date is displayed in the input
     expect(startDateInput.value).toBe('31/05/2023');
   });
@@ -159,8 +160,6 @@ describe('Calendar component', () => {
     // Mock the initial state
     localStorageMock.getItem.mockReturnValue(JSON.stringify({ count: 0, week: 0, year: 0 }));
  
-    //jest.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(JSON.stringify({ count: 0, week: 0, year: 0 }));
-
     render(<Calendar dateSelected={mockhandleSelectedDate} UpdateChart={mockUpdateChart} />);
     
     // Simulate Calendar opening data-testid="CalendarIcon"
@@ -233,23 +232,35 @@ describe('Calendar component', () => {
     //expect(localStorageMock).toHaveBeenLastCalledWith(CACHE_KEY, JSON.stringify({ count: 1, week: 22, year: 0 }));
   });
 
-  xtest('Check localStore handling when user request are used', () => {
+  test('Check first, that Dialog is close', () => {
+    const mockUpdateChart = jest.fn();
+    const mockhandleSelectedDate = jest.fn(); //(date: Date) => {
+
+    localStorageMock.getItem.mockReturnValueOnce(JSON.stringify({ count: 0, week: 0, year: 0 }));
+    localStorageMock.getItem.mockReturnValueOnce(JSON.stringify({ data: [{ aikaleima_suomi: '2023-02-26T23:59', hinta: 7.201 }]}));
+  
+    render(<Calendar dateSelected={mockhandleSelectedDate} UpdateChart={mockUpdateChart} />);
+    
+    // Simulate Calendar opening data-testid="CalendarIcon"
+    const CalendarElement = screen.getByTestId('CalendarIcon'); // RFW_CalendarTitle
+    fireEvent.click(CalendarElement);
+
+
+    const DialogElement = screen.getByTestId('RFW_CaleandarDialog');
+    screen.debug(); //koko DOM
+    expect(DialogElement).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  test('Check localStore handling when user request are used', () => {
     const mockUpdateChart = jest.fn();
     const mockhandleSelectedDate = jest.fn(); //(date: Date) => {
 
     // Mock the initial state
-    localStorageMock.getItem.mockReturnValue(JSON.stringify({ count: 2, week: 22, year: 2023 }));
-   
-    // if (cachedData.count < 2 || getISOWeekYear(today) > cachedData.year) {
-    // if (getISOWeek(today) !== cachedData.week || getISOWeekYear(today) > cachedData.year) {  
-    // Assert that document.createElement was called with the appropriate arguments
-    //expect(createElementSpy).toHaveBeenCalledWith('a'); 
-
+    localStorageMock.getItem.mockReturnValueOnce(JSON.stringify({ count: 2, week: 22, year: 2023 }));
+    localStorageMock.getItem.mockReturnValueOnce(JSON.stringify({ data: [{ aikaleima_suomi: '2023-02-26T23:59', hinta: 7.201 }]}));
+  
     render(<Calendar dateSelected={mockhandleSelectedDate} UpdateChart={mockUpdateChart} />);
     
-    // Assert that localStorage.getItem was called
-    //expect(localStorageMock.getItem).toHaveBeenCalledWith(CACHE_KEY, JSON.stringify({ count: 0, week: 0, year: 0 }));
-
     // Simulate Calendar opening data-testid="CalendarIcon"
     const CalendarElement = screen.getByTestId('CalendarIcon'); // RFW_CalendarTitle
     fireEvent.click(CalendarElement);
@@ -262,27 +273,10 @@ describe('Calendar component', () => {
     expect(OkButton).toBeInTheDocument();
     fireEvent.click(OkButton);
     
+    // Check if the dialog is in the document
+    const DialogElement = screen.getByTestId('RFW_CaleandarDialog');
     screen.debug(); //koko DOM
-
-    //const searchButton = screen.getByText('Hae hinnat');
-    //expect(searchButton).toBeInTheDocument();
-    //fireEvent.click(searchButton);
-
-    // Now check the final state of localStorage
-    //expect(localStorageMock.getItem).toHaveBeenCalledWith(CACHE_KEY);
-    //expect(localStorageMock.setItem).toHaveBeenCalledWith(CACHE_KEY,JSON.stringify({ count: 1, week: 22, year: 2023 }));
-
-    // Assert that localStorage.getItem was called
-    //expect(localStorageMockSet.setItem).toHaveBeenCalledWith(CACHE_KEY);
-
-    // Assert that localStorage.getItem was called
-    //expect(localStorageMock).toHaveBeenCalledWith(CACHE_KEY);
-
-    // Check first call
-    //expect(localStorageMock).toHaveBeenNthCalledWith(1, CACHE_KEY, JSON.stringify({ count: 1, week: 22, year: 0 }));
-
-    // Check last call
-    //expect(localStorageMock).toHaveBeenLastCalledWith(CACHE_KEY, JSON.stringify({ count: 1, week: 22, year: 0 }));
+    expect(DialogElement).not.toHaveAttribute('aria-hidden', 'true');
   });
 
 });
