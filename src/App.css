@@ -41,9 +41,6 @@
   text-align: center; /* Teksti keskelle */
 }
 
-.marginLeft {
-  margin-left: 50px;;
-}
 .date-button {
   font-size: large;
 }
@@ -92,7 +89,7 @@
   }
 
   .switch {
-    margin-top: 180px;
+    margin-top: 200px;
     margin-left: 60px;
   }
 
@@ -113,10 +110,6 @@
   .button {
     font-size: large;
     width: 160px; 
-  }
-
-  .marginLeft {
-    margin-left: 60px;;
   }
 
   .date-button {
@@ -148,7 +141,7 @@
   }
 
   .switch {
-    margin-top: 180px;
+    margin-top: 200px;
     margin-left: 10px;
   }
 
@@ -167,9 +160,6 @@
     width: 170px; 
   }
 
-  .marginLeft {
-    margin-left: 70px;;
-  }
   .date-button {
     font-size: large;
   }
@@ -194,9 +184,6 @@
     width: 170px; 
   }
 
-  .marginLeft {
-    margin-left: 70px;;
-  }
   .date-button {
     font-size: large;
   }
@@ -211,7 +198,7 @@
   }
 
   .switch {
-    margin-top: 180px;
+    margin-top: 200px;
     margin-left: 10px;
   }
 
@@ -248,7 +235,7 @@
   }
 
   .switch {
-    margin-top: 180px;
+    margin-top: 200px;
     margin-left: 10px;
   }
 

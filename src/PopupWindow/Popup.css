@@ -4,7 +4,7 @@
   height: 500px;
 }
 
-.video-content {
+.video-popup {
   /* Default styles specific to 'video' type */
   background-color:gray;
   color: black;
@@ -12,58 +12,110 @@
   left: 20px;
   top: 50px;
   margin-left: 10px;
+  padding-top: 50px;
+  margin-left: 300px;
 }
 
-.toc-content {
+.toc-popup {
   text-align: left;
   padding-left: 150px;
 }
 
+.excelDownload-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: lightslategray; /* White background for the popup */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Optional: Add a box shadow for a subtle effect */
+  z-index: 1000; /* Ensure the popup appears on top of the main page */
+  width: 50%;
+  height: 60%;
+}
+
+#myInput {
+  text-align: center;
+  font-size: large;
+}
+
 @media only screen and (max-width: 499px) {
+  #myInput {
+    width: 50%;
+    font-size: large;
+  }
+
+  .excelDownload-popup {
+    width: 80%;
+    height: 60%;
+  }
+
   .responsive-iframe {
     width: 350px;
     height: 300px;
   }
 
-  .video-content {
+  .video-popup {
     top: 50px;
     margin-left: 0px;
   }
 
-  .toc-content {
+  .toc-popup {
     padding-left: 70px;
   }
 }
 
 @media only screen and (min-width: 500px) and (max-width: 599px) {
+  #myInput {
+    width: 50%;
+    font-size: large;
+  }
+
+  .excelDownload-popup {
+    width: 80%;
+    height: 60%;
+  }
+
   .responsive-iframe {
     width: 500px;
   }
 
-  .toc-content {
+  .toc-popup {
     padding-left: 70px;
   }
 }
 
 @media only screen and (min-width: 600px) and (max-width: 750px) {
+  #myInput {
+    width: 60%;
+    font-size: large;
+  }
+
+  .excelDownload-popup {
+    width: 80%;
+    height: 50%;
+  }
+
   .responsive-iframe {
     width: 600px;
   }
 }
 
 @media only screen and (min-width: 751px) and (max-width: 1024px) {
+  #myInput {
+    width: 60%;
+    font-size: larger;
+  }
+
+  .excelDownload-popup {
+    width: 80%;
+    height: 50%;
+  }
+
   .responsive-iframe {
     width: 750px;
   }
 }
 
 @media only screen and (min-width: 1025px) {
-  .responsive-iframe {
-    width: 1000px;
-  }
-
-  .video-content {
-    padding-top: 50px;
-    margin-left: 300px;
-  }
 }

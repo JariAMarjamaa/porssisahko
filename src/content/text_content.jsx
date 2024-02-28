@@ -2,6 +2,8 @@
 export const info = (
     <div>
       Käytetään Pörssisähko.net:n tarjoamaan tietoa
+      <br/>
+      Lisätty saataville Excel ulottuvuus
     </div>
 );
 

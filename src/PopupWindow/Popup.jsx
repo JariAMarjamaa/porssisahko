@@ -1,8 +1,11 @@
 import React from 'react';
 import './Popup.css';
 
+import ExcelDownload   from '../ExcelDonwloading/exportToExcel.jsx';
+
+
 const PopupWindow = ({ onClose, type, content }) => {
-    const contentClassName = `${type}-content`;
+    const contentClassName = `${type}-popup`;
     //console.log("contentClassName: ", contentClassName);
 
     return (
@@ -16,14 +19,17 @@ const PopupWindow = ({ onClose, type, content }) => {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe>
-        ) : 
-        <div> {content}</div>
+        ) : type === "excelDownload" ?
+          <div> <ExcelDownload></ExcelDownload> </div>
+          : 
+          <div> {content}</div>
         }
         <br></br>
-        <button className="button marginLeft" onClick={onClose}>Sulje</button>
+        <button className="button" onClick={onClose}>Sulje</button>
       </div>
     </div>
   );
 };
 
 export default PopupWindow 
+

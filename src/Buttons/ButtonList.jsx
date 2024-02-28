@@ -12,6 +12,8 @@ import Snackbar           from '@mui/material/Snackbar';
 import IconButton         from '@mui/material/IconButton';
 import CloseIcon          from '@mui/icons-material/Close';
 
+import PopupWindow        from "../PopupWindow/Popup.jsx";
+
 import { toc, CalendarInfoContent, priceInfo/*, APITestContent*/ }  from '../content/text_content.jsx';
 
 
@@ -24,6 +26,8 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback }) => {
   const [snackbarBGColor, setSnackbarBGColor] = useState("green");
   const [snackbarContent, setSnackbarContent] = useState("");
   
+  const [excelDonwload,   setExcelDownload]   = useState(false);
+
   const handleSnackbarClick = (type) => {
     if (type === "calendar")
     {
@@ -82,6 +86,15 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback }) => {
     }
   };
 
+  const handleExcelDonwload = (state) => {
+    setExcelDownload(state);
+  };
+
+  const closePopup = () => {
+    setExcelDownload(false);
+  }
+
+
 
   return (
     <div>
@@ -95,6 +108,9 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback }) => {
     <br></br>
     
     <button className="button" onClick={() => handleSnackbarClick("apiFailSimulation")} >Simuloi sähkökatko!</button>
+    <br></br>
+
+    <button className="button" onClick={() => handleExcelDonwload(true)} >Excel</button>
 
     <Dialog
       open={openDialog}
@@ -130,6 +146,10 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback }) => {
       message={snackbarContent}
       action={action} />
    
+      {excelDonwload &&  <PopupWindow onClose={closePopup} type="excelDownload" content=""></PopupWindow>
+    } 
+
+
     </div>
    
   );
