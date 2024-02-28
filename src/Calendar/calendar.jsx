@@ -91,10 +91,12 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
       // Parse the cached data
       const cachedData = JSON.parse(cacheDate) || { count: 0, week: 0, year: 0 };
 
-      console.log("Calendar. handleAccept");
+      //console.log("Calendar. handleAccept. cachedData: ", cachedData);
 
       if (cachedData.count < 2 || getISOWeekYear(today) > cachedData.year) {
         // Update the cache and last request date
+        console.log("Calendar. handleAccept. OK. Update cache");
+
         setOKSelected(true);
       } else {
         //Request made twice already this week, hide search button
@@ -103,7 +105,9 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
         today.toDateString();
         var cachedPriceData = localStorage.getItem(CACHE_KEY_DATA);
 
-       //console.log("Calendar. handleAccept. cachedPriceData: ", cachedPriceData);
+        console.log("Calendar. handleAccept. FAIL. 2 request already made."+ 
+                    "\n cachedPriceData: ", cachedPriceData,
+                    "\n Show info dialog");
 
         if (cachedPriceData) {
           let cachedPrices = JSON.parse(cachedPriceData); 
@@ -145,6 +149,8 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
       // Parse the cached data
       const cachedData = JSON.parse(cacheDate) || { count: 0, week: 0, year: 0 };
 
+      console.log("Calendar. handleSearch. Read achedData: ", cachedData);
+
       //Laskee vuoden alusta?? startOfWeek(new Date(cachedData.year, 0, 1))
       const today = new Date();
     
@@ -162,6 +168,7 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
       cachedData.year = getISOWeekYear(today);
   
       localStorage.setItem(CACHE_KEY, JSON.stringify(cachedData));
+
       dateSelected(selectedDate);
       setOKSelected(false);
     };
