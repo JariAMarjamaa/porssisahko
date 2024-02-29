@@ -5,29 +5,31 @@ import * as fileSaver from 'file-saver'; // Import the entire file-saver library
 
 jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
 
+describe('Excel exporting component', () => {
 
-fdescribe('Excel exporting component', () => {
-  
-  test('renders Excel exporting', () => {
-    // Mock the localStorage methods
-    const localStorageMock = {
-      getItem: jest.fn(),
-      setItem: jest.fn(),
-    };
+  const localStorageMock = {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+  };
+
+  beforeEach(() => {
+    // Reset mock between tests
+    localStorageMock.getItem.mockReset();
+    localStorageMock.setItem.mockReset();
     
     // Override the actual localStorage methods
     Object.defineProperty(window, 'localStorage', {
       value: localStorageMock,
     });
-    
-    // Mock the initial state
+  });
+  
+  test('renders Excel exporting', () => {
     localStorageMock.getItem.mockReturnValueOnce(JSON.stringify({ data: [
       { aikaleima_suomi: '2020-02-26T06:00', hinta: 5.201 },
       { aikaleima_suomi: '2020-02-26T12:59', hinta: 6.201 },
       { aikaleima_suomi: '2020-02-26T18:59', hinta: 7.201 },
-      { aikaleima_suomi: '2020-02-26T23:59', hinta: 8.201 }
-    ] }));
-    
+      { aikaleima_suomi: '2020-02-26T23:59', hinta: 8.201 }]}));
+   
     render(<ExcelDownload />);
 
     // Regular expressions for flexible text matching
@@ -37,31 +39,14 @@ fdescribe('Excel exporting component', () => {
     expect(screen.getAllByText("26.02.2020")[0]).toBeInTheDocument();
     expect(screen.getByText("Klo: 06")).toBeInTheDocument();
     expect(screen.getByText("5.201")).toBeInTheDocument();
-
-    // Reset mock between tests
-    //localStorageMock.getItem.mockReset();
-    //localStorageMock.setItem.mockReset();
   });
 
-  xtest('should trigger saveExcel function on button click', async () => {
-    // Mock the localStorage methods
-    const localStorageMock = {
-      getItem: jest.fn(),
-      setItem: jest.fn(),
-    };
-    
-    // Override the actual localStorage methods
-    Object.defineProperty(window, 'localStorage', {
-      value: localStorageMock,
-    });
-    
-    // Mock the initial state
+  test('should trigger saveExcel function on button click', async () => {
     localStorageMock.getItem.mockReturnValueOnce(JSON.stringify({ data: [
-      { aikaleima_suomi: '2023-02-26T06:00', hinta: 5.201 },
-      { aikaleima_suomi: '2023-02-26T12:59', hinta: 6.201 },
-      { aikaleima_suomi: '2023-02-26T18:59', hinta: 7.201 },
-      { aikaleima_suomi: '2023-02-26T23:59', hinta: 8.201 }
-    ] }));
+      { aikaleima_suomi: '2024-02-26T06:00', hinta: 5.201 },
+      { aikaleima_suomi: '2024-02-26T12:59', hinta: 6.201 },
+      { aikaleima_suomi: '2024-02-26T18:59', hinta: 7.201 },
+      { aikaleima_suomi: '2024-02-26T23:59', hinta: 8.201 }]}));
 
     // Spy on the saveAs method
     const saveAsSpy = jest.spyOn(fileSaver, 'saveAs');
