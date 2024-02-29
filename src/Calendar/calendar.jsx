@@ -49,7 +49,7 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
 
     useEffect(() => {
       if (resetDate) {
-        console.log("Calendar. useEffect. resetDate ");
+        //console.log("Calendar. useEffect. resetDate ");
         setValue( dayjs(""+yesterDay.getFullYear()+"-"+ (yesterDay.getMonth()+1) +"-" + yesterDay.getDate()) );
         setSelectedDate(yesterDay);
         setResetDate(false); // prevent infinite loop
@@ -70,7 +70,7 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
       const formatDate = new Date(jsDate);
       // Return date has time 00:00:00 which causes API to reduce 2 days in first round
       // Add 11hrs, so reducing works correctly.
-      console.log("Calendar. handleDateChange. formatDate: ", formatDate);
+      //console.log("Calendar. handleDateChange. formatDate: ", formatDate);
 
       formatDate.setHours(formatDate.getHours() + 11);
       setSelectedDate(formatDate);
@@ -95,7 +95,7 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
 
       if (cachedData.count < 2 || getISOWeekYear(today) > cachedData.year) {
         // Update the cache and last request date
-        console.log("Calendar. handleAccept. OK. Update cache");
+        //console.log("Calendar. handleAccept. OK. Update cache");
 
         setOKSelected(true);
       } else {
@@ -130,7 +130,7 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
     };
 
     const handleDialogClose = (action) => {
-      console.log("Calendar. handleDialogClose: ", action);
+      //console.log("Calendar. handleDialogClose: ", action);
       
       setDialogOpen(false);
       setResetDate(true);
@@ -141,7 +141,7 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
     };
 
     const handleSearch = () => {
-      console.log("Calendar. handleSearch. selectedDate: ", selectedDate);
+      //console.log("Calendar. handleSearch. selectedDate: ", selectedDate);
 
       //trigger user date search
       const cacheDate = localStorage.getItem(CACHE_KEY);
@@ -149,7 +149,7 @@ const Calendar = ({ dateSelected, UpdateChart }) => {
       // Parse the cached data
       const cachedData = JSON.parse(cacheDate) || { count: 0, week: 0, year: 0 };
 
-      console.log("Calendar. handleSearch. Read achedData: ", cachedData);
+      //console.log("Calendar. handleSearch. Read achedData: ", cachedData);
 
       //Laskee vuoden alusta?? startOfWeek(new Date(cachedData.year, 0, 1))
       const today = new Date();

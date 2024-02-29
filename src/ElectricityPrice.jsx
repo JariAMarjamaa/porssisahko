@@ -1,5 +1,5 @@
 import { asyncFetchPorssisahkoNet, /* asyncFetchPrice, Prices*/ } from "./api.jsx";
-import { formatTime }  from './helpers/stringFormating';
+import { formatDateTime }  from './helpers/stringFormating';
 
 let cachedPrices = null;
 const CACHE_KEY = 'electricity_price_cache';
@@ -84,11 +84,8 @@ export async function ReadElectricityPriceData(fetchDate, userSelection) {
 
       // Use either cached or newly fetched data
       const hintaData = cachedPrices.data.map((item) => parseFloat(item.hinta));
-
-      //const aikaleimat = cachedPrices.data.map((item) => formatTime(item.aikaleima_suomi));
-      //console.log("window.innerWidth: ", window.innerWidth);
       const aikaleimat = cachedPrices.data.map((item, index) => {
-        const formattedTime = formatTime(item.aikaleima_suomi);
+        const formattedTime = formatDateTime(item.aikaleima_suomi);
         
         // Check if window width is less than 600 and index is odd
         if (window.innerWidth < 600 && index % 2 !== 0) {

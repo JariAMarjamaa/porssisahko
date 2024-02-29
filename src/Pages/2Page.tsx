@@ -96,13 +96,13 @@ const SecondPage = () => {
               <br/>
               <br/>
               <br/>
-              - Käytetään vielä testi dataa
+              - Lisätty oikean datan lataaminen Exceliin
               <br/>
               <br/>
               <br/>
               <br/>
               <br/>
-              Sovellus versio 6.0
+              Sovellus versio 6.1
             </Typography>
           </AccordionDetails>
         </Accordion>

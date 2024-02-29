@@ -53,9 +53,7 @@ describe('Calendar component', () => {
           data: [
             { aikaleima_suomi: '2023-02-27T23:59',   //2024-02-27T23:59
               hinta: 7.301  },
-            // Add more data as needed
           ],
-          // Add other properties as needed
         });
       }
       return null;
@@ -134,8 +132,6 @@ describe('Calendar component', () => {
 
     expect(mockhandleSelectedDate).not.toHaveBeenCalled();
     expect(mockUpdateChart).not.toHaveBeenCalled();
-
-
   });
 
   test('Day selection button is found', () => {
@@ -247,7 +243,7 @@ describe('Calendar component', () => {
 
 
     const DialogElement = screen.getByTestId('RFW_CaleandarDialog');
-    screen.debug(); //koko DOM
+    //screen.debug(); //koko DOM
     expect(DialogElement).toHaveAttribute('aria-hidden', 'true');
   });
 
@@ -275,7 +271,6 @@ describe('Calendar component', () => {
     
     // Check if the dialog is in the document
     const DialogElement = screen.getByTestId('RFW_CaleandarDialog');
-    screen.debug(); //koko DOM
     expect(DialogElement).not.toHaveAttribute('aria-hidden', 'true');
   });
 

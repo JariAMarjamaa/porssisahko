@@ -10,3 +10,26 @@ table, th, td {
 th, td { 
      padding: 4px;
 }
+
+@media only screen and (max-width: 499px) {
+  table {
+    font-size: large;
+  }
+}
+
+@media only screen and (min-width: 500px) and (max-width: 599px) {
+ 
+}
+
+@media only screen and (min-width: 600px) and (max-width: 750px) {
+
+}
+
+@media only screen and (min-width: 751px) and (max-width: 1024px) {
+  table {
+    font-size: larger;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+}

@@ -6,7 +6,13 @@ export function formatDate(string) {
 }
 
 // Helper function to format time
-function formatTime(timeString) {
+export function formatTime(timeString) {
+  const date = new Date(timeString);
+  const formattedTime = `${padWithZero(date.getHours())}` === "23" ? "Klo: 24" : "Klo: " +`${padWithZero(date.getHours())}`;
+  return `${formattedTime}`;
+}
+// Helper function to format date-time
+function formatDateTime(timeString) {
   const date = new Date(timeString);
   const formattedDate = `${padWithZero(date.getDate())}.${padWithZero(date.getMonth() + 1)}.${date.getFullYear()}`;
   //const formattedTime = `${padWithZero(date.getHours())}.${padWithZero(date.getMinutes())}`;
@@ -20,4 +26,4 @@ function padWithZero(number) {
 }
 
 // for unit testing
-export { formatTime, padWithZero };
+export { formatDateTime, padWithZero };
