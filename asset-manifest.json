@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/porssisahko/static/css/main.aa6b6767.css",
-    "main.js": "/porssisahko/static/js/main.c4729ef4.js",
+    "main.css": "/porssisahko/static/css/main.04f39fd6.css",
+    "main.js": "/porssisahko/static/js/main.4d68b1d9.js",
     "static/media/Curriculum_vitae.pdf": "/porssisahko/static/media/Curriculum_vitae.a2a1a2bf468c4d52fdbd.pdf",
     "index.html": "/porssisahko/index.html",
-    "main.aa6b6767.css.map": "/porssisahko/static/css/main.aa6b6767.css.map",
-    "main.c4729ef4.js.map": "/porssisahko/static/js/main.c4729ef4.js.map"
+    "main.04f39fd6.css.map": "/porssisahko/static/css/main.04f39fd6.css.map",
+    "main.4d68b1d9.js.map": "/porssisahko/static/js/main.4d68b1d9.js.map"
   },
   "entrypoints": [
-    "static/css/main.aa6b6767.css",
-    "static/js/main.c4729ef4.js"
+    "static/css/main.04f39fd6.css",
+    "static/js/main.4d68b1d9.js"
   ]
 }
