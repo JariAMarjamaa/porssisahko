@@ -96,7 +96,7 @@ const SecondPage = () => {
               <br/>
               <br/>
               <br/>
-              - Lisätty sisäänkirjautumis näkymä
+              - Lisätty rekisteröinti/kirjautuminen
               <br/>
               <br/>
               <br/>

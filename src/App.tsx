@@ -14,7 +14,7 @@ function App() {
       {showMainPage ?
         <MainPage handleLogOut={() => setShowMainPage(false)}/>
       :
-        <LogIn handleUserSelection={setShowMainPage}/>  
+        <LogIn returnResponse={(status: boolean) => setShowMainPage(status)}/>  
       }
     </div>
   );

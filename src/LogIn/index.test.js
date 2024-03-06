@@ -7,7 +7,7 @@ const mockUserSelection = jest.fn();
 describe('Login component', () => {
   test('renders Login component', () => {
 
-    render(<LogIn handleUserSelection={mockUserSelection} />);
+    render(<LogIn handleLogIn={mockUserSelection} />);
 
     expect(screen.getByText('Pörssisähkökäppyrä harjoitus')).toBeInTheDocument();
     expect(screen.getByText("Sisäänkirjautuminen:")).toBeInTheDocument();

@@ -1,44 +1,113 @@
-import { React, useState } from 'react';
+import { React, useState, Fragment } from 'react';
+import Snackbar   from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon  from '@mui/icons-material/Close';
+import Slide      from '@mui/material/Slide';
 
 import './index.css';
 
-const LogIn = ({handleUserSelection}) => {
+const LogIn = ({returnResponse}) => {
     const [userId,   setUserId]   = useState("");
     const [password, setPassword] = useState("");
+    const [openSnackbar,    setSnackbarOpen]    = useState(false);
+    const [snackbarBGColor, setSnackbarBGColor] = useState("green");
+    const [snackbarContent, setSnackbarContent] = useState("");
+ 
+    let HttpStatus = "";
+    let userData = {};
+
+    const handleOpenSnackbar = (status, text) => {
+      //406 = validointi virhe
+      setSnackbarBGColor( status === 406 ? "green" : "red");
+      console.log("text: ", text);
+      setSnackbarContent(text);
+      setSnackbarOpen(true);
+    };
+  
+    const handleSnackbarClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      setSnackbarOpen(false);
+    };
+
+    const action = (
+      <Fragment>
+        {/*<Button color="error" size="small" onClick={handleSnackbarClose}>
+          EIKU
+          </Button>*/}
+        <IconButton
+          size="small"
+          aria-label="close"
+          color="inherit"
+          onClick={handleSnackbarClose}
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </Fragment>
+    );
 
     const handleLogIn = (event) => {
       event.preventDefault();
-      console.log("SUBMIT");
-      let userData = {
+      userData = {
         userId: userId,
         password: password
       };
 
-     /* fetch("http://localhost:4000/LogIn", {
+      //Myös SignIn post-metodilla, muuten parametrit näkyy urlissa
+      fetch("http://localhost:4000/LogIn", {
         method: "post",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData)
-      }).then(response => response.json()).then(data => { //promise response
-        console.log("LOGED IN: ", data);
-      });*/
-      handleUserSelection(true);
+        body: JSON.stringify(userData)})
+        .then(response => {             //promise response
+          //if (!response.ok) {
+          // Handle non-success status codes here
+          console.error("LogIn. HTTP Status: ", response.status);
+          HttpStatus = response.status;
+          // }
+          return response.json(response );
+        })
+        .then(data => {
+          console.log("LogIn. httpStatus: ", HttpStatus, " data: ", data);
+          if (data.response === "FAIL" ) {
+            handleOpenSnackbar(HttpStatus, data.errorMsg);
+          } else {
+            returnResponse(true);
+          }
+        })
+        .catch(error => {
+          console.error("SignedIn. Error:", error.message);
+        });
     };
 
     const handleSignIn = (event) => {
       event.preventDefault();
-      console.log("SIGNIN");
-      let userData = {
+      userData = {
         userId: userId,
         password: password
       };
 
-   /*   fetch("http://localhost:4000/LogIn", {
+      fetch("http://localhost:4000/SignIn", {
         method: "post",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData)
-      }).then(response => response.json()).then(data => { //promise response
-        console.log("SIGNED IN: ", data);
-      });*/
+        body: JSON.stringify(userData)})
+        .then(response => { 
+          console.error("SignIn. HTTP Status: ", response.status);
+          HttpStatus = response.status;
+          return response.json(response );
+        })
+        .then(data => {
+          console.log("SignIn. httpStatus: ", HttpStatus, " data: ", data);
+          if (data.response === "FAIL" ) {
+            handleOpenSnackbar(HttpStatus, data.errorMsg);
+          } else {
+            returnResponse(true);
+          }
+        })
+        .catch(error => {
+          console.error("SignedIn. Error:", error.message);
+          // Handle errors here
+        });
     };
 
     return (
@@ -69,6 +138,23 @@ const LogIn = ({handleUserSelection}) => {
             <input className="button" type="submit" value="Rekisteröidy"></input>
         </form>
 
+        <Snackbar
+          TransitionComponent={Slide}
+          ContentProps={{
+            sx: {
+              textAlign: 'left',
+              background: snackbarBGColor,
+              width: '100%',
+              height: 'auto', lineHeight: '28px'  //whiteSpace: "pre-wrap"
+            }
+          }}
+          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleSnackbarClose}
+          message={snackbarContent}
+          action={action} />
+   
       </div>
     );
 };
