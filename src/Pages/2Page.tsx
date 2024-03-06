@@ -91,18 +91,18 @@ const SecondPage = () => {
               <br/>
               Pääsivulle kalenteri, hinta haun valintaan.
               <br/>
-              <br/>
               Ja nyt Excel lataus mahdollisuus
               <br/>
               <br/>
               <br/>
-              - Lisätty oikean datan lataaminen Exceliin
+              <br/>
+              - Lisätty sisäänkirjautumis näkymä
               <br/>
               <br/>
               <br/>
               <br/>
               <br/>
-              Sovellus versio 6.1
+              Sovellus versio 6.2
             </Typography>
           </AccordionDetails>
         </Accordion>

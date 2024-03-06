@@ -1,0 +1,11 @@
+/* Default settings for min-width: 1025px */
+.loginPage{
+    background-color: chocolate;
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+  

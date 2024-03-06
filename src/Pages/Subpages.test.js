@@ -1,17 +1,17 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import App from '../App';
+import MainPage from '../MainPage.tsx';
 
 import SecondPage from './2Page.tsx';
 import ThirdPage  from './3Page.jsx';
-import FourthPage from './4Page.jsx';
 
 // Mock the callback function
 const mockOnClose = jest.fn();
+const mockHandleLogout = jest.fn();
 
 describe('Subpage tests', () => {
     test('pagination selection of page 2', async () => {
         await act(async () => {
-            render(<App />);
+            render(<MainPage handleLogOut={mockHandleLogout} />);
         });
 
         // Simulate a page change to 2
@@ -23,7 +23,7 @@ describe('Subpage tests', () => {
 
     test('pagination selection of page 3', async () => {
         await act(async () => {
-            render(<App />);
+            render(<MainPage handleLogOut={mockHandleLogout} />);
         });
 
         // Simulate a page change to 2
@@ -35,7 +35,7 @@ describe('Subpage tests', () => {
 
     test('pagination selection of page 4', async () => {
         await act(async () => {
-            render(<App />);
+            render(<MainPage handleLogOut={mockHandleLogout} />);
         });
 
         // Simulate a page change to 2
@@ -85,9 +85,8 @@ describe('Subpage tests', () => {
         createElementSpy.mockRestore();
     });
 
-    test('render Page 4 component', () => {
-        render(<FourthPage />);
-        expect(screen.getByText('Neljäs sivu')).toBeInTheDocument();
+    test('render Page 3 component with video', () => {
+        render(<ThirdPage onClose={mockOnClose} />);
 
         // Assert that the "Katso video Robottitestauksesta" button is present
         expect(screen.getByText('Robottitestaus:')).toBeInTheDocument();

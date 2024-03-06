@@ -1,5 +1,5 @@
 import { render, screen, act, waitFor } from '@testing-library/react';
-import App from './App';
+import MainPage from './MainPage.tsx';
 import { mockTestPrices} from "./mockData/Price-test.mock.jsx";
 
 //Riippuen kumpi käytössä
@@ -36,8 +36,11 @@ jest.mock('react-chartjs-2', () => ({
   Line: jest.fn(() => null), 
 }));
 
-describe('App component', () => {
-  test('renders App component', async () => {
+// Mock the callback function
+const mockHandleLogout = jest.fn();
+
+describe('Mainpage component', () => {
+  test('Renders Mainpage component', async () => {
     // Set up the mock implementation for asyncFetchPrice
     //apiModule.asyncFetchPrice.mockResolvedValue(mockTestPrices);
     apiModule.asyncFetchPorssisahkoNet.mockResolvedValue(mockTestPrices);
@@ -48,7 +51,7 @@ describe('App component', () => {
     //jest.spyOn(Prices, 'getPrices').mockResolvedValue(mockTestPrices);
 
     await act(async () => {
-      render(<App />);
+      render(<MainPage handleLogOut={mockHandleLogout} />);
     });
 
     // Regular expressions for flexible text matching
@@ -57,7 +60,6 @@ describe('App component', () => {
     // Wait for the asynchronous operations to complete
     await waitFor(() => {
       act(() => {
-        expect(screen.getByText('Pörssisähkökäppyrä harjoitus')).toBeInTheDocument();
         expect(screen.getByText(dateTitle)).toBeInTheDocument();
       });
     });

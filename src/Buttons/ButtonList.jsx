@@ -17,7 +17,7 @@ import PopupWindow        from "../PopupWindow/Popup.jsx";
 import { toc, CalendarInfoContent, priceInfo/*, APITestContent*/ }  from '../content/text_content.jsx';
 
 
-const ButtonList = ({ lowestPrice, highestPrice, simulationCallback }) => { 
+const ButtonList = ({ lowestPrice, highestPrice, simulationCallback, logOut }) => { 
   const [openDialog,      setDialogOpen]    = useState(false);
   const [dialogContent,   setDialogContent] = useState("");
   const [dialogTitle,     setdialogTitle]   = useState("");
@@ -111,6 +111,9 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback }) => {
     <br></br>
 
     <button className="button" onClick={() => handleExcelDonwload(true)} >Excel</button>
+    <br></br>
+    <br></br>
+    <button className="button bgColorGreen" onClick={() => logOut(true)} >Kirjaudu ulos</button>
 
     <Dialog
       open={openDialog}

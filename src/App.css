@@ -15,6 +15,10 @@
   top: 150px;
 }
 
+.bgColorGreen {
+  background-color: green;
+}
+
 .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
   font-size: medium !important;
 }
@@ -23,12 +27,7 @@
   display: none;
 }
 
-.App {
-  text-align: center; /* Center the content horizontally */
-}
-
 .pagination {
-  text-align: left;
   background-color: aliceblue;
   position: fixed;
   bottom: 0;  
@@ -51,6 +50,7 @@
 }
 
 .container {
+  text-align: center; /* Center the content horizontally */
   position: relative;
   width: 100%;
   background-color: #282c34;
@@ -84,18 +84,17 @@
 @media only screen and (max-width: 499px) {
   /* Default settings for min-width: 1025px */
   .calendar {
-    top: 90px; 
+    top: 60px; 
     left: 180px; 
   }
 
   .switch {
-    margin-top: 200px;
-    margin-left: 60px;
+    margin-top: 270px;
   }
 
   .buttonList {
     left: 10px;
-    top: 110px;
+    top: 80px;
     font-size: x-large;
   }
 
@@ -132,22 +131,20 @@
 
 @media only screen and (min-width: 500px) and (max-width: 599px) {
   .pagination {
-    width: 80%;
+    width: 85%;
   }
 
   .calendar {
-    top: 100px; 
+    top: 80px; 
     left: 260px; 
   }
 
   .switch {
-    margin-top: 200px;
-    margin-left: 10px;
+    margin-top: 280px;
   }
 
   .buttonList {
-    left: 70px;
-    top: 120px;
+    top: 100px;
     font-size: x-large;
   }
 
@@ -189,21 +186,21 @@
   }
 
   .pagination {
-    width: 90%;
+    width: 95%;
   }
 
   .calendar {
-    top: 110px; 
+    top: 80px; 
     left: 260px; 
   }
 
   .switch {
-    margin-top: 200px;
+    margin-top: 270px;
     margin-left: 10px;
   }
 
   .buttonList {
-    top: 140px;
+    top: 110px;
   }
 
   .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
@@ -226,22 +223,22 @@
 
 @media only screen and (min-width: 751px) and (max-width: 1024px) {
   .pagination {
-    width: 97%;
+    width: 95%;
+    margin-left: 20px;
   }
 
   .calendar {
-    top: 120px; 
+    top: 100px; 
     left: 360px; 
   }
 
   .switch {
-    margin-top: 200px;
-    margin-left: 10px;
+    margin-top: 270px;
+    margin-left: 30px;
   }
 
-
   .buttonList {
-    top: 150px;
+    top: 130px;
     font-size: large;
   }
 
