@@ -19,7 +19,6 @@ const LogIn = ({returnResponse}) => {
     const handleOpenSnackbar = (status, text) => {
       //406 = validointi virhe
       setSnackbarBGColor( status === 406 ? "green" : "red");
-      console.log("text: ", text);
       setSnackbarContent(text);
       setSnackbarOpen(true);
     };
@@ -55,20 +54,21 @@ const LogIn = ({returnResponse}) => {
       };
 
       //Myös SignIn post-metodilla, muuten parametrit näkyy urlissa
-      fetch("http://localhost:4000/LogIn", {
-        method: "post",
+      //fetch("http://localhost:4000/LogIn", {
+      fetch("https://backend-nu-mauve.vercel.app/LogIn", {
+      
+      method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData)})
         .then(response => {             //promise response
-          //if (!response.ok) {
+          //MySQL if (!response.ok) {
           // Handle non-success status codes here
           console.error("LogIn. HTTP Status: ", response.status);
           HttpStatus = response.status;
           // }
-          return response.json(response );
+          return response.json(response);
         })
         .then(data => {
-          console.log("LogIn. httpStatus: ", HttpStatus, " data: ", data);
           if (data.response === "FAIL" ) {
             handleOpenSnackbar(HttpStatus, data.errorMsg);
           } else {
@@ -87,7 +87,7 @@ const LogIn = ({returnResponse}) => {
         password: password
       };
 
-      fetch("http://localhost:4000/SignIn", {
+      fetch("https://backend-self-pi.vercel.app/SignIn", { // http://localhost:4000/SignIn", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData)})
@@ -116,6 +116,10 @@ const LogIn = ({returnResponse}) => {
         <br/>
         <br/>
         <h3>Sisäänkirjautuminen:</h3>
+        <div onClick={() =>  handleOpenSnackbar(406 /*käytetään tässä validointi virhe koodia*/, "Kokeile: Admin+Salasana kombinaatiota")}>Vihje</div>
+        <br></br>
+        <br></br>
+
 
         <div>
           <form onSubmit={handleLogIn}>
@@ -134,9 +138,11 @@ const LogIn = ({returnResponse}) => {
         <br></br>
         <br></br>
 
+        {/*
         <form onSubmit={handleSignIn}>
-            <input className="button" type="submit" value="Rekisteröidy"></input>
+          <input className="button" type="submit" value="Rekisteröidy"></input>
         </form>
+        */}
 
         <Snackbar
           TransitionComponent={Slide}

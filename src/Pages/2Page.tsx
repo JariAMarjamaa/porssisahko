@@ -29,15 +29,15 @@ const SecondPage = () => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1bh-content"
             id="panel1bh-header">
-            <Typography sx={{ width: '70%', flexShrink: 0 }} data-testid="RFW_AccordionContent_1"> UI työkalut </Typography>
+            <Typography sx={{ width: '70%', flexShrink: 0 }} data-testid="RFW_AccordionContent_1"> UI+Backend työkalut </Typography>
             <Typography sx={{ color: 'text.secondary' }}></Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography sx={{ bgcolor: 'lightgray' }} >
-                React
+                React + MaterialUI
                 <br/>
                 <br/>
-                MaterialUI
+                NodeJS + Google Sheet
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -87,22 +87,15 @@ const SecondPage = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography sx={{ bgcolor: 'lightgray' }}>
-              Viimeisimpänä isompana juttuna lisätty proxy serveri.
+              Viimeisimpänä isompana juttuna lisätty node serveri.
               <br/>
-              Pääsivulle kalenteri, hinta haun valintaan.
-              <br/>
-              Ja nyt Excel lataus mahdollisuus
-              <br/>
-              <br/>
-              <br/>
-              <br/>
-              - Lisätty rekisteröinti/kirjautuminen
+              Lisätty kirjautumissivu.
               <br/>
               <br/>
               <br/>
               <br/>
               <br/>
-              Sovellus versio 6.2
+              Sovellus versio 6.3
             </Typography>
           </AccordionDetails>
         </Accordion>
