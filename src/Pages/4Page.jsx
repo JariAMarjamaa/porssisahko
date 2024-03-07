@@ -11,8 +11,6 @@ const FourthPage = () => {
         <br/>
 
         <h3>Todo-lista:</h3>
-        <p>- Rekisteröinti</p>
-        <p>  * Voi olla ongelmallinen googlen kanssa</p>
         <p>- Rekisteröinnin poisto</p>
         <p>- Pääsivun Äksönputtonit sivusta liukuvaan omaan ikkunaan</p>
       </div>

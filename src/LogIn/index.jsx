@@ -18,7 +18,7 @@ const LogIn = ({returnResponse}) => {
 
     const handleOpenSnackbar = (status, text) => {
       //406 = validointi virhe
-      setSnackbarBGColor( status === 406 ? "green" : "red");
+      setSnackbarBGColor( status === 500 || status === 200 ? "green" : "red");
       setSnackbarContent(text);
       setSnackbarOpen(true);
     };
@@ -76,7 +76,7 @@ const LogIn = ({returnResponse}) => {
           }
         })
         .catch(error => {
-          console.error("SignedIn. Error:", error.message);
+          console.error("SignedIn. FATAL Error:", error.message);
         });
     };
 
@@ -87,17 +87,16 @@ const LogIn = ({returnResponse}) => {
         password: password
       };
 
-      fetch("https://backend-self-pi.vercel.app/SignIn", { // http://localhost:4000/SignIn", {
+      //fetch("http://localhost:4000/SignIn", {
+      fetch("https://backend-self-pi.vercel.app/SignIn", { 
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData)})
         .then(response => { 
-          console.error("SignIn. HTTP Status: ", response.status);
           HttpStatus = response.status;
           return response.json(response );
         })
         .then(data => {
-          console.log("SignIn. httpStatus: ", HttpStatus, " data: ", data);
           if (data.response === "FAIL" ) {
             handleOpenSnackbar(HttpStatus, data.errorMsg);
           } else {
@@ -105,7 +104,7 @@ const LogIn = ({returnResponse}) => {
           }
         })
         .catch(error => {
-          console.error("SignedIn. Error:", error.message);
+          console.log("SignedIn. Error:", error.message);
           // Handle errors here
         });
     };
@@ -116,10 +115,8 @@ const LogIn = ({returnResponse}) => {
         <br/>
         <br/>
         <h3>Sisäänkirjautuminen:</h3>
-        <div onClick={() =>  handleOpenSnackbar(406 /*käytetään tässä validointi virhe koodia*/, "Kokeile: Admin+Salasana kombinaatiota")}>Vihje</div>
         <br></br>
         <br></br>
-
 
         <div>
           <form onSubmit={handleLogIn}>
@@ -138,11 +135,9 @@ const LogIn = ({returnResponse}) => {
         <br></br>
         <br></br>
 
-        {/*
         <form onSubmit={handleSignIn}>
           <input className="button" type="submit" value="Rekisteröidy"></input>
         </form>
-        */}
 
         <Snackbar
           TransitionComponent={Slide}
