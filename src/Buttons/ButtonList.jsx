@@ -94,10 +94,8 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback, logOut }) =
     setExcelDownload(false);
   }
 
-
-
   return (
-    <div>
+    <div style={{ backgroundColor: 'beige', padding: "20px" }}>
     <button className="button" onClick={() => handleOpenDialog("toc")} >Sisällysluettelo</button>
     <br></br>
     

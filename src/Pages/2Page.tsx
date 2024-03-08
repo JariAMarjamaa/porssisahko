@@ -89,14 +89,14 @@ const SecondPage = () => {
             <Typography sx={{ bgcolor: 'lightgray' }}>
               Viimeisimpänä isompana juttuna lisätty node serveri.
               <br/>
-              Lisätty kirjautumissivu.
+              Ja kirjautuminen ja rekisteröinti.
               <br/>
               <br/>
-              Lisätty salasanan vahvistus tunnuksen luomisessa
+              Viilattu pääsivua. Toiminto nappulat liuku näytölle
               <br/>
               <br/>
               <br/>
-              Sovellus versio 6.5
+              Sovellus versio 6.6
             </Typography>
           </AccordionDetails>
         </Accordion>

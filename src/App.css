@@ -9,10 +9,31 @@
   font-size: xx-small;
 }
 
-.buttonList {
-  position: absolute;
+.mainButton {
+  position: fixed;
   left: 40px;
-  top: 150px;
+}
+
+.buttonList {
+  position: fixed;
+  top: 300px;
+  left: 40px;
+  transform: translateX(-150%);
+  transition: transform 3s ease; /* Adjust the duration and easing as needed */
+}
+
+.buttonList.visible {
+  transform: translateX(10%);
+  transition: transform 3s ease; /* Adjust the duration and easing as needed */
+}
+
+.buttonList.hidden {
+  transform: translateX(-130%);
+  transition: transform 3s ease; /* Adjust the duration and easing as needed */
+}
+
+.switch.buttonlistVisible {
+  display: none; 
 }
 
 .bgColorGreen {
@@ -89,13 +110,17 @@
   }
 
   .switch {
-    margin-top: 270px;
+    margin-top: 140px;
   }
 
-  .buttonList {
+  .mainButton {
     left: 10px;
-    top: 80px;
-    font-size: x-large;
+    top: 205px;
+   }
+
+  .buttonList {
+    top: 250px;
+    left: 0px;
   }
 
   .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
@@ -140,12 +165,17 @@
   }
 
   .switch {
-    margin-top: 280px;
+    margin-top: 140px;
+  }
+
+  .mainButton {
+    left: 40px;
+    top: 205px;
   }
 
   .buttonList {
-    top: 100px;
-    font-size: x-large;
+    top: 250px;
+    left: 20px;
   }
 
   .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
@@ -195,12 +225,18 @@
   }
 
   .switch {
-    margin-top: 270px;
+    margin-top: 140px;
     margin-left: 10px;
   }
 
+  .mainButton {
+    left: 40px;
+    top: 205px;
+  }
+
   .buttonList {
-    top: 110px;
+    top: 250px;
+    left: 20px;
   }
 
   .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
@@ -233,13 +269,18 @@
   }
 
   .switch {
-    margin-top: 270px;
+    margin-top: 140px;
     margin-left: 30px;
   }
 
+  .mainButton {
+    left: 40px;
+    top: 230px;
+  }
+
   .buttonList {
-    top: 130px;
-    font-size: large;
+    top: 280px;
+    left: 20px;
   }
 
   .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
@@ -268,5 +309,11 @@
 }
 
 @media only screen and (min-width: 1025px) {
- 
+  .switch.buttonlistVisible {
+    display: initial;
+  }
+
+  .calendar.hidden {
+    display: initial;
+  }
 }

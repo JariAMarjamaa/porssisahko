@@ -44,6 +44,13 @@ function MainPage({handleLogOut}) {
 
   const [chartType,     setChartType]      = useState('LineChartSelected');
 
+  const [buttonListVisible, setButtonListVisible] = useState(false);
+  const [buttonVisibleText, setButtonVisibleText] = useState("Näytä nappulat");
+
+  const toggleButtonList = () => {
+    setButtonListVisible(!buttonListVisible);
+    setButtonVisibleText(buttonListVisible ? "Näytä nappulat" : "Piilota nappulat");
+  };
 
   const handleOpenNewPage = (event: React.ChangeEvent<unknown>, value: number) => {
     setShowPage(value);
@@ -178,27 +185,31 @@ function MainPage({handleLogOut}) {
         <div> Hinnat ajalta: {timeSpan} </div>
 
         {!loading && showPage === 1 &&
-        <div className="calendar">
+        <div  className={`calendar ${buttonListVisible ? 'hidden' : ''}`}>
           <Calendar dateSelected={handleSelectedDate} UpdateChart={updateChartDefaultData}></Calendar>
         </div>
         }
 
-        {!loading && showPage === 1 &&
-        <div className="switch">
+        {!loading && showPage === 1 && 
+        <div className={`switch ${buttonListVisible ? 'buttonlistVisible' : ''}`}>
           <ChartSwitch switchChanged={handleSwitchChange}></ChartSwitch>
         </div>
         }
 
         {!loading && showPage === 1 &&
-        <div className="buttonList">
-          <ButtonList lowestPrice={lowestValue} highestPrice={highestValue} simulationCallback={makeSimulatoinFailReq} logOut={handleLogOut}></ButtonList>
+        <div>
+          <button className="button mainButton" onClick={toggleButtonList}>{buttonVisibleText}</button>
+
+          <div className={`buttonList ${buttonListVisible ? 'visible' : ''}`}>
+            <ButtonList lowestPrice={lowestValue} highestPrice={highestValue} simulationCallback={makeSimulatoinFailReq} logOut={handleLogOut}></ButtonList>
+          </div>
         </div>
         }
 
         {/* Check if priceData and priceOptions are available before rendering the LineChart */}
         {!loading && priceData && priceOptions && <LineChart type={chartType} data={priceData} options={priceOptions} />}
 
-        {loading && <div className="overlay" >  <CircularProgress size={100}/> </div> }
+        {loading && <div className="overlay">  <CircularProgress size={100}/> </div> }
 
         {showPage === 2 ? 
           <div>
