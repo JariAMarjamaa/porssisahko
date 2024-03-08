@@ -1,8 +1,10 @@
 import { React, useState, Fragment } from 'react';
 import Snackbar   from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
 import CloseIcon  from '@mui/icons-material/Close';
 import Slide      from '@mui/material/Slide';
+
+import { TextField, IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff }             from '@mui/icons-material';
 
 import './index.css';
 
@@ -13,7 +15,9 @@ const LogIn = ({returnResponse}) => {
     const [userId,           setUserId]           = useState("");
     const [password,         setPassword]         = useState("");
     const [password2,        setPassword2]        = useState("");
-    
+    const [showPassword,     setShowPassword]     = useState(false);
+    const [showPassword2,    setShowPassword2]    = useState(false);
+
     const [openSnackbar,     setSnackbarOpen]     = useState(false);
     const [snackbarBGColor,  setSnackbarBGColor]  = useState("green");
     const [snackbarContent,  setSnackbarContent]  = useState("");
@@ -62,8 +66,8 @@ const LogIn = ({returnResponse}) => {
         password: password
       };
 
-      fetch("http://localhost:4000/LogIn", {
-      //fetch("https://backend-nu-mauve.vercel.app/LogIn", {
+      //fetch("http://localhost:4000/LogIn", {
+      fetch("https://backend-nu-mauve.vercel.app/LogIn", {
       
       method: "post",
         headers: { "Content-Type": "application/json" },
@@ -100,8 +104,8 @@ const LogIn = ({returnResponse}) => {
       if (password === password2)
       {
       //Myös SignIn post-metodilla, muuten parametrit näkyy urlissa
-      fetch("http://localhost:4000/SignIn", {
-      //fetch("https://backend-nu-mauve.vercel.app/SignIn", { 
+      //fetch("http://localhost:4000/SignIn", {
+      fetch("https://backend-nu-mauve.vercel.app/SignIn", { 
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData)})
@@ -139,6 +143,11 @@ const LogIn = ({returnResponse}) => {
       }
     }
 
+    const handleTogglePasswordVisibility = (selection) => {
+      if (selection === "salasana")  setShowPassword(!showPassword);
+      else                           setShowPassword2(!showPassword2);
+    };
+
     return (
       <div className="loginPage">
         <h1 data-testid="RFW_MainPageText">Pörssisähkökäppyrä harjoitus</h1>
@@ -150,10 +159,34 @@ const LogIn = ({returnResponse}) => {
 
         <div>
           <form onSubmit={handleLogIn}>
-            <input className="button" type="text"     name="userID"   placeholder='Tunnus'   onChange={ event => setUserId(event.target.value)}></input>
+            <TextField
+              className="button"
+              type="text"
+              name="userID"
+              placeholder="Tunnus"
+              onChange={(event) => setUserId(event.target.value)}
+              style={{ backgroundColor: 'white' }}
+            />
             <br></br>
             <br></br>
-            <input className="button" type="password" name="password" placeholder='Salasana' onChange={ e => setPassword(e.target.value)}></input>
+            <TextField
+              className="button"
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              placeholder="Salasana"
+              onChange={(e) => setPassword(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => handleTogglePasswordVisibility("salasana")} edge="end">
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+              style={{ backgroundColor: 'white' }}
+            />
+            
             <br></br>
             <br></br>
             { ShowLogInButton && <input className="button" type="submit" value="Kirjaudu sisään"></input> }
@@ -168,7 +201,23 @@ const LogIn = ({returnResponse}) => {
         { ShowSignInButton ?
           <div>
             <form onSubmit={handleSignIn}>
-              <input className="button" type="password" name="password" placeholder='Vahvista salasana' onChange={ e => setPassword2(e.target.value)}></input>
+              <TextField
+                className="button"
+                type={showPassword2 ? 'text' : 'password'}
+                name="password"
+                placeholder="Vahvista salasana"
+                onChange={e => setPassword2(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => handleTogglePasswordVisibility("salasana2")} edge="end">
+                        {showPassword2 ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+                style={{ backgroundColor: 'white' }}
+              />
               <br></br>
               <br></br>
               <br></br>

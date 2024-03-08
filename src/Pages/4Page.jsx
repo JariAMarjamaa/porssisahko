@@ -13,6 +13,7 @@ const FourthPage = () => {
         <h3>Todo-lista:</h3>
         <p>- Rekisteröinnin poisto</p>
         <p>- Pääsivun Äksönputtonit sivusta liukuvaan omaan ikkunaan</p>
+        <p>- Palaute laatikko</p>
       </div>
     );
 };

@@ -92,11 +92,11 @@ const SecondPage = () => {
               Lisätty kirjautumissivu.
               <br/>
               <br/>
-              Ja uutena Kirjautumis mahdollisuus
+              Lisätty salasanan vahvistus tunnuksen luomisessa
               <br/>
               <br/>
               <br/>
-              Sovellus versio 6.4
+              Sovellus versio 6.5
             </Typography>
           </AccordionDetails>
         </Accordion>
