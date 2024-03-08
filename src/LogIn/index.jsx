@@ -7,18 +7,25 @@ import Slide      from '@mui/material/Slide';
 import './index.css';
 
 const LogIn = ({returnResponse}) => {
-    const [userId,   setUserId]   = useState("");
-    const [password, setPassword] = useState("");
-    const [openSnackbar,    setSnackbarOpen]    = useState(false);
-    const [snackbarBGColor, setSnackbarBGColor] = useState("green");
-    const [snackbarContent, setSnackbarContent] = useState("");
+    const [ShowLogInButton,  setShowLogInButton]  = useState(true);
+    const [ShowSignInButton, setShowSignInButton] = useState(false);
+
+    const [userId,           setUserId]           = useState("");
+    const [password,         setPassword]         = useState("");
+    const [password2,        setPassword2]        = useState("");
+    
+    const [openSnackbar,     setSnackbarOpen]     = useState(false);
+    const [snackbarBGColor,  setSnackbarBGColor]  = useState("green");
+    const [snackbarContent,  setSnackbarContent]  = useState("");
  
     let HttpStatus = "";
     let userData = {};
 
     const handleOpenSnackbar = (status, text) => {
-      //406 = validointi virhe
-      setSnackbarBGColor( status === 500 || status === 200 ? "green" : "red");
+      //406 = validointi virhe, 500 = tunnus käytössä, 700 = salasana väärin kirjautumisessa
+      setShowSignInButton(status === 700 ? true : false);
+      setShowLogInButton( status === 700 ? false : true);
+      setSnackbarBGColor( status === 200 ? "green" : "red");
       setSnackbarContent(text);
       setSnackbarOpen(true);
     };
@@ -48,14 +55,15 @@ const LogIn = ({returnResponse}) => {
 
     const handleLogIn = (event) => {
       event.preventDefault();
+      setShowSignInButton(false);
+      setShowLogInButton(false);
       userData = {
         userId: userId,
         password: password
       };
 
-      //Myös SignIn post-metodilla, muuten parametrit näkyy urlissa
-      //fetch("http://localhost:4000/LogIn", {
-      fetch("https://backend-nu-mauve.vercel.app/LogIn", {
+      fetch("http://localhost:4000/LogIn", {
+      //fetch("https://backend-nu-mauve.vercel.app/LogIn", {
       
       method: "post",
         headers: { "Content-Type": "application/json" },
@@ -82,13 +90,18 @@ const LogIn = ({returnResponse}) => {
 
     const handleSignIn = (event) => {
       event.preventDefault();
+      setShowSignInButton(false);
+      setShowLogInButton(false);
       userData = {
         userId: userId,
         password: password
       };
 
-      //fetch("http://localhost:4000/SignIn", {
-      fetch("https://backend-nu-mauve.vercel.app/SignIn", { 
+      if (password === password2)
+      {
+      //Myös SignIn post-metodilla, muuten parametrit näkyy urlissa
+      fetch("http://localhost:4000/SignIn", {
+      //fetch("https://backend-nu-mauve.vercel.app/SignIn", { 
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData)})
@@ -107,7 +120,24 @@ const LogIn = ({returnResponse}) => {
           console.log("SignedIn. Error:", error.message);
           // Handle errors here
         });
+      }
+      else
+      {
+        handleOpenSnackbar(700, "Tarkista salasana");
+      }
     };
+
+    const showSignIn = (status) => {
+      if (status)
+      {
+        setShowSignInButton(true);
+        setShowLogInButton(false);
+      }
+      else {
+        setShowSignInButton(false);
+        setShowLogInButton(true);
+      }
+    }
 
     return (
       <div className="loginPage">
@@ -126,7 +156,7 @@ const LogIn = ({returnResponse}) => {
             <input className="button" type="password" name="password" placeholder='Salasana' onChange={ e => setPassword(e.target.value)}></input>
             <br></br>
             <br></br>
-            <input className="button" type="submit" value="Kirjaudu sisään"></input>
+            { ShowLogInButton && <input className="button" type="submit" value="Kirjaudu sisään"></input> }
           </form>
         </div>
 
@@ -135,9 +165,27 @@ const LogIn = ({returnResponse}) => {
         <br></br>
         <br></br>
 
-        <form onSubmit={handleSignIn}>
-          <input className="button" type="submit" value="Rekisteröidy"></input>
-        </form>
+        { ShowSignInButton ?
+          <div>
+            <form onSubmit={handleSignIn}>
+              <input className="button" type="password" name="password" placeholder='Vahvista salasana' onChange={ e => setPassword2(e.target.value)}></input>
+              <br></br>
+              <br></br>
+              <br></br>
+              <br></br>
+              <input className="button" type="submit" value="Rekisteröidy"></input>
+              <br></br>
+              <br></br>
+              <br></br>
+              <br></br>
+            </form>
+            <button className="button" onClick={() => showSignIn(false)} >Peruuta</button>
+          </div>
+          : 
+          <div>
+            <button className="button" onClick={() => showSignIn(true)} >Luo tunnus</button>
+          </div>
+         }
 
         <Snackbar
           TransitionComponent={Slide}
