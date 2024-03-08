@@ -1,7 +1,8 @@
 import { React, useState, Fragment } from 'react';
-import Snackbar   from '@mui/material/Snackbar';
-import CloseIcon  from '@mui/icons-material/Close';
-import Slide      from '@mui/material/Slide';
+import Snackbar         from '@mui/material/Snackbar';
+import CloseIcon        from '@mui/icons-material/Close';
+import Slide            from '@mui/material/Slide';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { TextField, IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff }             from '@mui/icons-material';
@@ -9,8 +10,9 @@ import { Visibility, VisibilityOff }             from '@mui/icons-material';
 import './index.css';
 
 const LogIn = ({returnResponse}) => {
-    const [ShowLogInButton,  setShowLogInButton]  = useState(true);
-    const [ShowSignInButton, setShowSignInButton] = useState(false);
+    const [ShowLogInButton,         setShowLogInButton]         = useState(true);
+    const [ShowSignInButton,        setShowSignInButton]        = useState(false);
+    const [ShowCreateAccountButton, setShowCreateAccountButton] = useState(true);
 
     const [userId,           setUserId]           = useState("");
     const [password,         setPassword]         = useState("");
@@ -21,6 +23,9 @@ const LogIn = ({returnResponse}) => {
     const [openSnackbar,     setSnackbarOpen]     = useState(false);
     const [snackbarBGColor,  setSnackbarBGColor]  = useState("green");
     const [snackbarContent,  setSnackbarContent]  = useState("");
+
+    const [signing,          setsigning]          = useState(false);
+
  
     let HttpStatus = "";
     let userData = {};
@@ -30,6 +35,7 @@ const LogIn = ({returnResponse}) => {
       setShowSignInButton(status === 700 ? true : false);
       setShowLogInButton( status === 700 ? false : true);
       setSnackbarBGColor( status === 200 ? "green" : "red");
+      setShowCreateAccountButton(true);
       setSnackbarContent(text);
       setSnackbarOpen(true);
     };
@@ -61,6 +67,8 @@ const LogIn = ({returnResponse}) => {
       event.preventDefault();
       setShowSignInButton(false);
       setShowLogInButton(false);
+      setShowCreateAccountButton(false);
+      setsigning(true);
       userData = {
         userId: userId,
         password: password
@@ -86,6 +94,7 @@ const LogIn = ({returnResponse}) => {
           } else {
             returnResponse(true);
           }
+          setsigning(false);
         })
         .catch(error => {
           console.error("SignedIn. FATAL Error:", error.message);
@@ -96,6 +105,7 @@ const LogIn = ({returnResponse}) => {
       event.preventDefault();
       setShowSignInButton(false);
       setShowLogInButton(false);
+      setsigning(true);
       userData = {
         userId: userId,
         password: password
@@ -119,6 +129,7 @@ const LogIn = ({returnResponse}) => {
           } else {
             returnResponse(true);
           }
+          setsigning(false);
         })
         .catch(error => {
           console.log("SignedIn. Error:", error.message);
@@ -156,6 +167,8 @@ const LogIn = ({returnResponse}) => {
         <h3>Sisäänkirjautuminen:</h3>
         <br></br>
         <br></br>
+
+        {signing && <div className="overlay">  <CircularProgress size={100}/> </div> }
 
         <div>
           <form onSubmit={handleLogIn}>
@@ -231,6 +244,7 @@ const LogIn = ({returnResponse}) => {
             <button className="button" onClick={() => showSignIn(false)} >Peruuta</button>
           </div>
           : 
+            ShowCreateAccountButton &&           
           <div>
             <button className="button" onClick={() => showSignIn(true)} >Luo tunnus</button>
           </div>
