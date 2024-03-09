@@ -15,7 +15,9 @@ export const toc = (
     <br/>
     - Sivu 3: CV + Robottitestaus video
     <br/>
-    - Sivu 4: ToDo - lista
+    - Sivu 4: Palautteen anto
+    <br/>
+    - Sivu 5: ToDo - lista
   </>
 );
 

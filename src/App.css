@@ -23,6 +23,11 @@
   }
 }
 
+.palaute {
+  background-color: white;
+  width: 50%;
+}
+
 .calendar {
   background-color: white;
   color: black;
@@ -127,6 +132,10 @@
 }
 
 @media only screen and (max-width: 499px) {
+  .palaute {
+    width: 80%;
+  }
+  
   .chartImage {
     top: 30px;
     left: 30px;
@@ -190,6 +199,10 @@
 }
 
 @media only screen and (min-width: 500px) and (max-width: 599px) {
+  .palaute {
+    width: 80%;
+  }
+
   .chartImage {
     top: 30px;
     left: 30px;
@@ -251,6 +264,10 @@
 }
 
 @media only screen and (min-width: 600px) and (max-width: 750px) {
+  .palaute {
+    width: 80%;
+  }
+
   .chartImage {
     top: 30px;
     left: 30px;
@@ -315,6 +332,10 @@
 }
 
 @media only screen and (min-width: 751px) and (max-width: 1024px) {
+  .palaute {
+    width: 80%;
+  }
+  
   .chartImage {
     top: 30px;
     left: 30px;

@@ -9,6 +9,8 @@ import Notication from "./noteHandling/note.jsx";
 import SecondPage  from './Pages/2Page.tsx';
 import ThirdPage   from './Pages/3Page.jsx';
 import FourthPage  from './Pages/4Page.jsx';
+import FifthPage   from './Pages/5Page.jsx';
+
 import Calendar    from './Calendar/calendar.jsx';
 import ButtonList  from './Buttons/ButtonList.jsx';
 
@@ -219,10 +221,14 @@ function MainPage({handleLogOut}) {
           <div>
             <ThirdPage onClose={handleCloseNewPage} />
           </div>
-         : showPage === 4 && 
+         : showPage === 4 ? 
          <div>
            <FourthPage />
          </div>
+         : showPage === 5 && 
+         <div>
+            <FifthPage />
+          </div>
         }
  
         <br></br>
@@ -232,7 +238,7 @@ function MainPage({handleLogOut}) {
           
         <div className="pagination">
           <Stack spacing={2} alignItems="center">
-            <Pagination color="primary" count={4} page={showPage} onChange={handleOpenNewPage}/>
+            <Pagination color="primary" count={5} page={showPage} onChange={handleOpenNewPage}/>
           </Stack>
         </div>
         </div>
