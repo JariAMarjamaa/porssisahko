@@ -95,7 +95,7 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback, logOut }) =
   }
 
   return (
-    <div style={{ backgroundColor: 'beige', padding: "20px" }}>
+    <div style={{ backgroundColor: 'beige', padding: "15px" }}>
     <button className="button" onClick={() => handleOpenDialog("toc")} >Sisällysluettelo</button>
     <br></br>
     

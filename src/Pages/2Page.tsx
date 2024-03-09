@@ -95,8 +95,11 @@ const SecondPage = () => {
               Viilattu pääsivua. Toiminto nappulat liuku näytölle
               <br/>
               <br/>
+              Lisätty pyörivä kuva etusivulle.
               <br/>
-              Sovellus versio 6.6
+              <br/>
+              <br/>
+              Sovellus versio 6.7
             </Typography>
           </AccordionDetails>
         </Accordion>

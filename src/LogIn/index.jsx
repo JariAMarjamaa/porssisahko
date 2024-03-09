@@ -7,6 +7,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { TextField, IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff }             from '@mui/icons-material';
 
+import ChartImage from "../content/chart.jpg";
+
 import './index.css';
 
 const LogIn = ({returnResponse}) => {
@@ -38,6 +40,7 @@ const LogIn = ({returnResponse}) => {
       setShowCreateAccountButton(true);
       setSnackbarContent(text);
       setSnackbarOpen(true);
+      setsigning(false);
     };
   
     const handleSnackbarClose = (event, reason) => {
@@ -97,7 +100,7 @@ const LogIn = ({returnResponse}) => {
           setsigning(false);
         })
         .catch(error => {
-          console.error("SignedIn. FATAL Error:", error.message);
+          handleOpenSnackbar(800, "Serveri yhteysvirhe!");
         });
     };
 
@@ -132,8 +135,7 @@ const LogIn = ({returnResponse}) => {
           setsigning(false);
         })
         .catch(error => {
-          console.log("SignedIn. Error:", error.message);
-          // Handle errors here
+          handleOpenSnackbar(800, "Serveri yhteysvirhe!");
         });
       }
       else
@@ -162,6 +164,11 @@ const LogIn = ({returnResponse}) => {
     return (
       <div className="loginPage">
         <h1 data-testid="RFW_MainPageText">Pörssisähkökäppyrä harjoitus</h1>
+
+        <div className="chartImage">
+          <img className="horizontalSpin" src={ChartImage} alt="Käppyrä"/>
+        </div>
+
         <br/>
         <br/>
         <h3>Sisäänkirjautuminen:</h3>
