@@ -65,8 +65,8 @@ const FourthPage = () => {
       };
 
       //Myös SignIn post-metodilla, muuten parametrit näkyy urlissa
-      fetch("http://localhost:4000/Feebback", {
-      //fetch("https://backend-nu-mauve.vercel.app/SignIn", { 
+      //fetch("http://localhost:4000/Feebback", {
+      fetch("https://backend-nu-mauve.vercel.app/Feebback", { 
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(feedback)})
