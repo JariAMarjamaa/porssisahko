@@ -94,14 +94,14 @@ const SecondPage = () => {
               <br/>
               Viilattu pääsivua. Toiminto nappulat liuku näytölle
               <br/>
-              Lisätty pyörivä kuva etusivulle.
+              Lisätty serverille action logging.
               <br/>
 
               <br/>
               <br/>
               <br/>
               <br/>
-              Sovellus versio 7.0
+              Sovellus versio 7.1
             </Typography>
           </AccordionDetails>
         </Accordion>
