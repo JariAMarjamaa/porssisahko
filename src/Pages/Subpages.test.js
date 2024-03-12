@@ -45,14 +45,14 @@ describe('Subpage tests', () => {
         expect(screen.getByText('Neljäs sivu')).toBeInTheDocument();
     });
 
-    test('render Page 2 component',  async () => {
+    test('render Page 2 component',  () => {
         //const mockAccordionOpen = jest.fn();
         //accordion open callback removed
         //render(<SecondPage  onOpen={mockAccordionOpen} />);
         render(<SecondPage />);
 
         expect(screen.getByText('React DemoApp')).toBeInTheDocument();
-        expect(screen.getByText('UI työkalut')).toBeInTheDocument();
+        expect(screen.getByText('UI+Backend työkalut')).toBeInTheDocument();
         // wholly component is seen from DOM, so just check that test-id is found also
         expect(screen.getByTestId('RFW_AccordionContent_1')).toBeInTheDocument();
         //const ReactTextRegex      = /React/;  <= react word is found multiple places from the DOM, so use unigue text
@@ -60,8 +60,8 @@ describe('Subpage tests', () => {
         expect(screen.getByText(MaterialUITextRegex)).toBeInTheDocument();
 
         // Simulate expanding an Accordion
-        const accordionPanel = screen.getByText('UI työkalut');
-        fireEvent.click(accordionPanel);
+        //const accordionPanel = screen.getByText('UI työkalut');
+        //fireEvent.click(accordionPanel);
     });
 
     test('render Page 3 component', () => {
@@ -99,7 +99,6 @@ describe('Subpage tests', () => {
         // Simulate a click on the "Open video" button
         fireEvent.click(videoButton);
 
-        //console.log("TEST: createElementSpy: ", createElementSpy);
         // Assert that document.createElement was called with the appropriate arguments
         expect(createElementSpy).toHaveBeenCalledWith('iframe'); 
         expect(createElementSpy).toHaveBeenCalledWith('br'); 

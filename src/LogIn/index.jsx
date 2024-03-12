@@ -27,7 +27,6 @@ const LogIn = ({returnResponse}) => {
     const [snackbarContent,  setSnackbarContent]  = useState("");
 
     const [signing,          setsigning]          = useState(false);
-
  
     let HttpStatus = "";
     let userData = {};
@@ -68,6 +67,7 @@ const LogIn = ({returnResponse}) => {
 
     const handleLogIn = (event) => {
       event.preventDefault();
+      
       setShowSignInButton(false);
       setShowLogInButton(false);
       setShowCreateAccountButton(false);
@@ -86,7 +86,7 @@ const LogIn = ({returnResponse}) => {
         .then(response => {             //promise response
           //MySQL if (!response.ok) {
           // Handle non-success status codes here
-          console.error("LogIn. HTTP Status: ", response.status);
+          //console.error("LogIn. HTTP Status: ", response.status);
           HttpStatus = response.status;
           // }
           return response.json(response);
@@ -198,7 +198,7 @@ const LogIn = ({returnResponse}) => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={() => handleTogglePasswordVisibility("salasana")} edge="end">
+                    <IconButton data-testid="RFW_TooglePassWordVisibility" onClick={() => handleTogglePasswordVisibility("salasana")} edge="end">
                       {showPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>
@@ -209,7 +209,7 @@ const LogIn = ({returnResponse}) => {
             
             <br></br>
             <br></br>
-            { ShowLogInButton && <input className="button" type="submit" value="Kirjaudu sisään"></input> }
+            { ShowLogInButton && <input data-testid="RFW_LogInButton" className="button" type="submit" value="Kirjaudu sisään"></input> }
           </form>
         </div>
 

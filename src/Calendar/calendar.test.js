@@ -125,7 +125,6 @@ describe('Calendar component', () => {
 
     expect(mockhandleSelectedDate).not.toHaveBeenCalled();
     expect(mockUpdateChart).not.toHaveBeenCalled();
-    //expect(Calendar.prototype.handleAccept).not.toHaveBeenCalled();
 
     const CancelButton = screen.getByText('Peruuta');
     fireEvent.click(CancelButton);

@@ -47,7 +47,7 @@ const SecondPage = () => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2bh-content"
             id="panel2bh-header">
-            <Typography sx={{ width: '70%', flexShrink: 0 }}> Testaus työkalut</Typography>
+            <Typography sx={{ width: '70%', flexShrink: 0 }}> Testaus työkalut </Typography>
             <Typography sx={{ color: 'text.secondary' }}></Typography>
           </AccordionSummary>
           <AccordionDetails>
