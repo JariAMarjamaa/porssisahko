@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { applyMiddleware } from '../store/reducers/middleware';
 import { useActions } from '../store/actions/actionCreators';
-import App from '../App.tsx';
+import App from '../App.jsx';
 
 export const StateContext = createContext();
 

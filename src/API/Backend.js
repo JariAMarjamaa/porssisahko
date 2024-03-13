@@ -7,6 +7,7 @@ export class BackendApi extends ApiBase {
 
     async logIn(data) {
       console.log("BACKEND API. logIn. this.baseURL: ",this.baseURL);
+      console.log("BACKEND API. logIn. data: ",data);
 
       let resp = {
         status: 0,
@@ -39,6 +40,7 @@ export class BackendApi extends ApiBase {
 
     async logOut(userID) {
       console.log("BACKEND API. logOut. this.baseURL: ",this.baseURL);
+      console.log("BACKEND API. logOut. userID: ",userID);
 
       let resp = {
         status: 0,

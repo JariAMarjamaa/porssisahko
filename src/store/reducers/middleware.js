@@ -42,11 +42,11 @@ export const applyMiddleware = ({dispatch, logout}) => {
 
           if (error instanceof ApiError) {
             console.log("MIDDLEWARE. LOGIN. CATCH API ERROR: ", error);
-            dispatch({ type: types.LOGIN_FAILED, data: { msg: "Kirjautuminen epäonnistui" } })
+            dispatch({ type: types.LOGIN_FAILED, data: { status: 501, msg: "LogIn. Middleware error 501"} })
           }
           else {
             console.log("MIDDLEWARE. LOGIN. CATCH MUU ERROR: ", error);
-            dispatch({ type: types.LOGIN_FAILED, data: { msg: error.response && error.response.data && error.response.data !== "" ?  error.response.data.message : undefined } })
+            dispatch({ type: types.LOGIN_FAILED, data: { status: 502, msg: "LogIn. Middleware error 502" } })
           }
         }
         break;
@@ -61,15 +61,15 @@ export const applyMiddleware = ({dispatch, logout}) => {
           processResponse(response, [200], "Logout failed", dispatch /* tai näin: responseErrorFn*/);
           dispatch({ type: types.LOGOUT_SUCCEEDED, data: response });
         } catch (error) {
-          console.log("MIDDLEWARE. LOGIN. ERROR: ", error);
+          console.log("MIDDLEWARE. LOGOUT. ERROR: ", error);
     
           if (error instanceof ApiError) {
-            console.log("MIDDLEWARE. LOGIN. CATCH API ERROR: ", error);
-            dispatch({ type: types.LOGOUT_FAILED, data: { msg: "Kirjautuminen epäonnistui" } })
+            console.log("MIDDLEWARE. LOGOUT. CATCH API ERROR: ", error);
+            dispatch({ type: types.LOGOUT_FAILED, data: { status: 501, msg: "LogOut. Middleware error 501" } })
           }
           else {
-            console.log("MIDDLEWARE. LOGIN. CATCH MUU ERROR: ", error);
-            dispatch({ type: types.LOGOUT_FAILED, data: { msg: error.response && error.response.data && error.response.data !== "" ?  error.response.data.message : undefined } })
+            console.log("MIDDLEWARE. LOGOUT. CATCH MUU ERROR: ", error);
+            dispatch({ type: types.LOGOUT_FAILED, data: { status: 502, msg: "LogOut. Middleware error 502" } })
           }
         }
         break;
