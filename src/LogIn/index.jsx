@@ -1,4 +1,4 @@
-import { React, useState, Fragment } from 'react';
+import { React, useState, Fragment, useEffect } from 'react';
 import Snackbar         from '@mui/material/Snackbar';
 import CloseIcon        from '@mui/icons-material/Close';
 import Slide            from '@mui/material/Slide';
@@ -7,40 +7,70 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { TextField, IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff }             from '@mui/icons-material';
 
+import {useStateValue} from "../State/index.js";
+import { types }       from '../store/actions/actionTypes';
+
 import ChartImage from "../content/chart.jpg";
 
 import './index.css';
 
 const LogIn = ({returnResponse}) => {
-    const [ShowLogInButton,         setShowLogInButton]         = useState(true);
-    const [ShowSignInButton,        setShowSignInButton]        = useState(false);
-    const [ShowCreateAccountButton, setShowCreateAccountButton] = useState(true);
+  const { state, actions } = useStateValue();
+  
+  const [ShowLogInButton,         setShowLogInButton]         = useState(true);
+  const [ShowSignInButton,        setShowSignInButton]        = useState(false);
+  const [ShowCreateAccountButton, setShowCreateAccountButton] = useState(true);
 
-    const [userId,           setUserId]           = useState("");
-    const [password,         setPassword]         = useState("");
-    const [password2,        setPassword2]        = useState("");
-    const [showPassword,     setShowPassword]     = useState(false);
-    const [showPassword2,    setShowPassword2]    = useState(false);
+  const [userId,           setUserId]           = useState("");
+  const [password,         setPassword]         = useState("");
+  const [password2,        setPassword2]        = useState("");
+  const [showPassword,     setShowPassword]     = useState(false);
+  const [showPassword2,    setShowPassword2]    = useState(false);
 
-    const [openSnackbar,     setSnackbarOpen]     = useState(false);
-    const [snackbarBGColor,  setSnackbarBGColor]  = useState("green");
-    const [snackbarContent,  setSnackbarContent]  = useState("");
+  const [openSnackbar,     setSnackbarOpen]     = useState(false);
+  const [snackbarBGColor,  setSnackbarBGColor]  = useState("green");
+  const [snackbarContent,  setSnackbarContent]  = useState("");
 
-    const [signing,          setsigning]          = useState(false);
+  const [signing,          setsigning]          = useState(false);
  
-    let HttpStatus = "";
-    let userData = {};
+  let HttpStatus = "";
+  let userData = {};
 
-    const handleOpenSnackbar = (status, text) => {
-      //406 = validointi virhe, 500 = tunnus käytössä, 700 = salasana väärin kirjautumisessa
+  useEffect( () => {
+    switch(state.login.state)
+    {
+      case "INITIAL_STATE":
+        console.log("LogIn INITIAL_STATE");
+        break;
+      case types.LOGGING:
+        console.log("LogIn LOGGING");
+        break;
+      case types.LOGIN_SUCCEEDED:
+        console.log("LogIn LOGIN_SUCCEEDED");
+        setsigning(false);
+        returnResponse(true);
+        break;
+      case types.LOGIN_FAILED:
+        console.log("LogIn LOGIN_FAILED");
+        setsigning(false);
+        handleOpenSnackbar(state.login.status, state.login.infoText);
+        break;
+      default:
+        //console.log("LeopsContainer. ",state.leops.state, " LoadingData: ", LoadingData);
+        break;
+    }
+  }, [state.login, actions]);
+
+  const handleOpenSnackbar = (status, text) => {
+      //401 = väärä tunnus/salasana. 406 = validointi virhe, 500 = tunnus käytössä, 700 = salasana väärin kirjautumisessa
       setShowSignInButton(status === 700 ? true : false);
       setShowLogInButton( status === 700 ? false : true);
-      setSnackbarBGColor( status === 200 ? "green" : "red");
+      setSnackbarBGColor( status === 401 ? "green" : "red");
       setShowCreateAccountButton(true);
       setSnackbarContent(text);
       setSnackbarOpen(true);
       setsigning(false);
-    };
+  };
   
     const handleSnackbarClose = (event, reason) => {
       if (reason === 'clickaway') {
@@ -77,8 +107,11 @@ const LogIn = ({returnResponse}) => {
         password: password
       };
 
+      console.log("COMP Trigger action LogIn");
+      actions.triggerLogIn(userData);
+
       //fetch("http://localhost:4000/LogIn", {
-      fetch("https://backend-nu-mauve.vercel.app/LogIn", {
+      /*fetch("https://backend-nu-mauve.vercel.app/LogIn", {
       
       method: "post",
         headers: { "Content-Type": "application/json" },
@@ -101,7 +134,7 @@ const LogIn = ({returnResponse}) => {
         })
         .catch(error => {
           handleOpenSnackbar(800, "Serveri yhteysvirhe!");
-        });
+        });*/
     };
 
     const handleSignIn = (event) => {

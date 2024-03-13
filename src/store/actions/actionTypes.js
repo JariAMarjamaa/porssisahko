@@ -1,0 +1,6 @@
+export const types = {
+    ASYNC_LOGGING_IN: 'ASYNC_LOGGING_IN',
+    LOGGING:          'LOGGING',
+    LOGIN_SUCCEEDED:  'LOGIN_SUCCEEDED',
+    LOGIN_FAILED:     'LOGIN_FAILED'
+}

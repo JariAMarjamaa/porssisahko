@@ -138,7 +138,7 @@ function MainPage({handleLogOut}) {
       //Joten lisää päivä käyttäjän valintaan
       fetchData(selectedDate, "TRUE");
     }
-  }, [makeRequest, selectedDate]); // Fetch data when makeRequest or selectedDate changes
+  }, [makeRequest, selectedDate, fetchData]); // Fetch data when makeRequest or selectedDate changes
   
   // Callback function to receive the value from the subcomponent
   const handleSelectedDate = (date: Date) => {

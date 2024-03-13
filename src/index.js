@@ -2,13 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
+
+import { StateProvider, initialState } from './State';
+
+import mainReducer from "./store/reducers/index.js";
+
 //import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <StateProvider reducer={mainReducer} initialState={initialState}>
+    {/*<App /> */} 
+  </StateProvider>
+
+//  <React.StrictMode>
+//    <App />
+//  </React.StrictMode>
 );
 
 // reportWebVitals();
