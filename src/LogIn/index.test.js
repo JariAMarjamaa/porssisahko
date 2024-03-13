@@ -11,8 +11,9 @@ import LogIn from './index.jsx';
 describe('Login component', () => {
   test('renders Login component', () => {
     // Mock the callback function
-    const mockUserSelection = jest.fn();
-    render(<LogIn returnResponse={mockUserSelection} />);
+    //const mockUserSelection = jest.fn();
+    //render(<LogIn returnResponse={mockUserSelection} />);
+    render(<LogIn />);
 
     expect(screen.getByText('Pörssisähkökäppyrä harjoitus')).toBeInTheDocument();
     expect(screen.getByText("Sisäänkirjautuminen:")).toBeInTheDocument();
@@ -66,9 +67,8 @@ describe('Login component', () => {
     // Check if the password input type is back to 'password'
     expect(passwordInput).toHaveAttribute('type', 'password');
   });
-
-  /*
-  test('Returns login ok', () => {
+  
+  test('Returns login ok', async () => {
     // This is the section where we mock `fetch`
     const unmockedFetch = global.fetch
 
@@ -104,23 +104,19 @@ describe('Login component', () => {
     const LogInButton = getByTestId('RFW_LogInButton');
     
     // Simulate clicking the toggle button
-    //await act(async () => {
-      fireEvent.click(LogInButton);
-    //});
+    fireEvent.click(LogInButton);
 
     //const json = await withFetch(); //  =>  Jest worker encountered 4 child process exceptions, exceeding retry limit
     
     // Check if the login has succeeded
-    waitFor(() => {
-    //  act(() => {
-        expect(LogInResponseMock).toHaveBeenCalledTimes(1);
-        expect(LogInResponseMock).toHaveBeenCalledWith(true);
-    //    });
+    await waitFor(() => {
+      expect(LogInResponseMock).toHaveBeenCalledTimes(1);
+      expect(LogInResponseMock).toHaveBeenCalledWith(true);
     });
     
     global.fetch = unmockedFetch
 
   });
-  */
+  
 
 });

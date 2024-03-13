@@ -9,10 +9,8 @@ const mockOnClose = jest.fn();
 const mockHandleLogout = jest.fn();
 
 describe('Subpage tests', () => {
-    test('pagination selection of page 2', async () => {
-        await act(async () => {
-            render(<MainPage handleLogOut={mockHandleLogout} />);
-        });
+    test('pagination selection of page 2', () => {
+        render(<MainPage handleLogOut={mockHandleLogout} />);
 
         // Simulate a page change to 2
         fireEvent.click(screen.getByText('2'));
@@ -21,11 +19,9 @@ describe('Subpage tests', () => {
         expect(screen.getByText('Jartsan koodausnäyte')).toBeInTheDocument();
     });
 
-    test('pagination selection of page 3', async () => {
-        await act(async () => {
-            render(<MainPage handleLogOut={mockHandleLogout} />);
-        });
-
+    test('pagination selection of page 3', () => {
+        render(<MainPage handleLogOut={mockHandleLogout} />);
+       
         // Simulate a page change to 2
         fireEvent.click(screen.getByText('3'));
 
@@ -33,10 +29,8 @@ describe('Subpage tests', () => {
         expect(screen.getByText('Kolmas sivu')).toBeInTheDocument();
     });
 
-    test('pagination selection of page 4', async () => {
-        await act(async () => {
-            render(<MainPage handleLogOut={mockHandleLogout} />);
-        });
+    test('pagination selection of page 4',  () => {
+        render(<MainPage handleLogOut={mockHandleLogout} />);
 
         // Simulate a page change to 2
         fireEvent.click(screen.getByText('4'));
@@ -46,9 +40,6 @@ describe('Subpage tests', () => {
     });
 
     test('render Page 2 component',  () => {
-        //const mockAccordionOpen = jest.fn();
-        //accordion open callback removed
-        //render(<SecondPage  onOpen={mockAccordionOpen} />);
         render(<SecondPage />);
 
         expect(screen.getByText('React DemoApp')).toBeInTheDocument();
