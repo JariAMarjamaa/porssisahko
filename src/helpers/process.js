@@ -8,13 +8,10 @@ export class ApiError extends Error {
   
       this.name = "ApiError";
       this.message = msg;
-      console.error("ApiError. this:", this);
     }
   }
 
 export const processResponse = (response, okCodes, errorMessage, callback) => {
-  console.error("processResponse. response:", response);
-
   if (response && response.status) {
     if (okCodes.indexOf(response.status) < 0) {
       if (callback) callback(response);

@@ -26,12 +26,6 @@ export const applyMiddleware = ({dispatch, logout}) => {
                 "\n action: ", action,
                 "\n actiotype: ", action.type);*/
 
-    //const d1 = new Date();
-    //const timeNow = d1.getTime();
-
-    console.log("MIDDLEWARE. action: ",action,
-                "\n action.type: ", action.type);  
-
     switch (action.type) {
 
       case types.ASYNC_LOGGING_IN:
@@ -39,37 +33,52 @@ export const applyMiddleware = ({dispatch, logout}) => {
           console.log("MIDDLEWARE. dispatch LOGGING");
           dispatch({ type: types.LOGGING })
           const response = await new BackendApi().logIn(action.payload);
-          console.log("MIDDLEWARE. LOGGING response: ", response);
+          console.log("MIDDLEWARE. LOGIN response: ", response);
 
           processResponse(response, [200, 401], "Login failed", dispatch /* tai näin: responseErrorFn*/);
           dispatch({ type: response.status === 200 ? types.LOGIN_SUCCEEDED : types.LOGIN_FAILED, data: response });
-          } catch (error) {
-            console.log("MIDDLEWARE. LOGIN. ERROR: ", error);
+        } catch (error) {
+          console.log("MIDDLEWARE. LOGIN. ERROR: ", error);
 
-            if (error instanceof ApiError) {
-              console.log("MIDDLEWARE. LOGIN. CATCH API ERROR: ", error);
-
-              dispatch({ type: types.LOGIN_FAILED, data: { msg: "Kirjautuminen epäonnistui" } })
-            }
-            else {
-              console.log("MIDDLEWARE. LOGIN. CATCH MUU ERROR: ", error);
-
-              dispatch({ type: types.LOGIN_FAILED, data: { msg: error.response && error.response.data && error.response.data !== "" ?  error.response.data.message : undefined } })
-            }
+          if (error instanceof ApiError) {
+            console.log("MIDDLEWARE. LOGIN. CATCH API ERROR: ", error);
+            dispatch({ type: types.LOGIN_FAILED, data: { msg: "Kirjautuminen epäonnistui" } })
           }
-          break;
+          else {
+            console.log("MIDDLEWARE. LOGIN. CATCH MUU ERROR: ", error);
+            dispatch({ type: types.LOGIN_FAILED, data: { msg: error.response && error.response.data && error.response.data !== "" ?  error.response.data.message : undefined } })
+          }
+        }
+        break;
+      
+      case types.ASYNC_LOGGING_OUT:
+        try {
+          console.log("MIDDLEWARE. dispatch LOGGING");
+          dispatch({ type: types.LOGGING })
+          const response = await new BackendApi().logOut(action.payload);
+          console.log("MIDDLEWARE. LOGOUT response: ", response);
+    
+          processResponse(response, [200], "Logout failed", dispatch /* tai näin: responseErrorFn*/);
+          dispatch({ type: types.LOGOUT_SUCCEEDED, data: response });
+        } catch (error) {
+          console.log("MIDDLEWARE. LOGIN. ERROR: ", error);
+    
+          if (error instanceof ApiError) {
+            console.log("MIDDLEWARE. LOGIN. CATCH API ERROR: ", error);
+            dispatch({ type: types.LOGOUT_FAILED, data: { msg: "Kirjautuminen epäonnistui" } })
+          }
+          else {
+            console.log("MIDDLEWARE. LOGIN. CATCH MUU ERROR: ", error);
+            dispatch({ type: types.LOGOUT_FAILED, data: { msg: error.response && error.response.data && error.response.data !== "" ?  error.response.data.message : undefined } })
+          }
+        }
+        break;
+      
       default: dispatch(action);
     }
   }
 }
 
-/*
-params:
-  error: Error object thrown
-  type: Action type to dispatch error
-  dispatch: dispatch function
-  errorDescription: (optional) error description
-*/
 const errorHandler = ({ error, type, dispatch, errorDescription = '' }) => {
   // additionalParam is an optional object that is sent to errorHandler 
   //for handling specific cases
@@ -80,8 +89,8 @@ const errorHandler = ({ error, type, dispatch, errorDescription = '' }) => {
   */
 
   // if you use responsedata when error is thrown remember to handle the case when responsedata is null
-  console.log("error ERRORHANDLERISSA", error);
-  console.log("type ERRORHANDLERISSA", type);
+  console.log("ERRORHANDLER error: ", error);
+  console.log("ERRORHANDLER type", type);
   
   if (error instanceof ApiError) {
     console.log("errorHandler IF error is ApiError")

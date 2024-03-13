@@ -34,7 +34,7 @@ const SecondPage = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography sx={{ bgcolor: 'lightgray' }} >
-                React + MaterialUI
+                React + MaterialUI + Redux
                 <br/>
                 <br/>
                 NodeJS + Google Sheet
@@ -89,19 +89,17 @@ const SecondPage = () => {
             <Typography sx={{ bgcolor: 'lightgray' }}>
               Viimeisimpänä isompana juttuna lisätty node serveri.
               <br/>
-              Ja palautteen antaminen.
+              Ja Redux staten hallintaan.
               <br/>
               <br/>
-              Viilattu pääsivua. Toiminto nappulat liuku näytölle
-              <br/>
-              Lisätty serverille action logging.
+              - Kirjautuminen menee vielä Reduxin ohi.
               <br/>
 
               <br/>
               <br/>
               <br/>
               <br/>
-              Sovellus versio 7.1
+              Sovellus versio 8.0
             </Typography>
           </AccordionDetails>
         </Accordion>

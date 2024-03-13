@@ -14,7 +14,7 @@ const initialState = {
     switch (action.type) {
       case types.LOGGING:
       console.log("REDUCER. LOGGING");  
-      return {
+        return {
           ...state,
           state: action.type,
           logging: true,
@@ -23,7 +23,7 @@ const initialState = {
       
       case types.LOGIN_SUCCEEDED:
       console.log("REDUCER. LOGIN_SUCCEEDED. payload: ", payload);  
-      return {
+        return {
           ...state,
           state: action.type,
           status: payload.status,
@@ -34,16 +34,37 @@ const initialState = {
 
       case types.LOGIN_FAILED:
       console.log("REDUCER. LOGIN_FAILED. payload: ", payload);  
-
         return {
-            ...state, 
-            state: action.type,
-            status: payload.status,
-            logging: false,
-            infoText: payload.msg
+          ...state, 
+          state: action.type,
+          status: payload.status,
+          logging: false,
+          infoText: payload.msg
         };
-      default:
-        return state;
+
+      case types.LOGOUT_SUCCEEDED:
+      console.log("REDUCER. LOGOUT_SUCCEEDED. payload: ", payload);  
+        return {
+          ...state,
+          state: action.type,
+          status: payload.status,
+          logging: false,
+          infoText: null,
+          userIds: state.userIds.filter(id => id !== payload.userId), // Remove the specified user ID
+        };
+
+      case types.LOGOUT_FAILED:
+      console.log("REDUCER. LOGOUT_FAILED. payload: ", payload);  
+        return {
+          ...state, 
+          state: action.type,
+          status: payload.status,
+          logging: false,
+          infoText: payload.msg
+        };
+
+        default:
+          return state;
     }
   };
   

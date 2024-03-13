@@ -40,13 +40,13 @@ const LogIn = ({returnResponse}) => {
     switch(state.login.state)
     {
       case "INITIAL_STATE":
-        console.log("LogIn INITIAL_STATE");
+        //console.log("LogIn INITIAL_STATE");
         break;
       case types.LOGGING:
-        console.log("LogIn LOGGING");
+        //console.log("LogIn LOGGING");
         break;
       case types.LOGIN_SUCCEEDED:
-        console.log("LogIn LOGIN_SUCCEEDED");
+        console.log("LogIn LOGIN_SUCCEEDED -> show main page");
         setsigning(false);
         returnResponse(true);
         break;
@@ -56,7 +56,6 @@ const LogIn = ({returnResponse}) => {
         handleOpenSnackbar(state.login.status, state.login.infoText);
         break;
       default:
-        //console.log("LeopsContainer. ",state.leops.state, " LoadingData: ", LoadingData);
         break;
     }
   }, [state.login, actions]);
@@ -110,31 +109,6 @@ const LogIn = ({returnResponse}) => {
       console.log("COMP Trigger action LogIn");
       actions.triggerLogIn(userData);
 
-      //fetch("http://localhost:4000/LogIn", {
-      /*fetch("https://backend-nu-mauve.vercel.app/LogIn", {
-      
-      method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData)})
-        .then(response => {             //promise response
-          //MySQL if (!response.ok) {
-          // Handle non-success status codes here
-          //console.error("LogIn. HTTP Status: ", response.status);
-          HttpStatus = response.status;
-          // }
-          return response.json(response);
-        })
-        .then(data => {
-          if (data.response === "FAIL" ) {
-            handleOpenSnackbar(HttpStatus, data.errorMsg);
-          } else {
-            returnResponse(true);
-          }
-          setsigning(false);
-        })
-        .catch(error => {
-          handleOpenSnackbar(800, "Serveri yhteysvirhe!");
-        });*/
     };
 
     const handleSignIn = (event) => {
