@@ -7,8 +7,6 @@ import { StateProvider, initialState } from './State';
 
 import mainReducer from "./store/reducers/index.js";
 
-//import reportWebVitals from './reportWebVitals';
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <StateProvider reducer={mainReducer} initialState={initialState}>
@@ -19,5 +17,3 @@ root.render(
 //    <App />
 //  </React.StrictMode>
 );
-
-// reportWebVitals();

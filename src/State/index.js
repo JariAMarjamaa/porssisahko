@@ -38,11 +38,6 @@ export const initialState = {
       state: undefined,
       Code: undefined
     },
-    Saved: {
-      Data: [],
-      state: undefined,
-      Code: undefined
-    },
   },
   snackbar: {
     queue: [],     // [{message: "Näytä tämä lyhyt viesti", color: "#FFFFFF"}, {message: "Näytä tämä lyhyt viesti2", color: "#000000"}]

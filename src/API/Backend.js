@@ -6,8 +6,7 @@ export class BackendApi extends ApiBase {
     //}
 
     async logIn(data) {
-      console.log("BACKEND API. logIn. this.baseURL: ",this.baseURL);
-      console.log("BACKEND API. logIn. data: ",data);
+      console.log("API. logIn. this.baseURL: ",this.baseURL);
 
       let resp = {
         status: 0,
@@ -39,8 +38,7 @@ export class BackendApi extends ApiBase {
     }
 
     async logOut(userID) {
-      console.log("BACKEND API. logOut. this.baseURL: ",this.baseURL);
-      console.log("BACKEND API. logOut. userID: ",userID);
+      console.log("API. logOut. this.baseURL: ",this.baseURL);
 
       let resp = {
         status: 0,

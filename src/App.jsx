@@ -10,6 +10,8 @@ import CloseIcon        from '@mui/icons-material/Close';
 import Slide            from '@mui/material/Slide';
 import { IconButton }   from '@mui/material';
 
+import CircularProgress from '@mui/material/CircularProgress';
+
 import './App.css';
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
   const [snackbarBGColor,  setSnackbarBGColor]  = useState("green");
   const [snackbarContent,  setSnackbarContent]  = useState("");
 
+  const [logging,          setLogging]          = useState(false);
 
   useEffect( () => {
     switch(state.login.state)
@@ -32,12 +35,13 @@ function App() {
         break;
       case types.LOGOUT_SUCCEEDED:
         console.log("APP LOGOUT_SUCCEEDED");
+        setLogging(false);
         setShowMainPage(false);
         break;
       case types.LOGOUT_FAILED:
         console.log("APP LOGOUT_FAILED");
+        setLogging(false);
         handleOpenSnackbar(state.login.status, state.login.infoText);
-
         break;
       default:
         break;
@@ -45,8 +49,8 @@ function App() {
   }, [state.login, actions]);
 
   const handleLogOut = () => {
-    console.log("APP Trigger action LogOut: ", state.login.userIds);
-
+    console.log("APP LogOut");
+    setLogging(true);
     const user = state.login.userIds[0];
     actions.triggerLogOut(user);
   };
@@ -80,6 +84,9 @@ function App() {
 
   return (
     <div>
+      {logging && <div className="overlay">  <CircularProgress size={100}/> </div> }
+
+
       {showMainPage ?
         <MainPage handleLogOut={() => handleLogOut()}/>
       :

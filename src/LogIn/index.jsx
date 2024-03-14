@@ -46,19 +46,19 @@ const LogIn = ({returnResponse}) => {
         //console.log("LogIn LOGGING");
         break;
       case types.LOGIN_SUCCEEDED:
-        console.log("LogIn LOGIN_SUCCEEDED -> show main page");
+        console.log("LOGIN LOGIN_SUCCEEDED");
         setsigning(false);
         returnResponse(true);
         break;
       case types.LOGIN_FAILED:
-        console.log("LogIn LOGIN_FAILED");
+        console.log("LOGIN LOGIN_FAILED");
         setsigning(false);
         handleOpenSnackbar(state.login.status, state.login.infoText);
         break;
       default:
         break;
     }
-  }, [state.login, actions]);
+  }, [state.login, actions, returnResponse]);
 
   const handleOpenSnackbar = (status, text) => {
       //401 = väärä tunnus/salasana. 406 = validointi virhe, 500 = tunnus käytössä, 700 = salasana väärin kirjautumisessa
@@ -80,9 +80,6 @@ const LogIn = ({returnResponse}) => {
 
     const action = (
       <Fragment>
-        {/*<Button color="error" size="small" onClick={handleSnackbarClose}>
-          EIKU
-          </Button>*/}
         <IconButton
           size="small"
           aria-label="close"
@@ -106,13 +103,15 @@ const LogIn = ({returnResponse}) => {
         password: password
       };
 
-      console.log("COMP Trigger action LogIn");
+      console.log("LOGIN Trigger LogIn");
       actions.triggerLogIn(userData);
 
     };
 
     const handleSignIn = (event) => {
       event.preventDefault();
+      console.log("LOGIN SignIN");
+
       setShowSignInButton(false);
       setShowLogInButton(false);
       setsigning(true);
