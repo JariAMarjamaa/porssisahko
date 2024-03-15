@@ -40,10 +40,10 @@ const LogIn = ({returnResponse}) => {
     switch(state.login.state)
     {
       case "INITIAL_STATE":
-        //console.log("LogIn INITIAL_STATE");
+        console.log("LogIn INITIAL_STATE");
         break;
       case types.LOGGING:
-        //console.log("LogIn LOGGING");
+        console.log("LOGIN LOGGING");
         break;
       case types.LOGIN_SUCCEEDED:
         console.log("LOGIN LOGIN_SUCCEEDED");

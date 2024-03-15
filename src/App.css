@@ -77,6 +77,10 @@
   display: none;
 }
 
+.padding20 {
+  padding: 20px;
+}
+
 .pagination {
   background-color: aliceblue;
   position: fixed;

@@ -4,7 +4,7 @@ import PopupWindow from '../PopupWindow/Popup.jsx';
 
 import './Pages.css';
 
-const ThirdPage = ({ onClose }) => {
+const ThirdPage = () => {
   const [showVideoPopup, setShowVideoPopup] = useState(false);
 
   const openPopupWindow = (type) => {
@@ -34,7 +34,6 @@ const ThirdPage = ({ onClose }) => {
       <button className="button" onClick={() => openPopupWindow("video")}>Katso video</button>
       {showVideoPopup && <PopupWindow   onClose={() => handlePopupClose("video")} type="video" content="" />} 
 
-      {/*<button className="button" onClick={onClose}>Palaa takaisin pääsivulle</button>*/}
     </div>
   );
 };

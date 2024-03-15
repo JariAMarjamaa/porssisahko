@@ -17,7 +17,9 @@ export const toc = (
     <br/>
     - Sivu 4: Palautteen anto
     <br/>
-    - Sivu 5: ToDo - lista
+    - Sivu 5: SW documentointi
+    <br/>
+    - Sivu 6: ToDo - lista
   </>
 );
 

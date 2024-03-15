@@ -16,7 +16,7 @@ const SecondPage = () => {
     };
 
   return (
-    <div className="new-page-modal">
+    <div className="new-page-modal padding20">
         <div>Jartsan koodausnäyte</div>
         <div>React DemoApp</div> 
         <div>Kaikenlaisilla hienoilla kikkuloilla.</div> 
@@ -92,14 +92,14 @@ const SecondPage = () => {
               Ja Redux staten hallintaan.
               <br/>
               <br/>
-              - Kirjautuminen menee vielä Reduxin ohi.
+              - Lisätty sw dokumentointisivu.
               <br/>
 
               <br/>
               <br/>
               <br/>
               <br/>
-              Sovellus versio 8.0
+              Sovellus versio 8.1
             </Typography>
           </AccordionDetails>
         </Accordion>

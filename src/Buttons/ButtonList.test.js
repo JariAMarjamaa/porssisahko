@@ -24,7 +24,7 @@ describe('ButtonList component', () => {
 
     // Alternatively, lets compare the whole rendered content
     expect(screen.getByTestId('RFW_ButtonListDialogContent')).toBeInTheDocument();
-    expect(screen.getByTestId('RFW_ButtonListDialogContent').innerHTML).toBe("- Sivu 1: Pääsivu<br>- Sivu 2: Tietoja sovelluksesta<br>- Sivu 3: CV + Robottitestaus video<br>- Sivu 4: Palautteen anto<br>- Sivu 5: ToDo - lista");
+    expect(screen.getByTestId('RFW_ButtonListDialogContent').innerHTML).toBe("- Sivu 1: Pääsivu<br>- Sivu 2: Tietoja sovelluksesta<br>- Sivu 3: CV + Robottitestaus video<br>- Sivu 4: Palautteen anto<br>- Sivu 5: SW documentointi<br>- Sivu 6: ToDo - lista");
   });
 
   test('Render Prices info button and dialog correctly', async () => {

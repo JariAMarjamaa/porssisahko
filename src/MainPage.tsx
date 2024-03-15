@@ -6,10 +6,7 @@ import { ReadElectricityPriceData } from './ElectricityPrice.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
 import Notication from "./noteHandling/note.jsx";
 
-import SecondPage  from './Pages/2Page.tsx';
-import ThirdPage   from './Pages/3Page.jsx';
-import FourthPage  from './Pages/4Page.jsx';
-import FifthPage   from './Pages/5Page.jsx';
+import PageContainer  from './Pages/PageContainer.jsx';
 
 import Calendar    from './Calendar/calendar.jsx';
 import ButtonList  from './Buttons/ButtonList.jsx';
@@ -56,10 +53,6 @@ function MainPage({handleLogOut}) {
 
   const handleOpenNewPage = (event: React.ChangeEvent<unknown>, value: number) => {
     setShowPage(value);
-  };
-
-  const handleCloseNewPage = () => {
-    setShowPage(1);
   };
 
   const closePopup = () => {
@@ -213,23 +206,7 @@ function MainPage({handleLogOut}) {
 
         {loading && <div className="overlay">  <CircularProgress size={100}/> </div> }
 
-        {showPage === 2 ? 
-          <div>
-            <SecondPage />
-          </div>
-         : showPage === 3 ? 
-          <div>
-            <ThirdPage onClose={handleCloseNewPage} />
-          </div>
-         : showPage === 4 ? 
-         <div>
-           <FourthPage />
-         </div>
-         : showPage === 5 && 
-         <div>
-            <FifthPage />
-          </div>
-        }
+        <PageContainer pageNumber={showPage} />
  
         <br></br>
 
@@ -238,7 +215,7 @@ function MainPage({handleLogOut}) {
           
         <div className="pagination">
           <Stack spacing={2} alignItems="center">
-            <Pagination color="primary" count={5} page={showPage} onChange={handleOpenNewPage}/>
+            <Pagination color="primary" count={6} page={showPage} onChange={handleOpenNewPage}/>
           </Stack>
         </div>
         </div>
