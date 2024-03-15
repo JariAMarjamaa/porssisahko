@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act, renderHook } from '@testing-library/react';
 import LogIn from './index.jsx';
 
 //npm install --save-dev @reduxjs/toolkit redux-mock-store
@@ -8,6 +8,20 @@ import { StateProvider } from '../State';
 import mainReducer from "../store/reducers/index.js";
 
 import { mockUser } from "../mockData/user.mock.jsx";
+
+//pitää olla täälläkin mokattuna, koska renderöidään OK login jälkeen
+import { mockTestPrices } from "../mockData/Price-test.mock.jsx";
+import * as apiModule from '../api';
+// Myös käppyrä itse
+jest.mock('react-chartjs-2', () => ({
+  Line: jest.fn(() => null), 
+}));
+
+// Mock the asyncFetchPorssisahkoNet function
+jest.mock('../api', () => ({
+  ...jest.requireActual('../api'), 
+  asyncFetchPorssisahkoNet: jest.fn(), 
+}));
 
 const mockStore = configureMockStore([]);
 const mockInitialState = {
@@ -62,10 +76,8 @@ describe('Login component', () => {
     // Find the userID input
     const userIdInput = screen.getByPlaceholderText('Tunnus');
     
-    act(() => {
-      // Simulate typing a password
+    // Simulate typing a password
       fireEvent.change(userIdInput, { target: { value: mockUser.userID } });
-    });
   
     // Check if the password input value is updated
     expect(userIdInput).toHaveValue('MockUser');
@@ -93,24 +105,18 @@ describe('Login component', () => {
     
     expect(passwordInput).toHaveAttribute('type', 'password');
     // Simulate typing a password
-    act(() => {
-      fireEvent.change(passwordInput, { target: { value: mockUser.password } });
-    });
+    fireEvent.change(passwordInput, { target: { value: mockUser.password } });
   
     // Check if the password input value is updated
     expect(passwordInput).toHaveValue('MockPassword');
     // Simulate clicking the toggle button
-    act(() => {
-      fireEvent.click(toggleButton);
-    });
+    fireEvent.click(toggleButton);
   
     // Check if the password input type is now 'text'
     expect(passwordInput).toHaveAttribute('type', 'text');
 
     // Simulate clicking the toggle button again
-    act(() => {
-      fireEvent.click(toggleButton);
-    });
+    fireEvent.click(toggleButton);
   
     // Check if the password input type is back to 'password'
     expect(passwordInput).toHaveAttribute('type', 'password');
@@ -143,41 +149,35 @@ describe('Login component', () => {
       </Provider>
     );
 
-    act(() => {
-    // Find the userID input
-    const userIdInput = screen.getByPlaceholderText('Tunnus');
-    
-    // Simulate typing a password
-    fireEvent.change(userIdInput, { target: { value: mockUser.userID } });
+    apiModule.asyncFetchPorssisahkoNet.mockResolvedValue(mockTestPrices);
 
-    // Find the password input
-    const passwordInput = screen.getByPlaceholderText('Salasana');
+    await act(async () => {
+      // Find the userID input
+      const userIdInput = screen.getByPlaceholderText('Tunnus');
     
-    // Simulate typing a password
-    fireEvent.change(passwordInput, { target: { value: mockUser.password } });
+      // Simulate typing a password
+      fireEvent.change(userIdInput, { target: { value: mockUser.userID } });
+
+      // Find the password input
+      const passwordInput = screen.getByPlaceholderText('Salasana');
+    
+      // Simulate typing a password
+      fireEvent.change(passwordInput, { target: { value: mockUser.password } });
   
-    // Find the LogIn button
-    const LogInButton = getByTestId('RFW_LogInButton');
+      // Find the LogIn button
+      const LogInButton = getByTestId('RFW_LogInButton');
     
-    // Simulate clicking the toggle button
-    fireEvent.click(LogInButton);
-  });
-
-    //const json = await withFetch(); //  =>  Jest worker encountered 4 child process exceptions, exceeding retry limit
-    
-    // Check if the login has succeeded
-    act(() => {
-      setTimeout(async () => {
-        await waitFor(() => {
-          expect(LogInResponseMock).toHaveBeenCalledTimes(1);
-          expect(LogInResponseMock).toHaveBeenCalledWith(true);
-        });
-      }, 10000);
+      // Simulate clicking the toggle button
+      fireEvent.click(LogInButton);
     });
- 
+
+    // Check if the login has succeeded
+    setTimeout(async () => {
+      expect(LogInResponseMock).toHaveBeenCalledTimes(1);
+      expect(LogInResponseMock).toHaveBeenCalledWith(true);
+    }, 10000);
+
     global.fetch = unmockedFetch;
 
   });
-  
-
 });
