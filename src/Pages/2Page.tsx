@@ -92,14 +92,15 @@ const SecondPage = () => {
               Ja Redux staten hallintaan.
               <br/>
               <br/>
-              - Lisätty sw dokumentointisivu.
-              <br/>
-
+              - Muutettu rekisteröinti Reduxin kautta.
               <br/>
               <br/>
               <br/>
+              Virhe tarkistuksia pääsivun kirjautumiseen ja rekisteröintiin
               <br/>
-              Sovellus versio 8.1
+              <br/>
+              <br/>
+              Sovellus versio 8.2
             </Typography>
           </AccordionDetails>
         </Accordion>

@@ -6,7 +6,7 @@ export class BackendApi extends ApiBase {
     //}
 
     async logIn(data) {
-      console.log("API. logIn. this.baseURL: ",this.baseURL);
+      console.log("API. LOGIN. this.baseURL: ",this.baseURL);
 
       let resp = {
         status: 0,
@@ -18,7 +18,7 @@ export class BackendApi extends ApiBase {
       const response = fetch("https://backend-nu-mauve.vercel.app/LogIn", {
         method: "post",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data/*userData*/)})
+        body: JSON.stringify(data)})
         .then(response => {             //promise response
           //MySQL if (!response.ok) {
           // Handle non-success status codes here
@@ -38,7 +38,7 @@ export class BackendApi extends ApiBase {
     }
 
     async logOut(userID) {
-      console.log("API. logOut. this.baseURL: ",this.baseURL);
+      console.log("API. LOGOUT. this.baseURL: ",this.baseURL);
 
       let resp = {
         status: 0,
@@ -52,6 +52,36 @@ export class BackendApi extends ApiBase {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({userId: userID})})
         .then(response => {
+          resp.status = response.status;
+          return response.json(response);
+        })
+        .then(data => { 
+          resp.userId = data.userId;
+          resp.msg    = data.errorMsg;
+          return resp;
+        })
+        .catch(error => {
+          return error;
+        });
+      return response;
+    }
+
+    async signIn(data) {
+      console.log("API. SIGIN. this.baseURL: ",this.baseURL);
+
+      let resp = {
+        status: 0,
+        userId: "",
+        msg: ""
+      };
+
+      //Myös SignIn post-metodilla, muuten parametrit näkyy urlissa
+      //const response = fetch("http://localhost:4000/SignIn", {
+      const response = fetch("https://backend-nu-mauve.vercel.app/SignIn", { 
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)})
+        .then(response => { 
           resp.status = response.status;
           return response.json(response);
         })

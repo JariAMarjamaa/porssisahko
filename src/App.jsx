@@ -34,22 +34,25 @@ function App() {
         //console.log("APP LOGGING");
         break;
       case types.LOGOUT_SUCCEEDED:
-        console.log("APP LOGOUT_SUCCEEDED");
+      case types.SIGNIN_SUCCEEDED:
+        console.log("APP ", state.login.state);
         setLogging(false);
-        setShowMainPage(false);
+        setShowMainPage(state.login.state === types.LOGOUT_SUCCEEDED ? false : true);
         break;
       case types.LOGOUT_FAILED:
-        console.log("APP LOGOUT_FAILED");
+      case types.SIGNIN_FAILED:
+        console.log("APP ", state.login.state);
         setLogging(false);
         handleOpenSnackbar(state.login.status, state.login.infoText);
         break;
-      default:
+
+        default:
         break;
     }
   }, [state.login, actions]);
 
   const handleLogOut = () => {
-    console.log("APP LogOut");
+    console.log("APP LOGOUT");
     setLogging(true);
     const user = state.login.userIds[0];
     actions.triggerLogOut(user);

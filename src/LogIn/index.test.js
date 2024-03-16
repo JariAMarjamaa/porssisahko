@@ -8,6 +8,7 @@ import { StateProvider } from '../State';
 import mainReducer from "../store/reducers/index.js";
 
 import { mockUser } from "../mockData/user.mock.jsx";
+import { mockStoreInitialState } from "../mockData/store.mock.jsx";
 
 //pitää olla täälläkin mokattuna, koska renderöidään OK login jälkeen
 import { mockTestPrices } from "../mockData/Price-test.mock.jsx";
@@ -24,25 +25,9 @@ jest.mock('../api', () => ({
 }));
 
 const mockStore = configureMockStore([]);
-const mockInitialState = {
-  login: {
-    state: "MOCK_STATE",
-    status: 0,
-    logging: false,
-    userIds: [],
-    infoText: null
-  },
-}; 
-
 // Create a mock store with the initial state
-const store = mockStore(mockInitialState);
+const store = mockStore(mockStoreInitialState;
 
-// This is the function we'll be testing
-/*async function withFetch() {
-  const res = await fetch("https://backend-nu-mauve.vercel.app/LogIn")
-  const json = await res.json()
-  return json
-}*/
 
 describe('Login component', () => {
   test('renders Login component', () => {
@@ -52,7 +37,7 @@ describe('Login component', () => {
     //render(<LogIn />);
     render(
       <Provider store={store}>
-        <StateProvider reducer={mainReducer} initialState={mockInitialState}>
+        <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
           <LogIn/>
         </StateProvider>
       </Provider>

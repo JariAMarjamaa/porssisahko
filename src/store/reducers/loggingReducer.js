@@ -22,7 +22,8 @@ const initialState = {
         };
       
       case types.LOGIN_SUCCEEDED:
-      console.log("REDUCER. LOGIN_SUCCEEDED. payload: ", payload);  
+      case types.SIGNIN_SUCCEEDED:
+      console.log("REDUCER. ",action.type," payload: ", payload);  
         return {
           ...state,
           state: action.type,
@@ -33,7 +34,8 @@ const initialState = {
         };
 
       case types.LOGIN_FAILED:
-      console.log("REDUCER. LOGIN_FAILED. payload: ", payload);  
+      case types.SIGNIN_FAILED:
+      console.log("REDUCER. ",action.type," payload: ", payload);  
         return {
           ...state, 
           state: action.type,

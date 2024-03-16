@@ -28,18 +28,37 @@ export const applyMiddleware = ({dispatch, logout}) => {
 
     switch (action.type) {
 
+      case types.ASYNC_SIGNING:
+        try {
+          console.log("MIDDLEWARE. SIGIN -> dispatch LOGGING");
+          dispatch({ type: types.LOGGING })
+          const response = await new BackendApi().signIn(action.payload);
+          processResponse(response, [200, 401, 406], "Sigin failed", dispatch /* tai näin: responseErrorFn*/);
+          console.log("MIDDLEWARE. SIGNIN_SUCCEEDED");
+          dispatch({ type: response.status === 200 ? types.SIGNIN_SUCCEEDED : types.SIGNIN_FAILED, data: response });
+        } catch (error) {
+          console.log("MIDDLEWARE. SIGIN. ERROR: ", error);
+          if (error instanceof ApiError) {
+            console.log("MIDDLEWARE. SIGIN. CATCH API ERROR: ", error);
+            dispatch({ type: types.SIGNIN_FAILED, data: { status: 501, msg: "LogIn. Middleware error 501"} })
+          }
+          else {
+            console.log("MIDDLEWARE. SIGIN. CATCH MUU ERROR: ", error);
+            dispatch({ type: types.SIGNIN_FAILED, data: { status: 502, msg: "LogIn. Middleware error 502" } })
+          }
+        }
+        break;
+
       case types.ASYNC_LOGGING_IN:
         try {
-          console.log("MIDDLEWARE. dispatch LOGGING");
+          console.log("MIDDLEWARE. LOGIN -> dispatch LOGGING");
           dispatch({ type: types.LOGGING })
           const response = await new BackendApi().logIn(action.payload);
-          console.log("MIDDLEWARE. LOGIN response: ", response);
-
           processResponse(response, [200, 401], "Login failed", dispatch /* tai näin: responseErrorFn*/);
+          console.log("MIDDLEWARE. LOGIN_SUCCEEDED");
           dispatch({ type: response.status === 200 ? types.LOGIN_SUCCEEDED : types.LOGIN_FAILED, data: response });
         } catch (error) {
           console.log("MIDDLEWARE. LOGIN. ERROR: ", error);
-
           if (error instanceof ApiError) {
             console.log("MIDDLEWARE. LOGIN. CATCH API ERROR: ", error);
             dispatch({ type: types.LOGIN_FAILED, data: { status: 501, msg: "LogIn. Middleware error 501"} })
@@ -53,12 +72,11 @@ export const applyMiddleware = ({dispatch, logout}) => {
       
       case types.ASYNC_LOGGING_OUT:
         try {
-          console.log("MIDDLEWARE. dispatch LOGGING");
+          console.log("MIDDLEWARE. LOGOUT -> dispatch LOGGING");
           dispatch({ type: types.LOGGING })
           const response = await new BackendApi().logOut(action.payload);
-          console.log("MIDDLEWARE. LOGOUT response: ", response);
-    
           processResponse(response, [200], "Logout failed", dispatch /* tai näin: responseErrorFn*/);
+          console.log("MIDDLEWARE. LOGOUT_SUCCEEDED");
           dispatch({ type: types.LOGOUT_SUCCEEDED, data: response });
         } catch (error) {
           console.log("MIDDLEWARE. LOGOUT. ERROR: ", error);

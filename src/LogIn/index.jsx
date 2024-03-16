@@ -17,9 +17,10 @@ import './index.css';
 const LogIn = ({returnResponse}) => {
   const { state, actions } = useStateValue();
   
-  const [ShowLogInButton,         setShowLogInButton]         = useState(true);
+  const [ShowLogInButton,         setShowLogInButton]         = useState(false);
+  const [ShowSignIn,              setShowSignIn]              = useState(false);
   const [ShowSignInButton,        setShowSignInButton]        = useState(false);
-  const [ShowCreateAccountButton, setShowCreateAccountButton] = useState(true);
+  const [ShowCreateAccountButton, setShowCreateAccountButton] = useState(false);
 
   const [userId,           setUserId]           = useState("");
   const [password,         setPassword]         = useState("");
@@ -40,11 +41,12 @@ const LogIn = ({returnResponse}) => {
     switch(state.login.state)
     {
       case "INITIAL_STATE":
-        console.log("LogIn INITIAL_STATE");
+        //console.log("LogIn INITIAL_STATE");
         break;
       case types.LOGGING:
         console.log("LOGIN LOGGING");
         break;
+
       case types.LOGIN_SUCCEEDED:
         console.log("LOGIN LOGIN_SUCCEEDED");
         setsigning(false);
@@ -55,6 +57,18 @@ const LogIn = ({returnResponse}) => {
         setsigning(false);
         handleOpenSnackbar(state.login.status, state.login.infoText);
         break;
+
+      case types.SIGNIN_SUCCEEDED:
+        console.log("LOGIN SIGNIN_SUCCEEDED");
+        setsigning(false);
+        returnResponse(true);
+        break;
+      case types.SIGNIN_FAILED:
+        console.log("LOGIN SIGNIN_FAILED");
+        setsigning(false);
+        handleOpenSnackbar(state.login.status, state.login.infoText);
+        break;
+
       default:
         break;
     }
@@ -62,7 +76,7 @@ const LogIn = ({returnResponse}) => {
 
   const handleOpenSnackbar = (status, text) => {
       //401 = väärä tunnus/salasana. 406 = validointi virhe, 500 = tunnus käytössä, 700 = salasana väärin kirjautumisessa
-      setShowSignInButton(status === 700 ? true : false);
+      setShowSignIn(status === 700 ? true : false);
       setShowLogInButton( status === 700 ? false : true);
       setSnackbarBGColor( status === 401 ? "green" : "red");
       setShowCreateAccountButton(true);
@@ -94,7 +108,7 @@ const LogIn = ({returnResponse}) => {
     const handleLogIn = (event) => {
       event.preventDefault();
       
-      setShowSignInButton(false);
+      setShowSignIn(false);
       setShowLogInButton(false);
       setShowCreateAccountButton(false);
       setsigning(true);
@@ -112,7 +126,7 @@ const LogIn = ({returnResponse}) => {
       event.preventDefault();
       console.log("LOGIN SignIN");
 
-      setShowSignInButton(false);
+      setShowSignIn(false);
       setShowLogInButton(false);
       setsigning(true);
       userData = {
@@ -122,42 +136,23 @@ const LogIn = ({returnResponse}) => {
 
       if (password === password2)
       {
-      //Myös SignIn post-metodilla, muuten parametrit näkyy urlissa
-      //fetch("http://localhost:4000/SignIn", {
-      fetch("https://backend-nu-mauve.vercel.app/SignIn", { 
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData)})
-        .then(response => { 
-          HttpStatus = response.status;
-          return response.json(response );
-        })
-        .then(data => {
-          if (data.response === "FAIL" ) {
-            handleOpenSnackbar(HttpStatus, data.errorMsg);
-          } else {
-            returnResponse(true);
-          }
-          setsigning(false);
-        })
-        .catch(error => {
-          handleOpenSnackbar(800, "Serveri yhteysvirhe!");
-        });
+        console.log("LOGIN Trigger SignIn");
+        actions.triggerSignIn(userData);
       }
       else
       {
-        handleOpenSnackbar(700, "Tarkista salasana");
+        handleOpenSnackbar(700, "Tarkista salasanat");
       }
     };
 
     const showSignIn = (status) => {
       if (status)
       {
-        setShowSignInButton(true);
+        setShowSignIn(true);
         setShowLogInButton(false);
       }
       else {
-        setShowSignInButton(false);
+        setShowSignIn(false);
         setShowLogInButton(true);
       }
     }
@@ -166,6 +161,47 @@ const LogIn = ({returnResponse}) => {
       if (selection === "salasana")  setShowPassword(!showPassword);
       else                           setShowPassword2(!showPassword2);
     };
+
+    const handleUserIdChange = (value) => {
+      setUserId(value);
+      if (value === "" || password === "")
+      {
+        setShowLogInButton(false);
+        setShowCreateAccountButton(false);
+      }
+      else
+      {
+        setShowLogInButton(true);
+        setShowCreateAccountButton(true);
+      }
+    }
+
+
+    const handlePasswordChange = (value) => {
+      setPassword(value)
+      if (value === "" || userId === "")
+      {
+        setShowLogInButton(false);
+        setShowCreateAccountButton(false);
+      }
+      else
+      {
+        setShowLogInButton(true);
+        setShowCreateAccountButton(true);
+      }
+    } 
+
+    const handlePassword2Change = (value) => {
+      setPassword2(value);
+      if (value === "")
+      {
+        setShowSignInButton(false);
+      }
+      else
+      {
+        setShowSignInButton(true);
+      }
+    } 
 
     return (
       <div className="loginPage">
@@ -190,7 +226,7 @@ const LogIn = ({returnResponse}) => {
               type="text"
               name="userID"
               placeholder="Tunnus"
-              onChange={(event) => setUserId(event.target.value)}
+              onChange={(event) => handleUserIdChange(event.target.value)}
               style={{ backgroundColor: 'white' }}
             />
             <br></br>
@@ -200,7 +236,7 @@ const LogIn = ({returnResponse}) => {
               type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Salasana"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => handlePasswordChange(e.target.value)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -224,7 +260,7 @@ const LogIn = ({returnResponse}) => {
         <br></br>
         <br></br>
 
-        { ShowSignInButton ?
+        { ShowSignIn ?
           <div>
             <form onSubmit={handleSignIn}>
               <TextField
@@ -232,7 +268,7 @@ const LogIn = ({returnResponse}) => {
                 type={showPassword2 ? 'text' : 'password'}
                 name="password"
                 placeholder="Vahvista salasana"
-                onChange={e => setPassword2(e.target.value)}
+                onChange={e => handlePassword2Change(e.target.value) }
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -248,7 +284,7 @@ const LogIn = ({returnResponse}) => {
               <br></br>
               <br></br>
               <br></br>
-              <input className="button" type="submit" value="Rekisteröidy"></input>
+              {ShowSignInButton && <input className="button" type="submit" value="Rekisteröidy"></input> }
               <br></br>
               <br></br>
               <br></br>

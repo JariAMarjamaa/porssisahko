@@ -10,8 +10,6 @@ const SixthPage = () => {
         <br/>
         <br/>
 
-        <p>- Re-factorointi:</p>
-        <p>  Rekisteröinti Reduxin kautta</p>
         <br/>
         <br/>
         <p>- Rekisteröinnin poisto</p>
