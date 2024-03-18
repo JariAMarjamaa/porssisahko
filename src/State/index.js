@@ -53,4 +53,8 @@ export const initialState = {
     userIds: [],
     infoText: null
   },
+  info: {
+    state: "INITIAL_STATE",
+    text: null
+  },
 };

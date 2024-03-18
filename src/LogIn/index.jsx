@@ -1,7 +1,4 @@
-import { React, useState, Fragment, useEffect } from 'react';
-import Snackbar         from '@mui/material/Snackbar';
-import CloseIcon        from '@mui/icons-material/Close';
-import Slide            from '@mui/material/Slide';
+import { React, useState, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { TextField, IconButton, InputAdornment } from '@mui/material';
@@ -28,13 +25,8 @@ const LogIn = ({returnResponse}) => {
   const [showPassword,     setShowPassword]     = useState(false);
   const [showPassword2,    setShowPassword2]    = useState(false);
 
-  const [openSnackbar,     setSnackbarOpen]     = useState(false);
-  const [snackbarBGColor,  setSnackbarBGColor]  = useState("green");
-  const [snackbarContent,  setSnackbarContent]  = useState("");
-
   const [signing,          setsigning]          = useState(false);
  
-  let HttpStatus = "";
   let userData = {};
 
   useEffect( () => {
@@ -46,7 +38,6 @@ const LogIn = ({returnResponse}) => {
       case types.LOGGING:
         console.log("LOGIN LOGGING");
         break;
-
       case types.LOGIN_SUCCEEDED:
         console.log("LOGIN LOGIN_SUCCEEDED");
         setsigning(false);
@@ -55,9 +46,7 @@ const LogIn = ({returnResponse}) => {
       case types.LOGIN_FAILED:
         console.log("LOGIN LOGIN_FAILED");
         setsigning(false);
-        handleOpenSnackbar(state.login.status, state.login.infoText);
         break;
-
       case types.SIGNIN_SUCCEEDED:
         console.log("LOGIN SIGNIN_SUCCEEDED");
         setsigning(false);
@@ -66,144 +55,124 @@ const LogIn = ({returnResponse}) => {
       case types.SIGNIN_FAILED:
         console.log("LOGIN SIGNIN_FAILED");
         setsigning(false);
-        handleOpenSnackbar(state.login.status, state.login.infoText);
         break;
 
       default:
         break;
     }
-  }, [state.login, actions, returnResponse]);
+  }, [state.login, returnResponse]);
 
-  const handleOpenSnackbar = (status, text) => {
-      //401 = väärä tunnus/salasana. 406 = validointi virhe, 500 = tunnus käytössä, 700 = salasana väärin kirjautumisessa
-      setShowSignIn(status === 700 ? true : false);
-      setShowLogInButton( status === 700 ? false : true);
-      setSnackbarBGColor( status === 401 ? "green" : "red");
-      setShowCreateAccountButton(true);
-      setSnackbarContent(text);
-      setSnackbarOpen(true);
-      setsigning(false);
-  };
-  
-    const handleSnackbarClose = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-      setSnackbarOpen(false);
+  useEffect( () => {
+    switch(state.info.state)
+    {
+      case types.SHOW_CHECK_PASSWORDS:
+        console.log("LOGIN SHOW_CHECK_PASSWORDS");
+        setsigning(false);
+        break;
+      default:
+        break;
+    }
+  }, [state.info]);
+
+  const handleLogIn = (event) => {
+    event.preventDefault();
+      
+    setShowSignIn(false);
+    setShowLogInButton(false);
+    setShowCreateAccountButton(false);
+    setsigning(true);
+    userData = {
+      userId: userId,
+      password: password
     };
 
-    const action = (
-      <Fragment>
-        <IconButton
-          size="small"
-          aria-label="close"
-          color="inherit"
-          onClick={handleSnackbarClose}
-        >
-          <CloseIcon fontSize="small" />
-        </IconButton>
-      </Fragment>
-    );
+    console.log("LOGIN Trigger LogIn");
+    actions.triggerLogIn(userData);
+  };
 
-    const handleLogIn = (event) => {
-      event.preventDefault();
-      
+  const handleSignIn = (event) => {
+    event.preventDefault();
+    console.log("LOGIN SignIN");
+
+    setShowSignIn(false);
+    setShowLogInButton(false);
+    setShowCreateAccountButton(false);
+    setsigning(true);
+    userData = {
+      userId: userId,
+      password: password
+    };
+
+    if (password === password2)
+    {
+      console.log("LOGIN Trigger SignIn");
+      actions.triggerSignIn(userData);
+    }
+    else
+    {
+      console.log("LOGIN Trigger Checkpasswords");
+      actions.triggerShowCheckPasswords();
+    }
+  };
+
+  const showSignIn = (status) => {
+    if (status)
+    {
+      setShowSignIn(true);
+      setShowLogInButton(false);
+    }
+    else {
       setShowSignIn(false);
+      setShowLogInButton(true);
+    }
+  }
+
+  const handleTogglePasswordVisibility = (selection) => {
+    if (selection === "salasana")  setShowPassword(!showPassword);
+    else                           setShowPassword2(!showPassword2);
+  };
+
+  const handleUserIdChange = (value) => {
+    setUserId(value);
+    if (value === "" || password === "")
+    {
       setShowLogInButton(false);
       setShowCreateAccountButton(false);
-      setsigning(true);
-      userData = {
-        userId: userId,
-        password: password
-      };
+    }
+    else
+    {
+      setShowLogInButton(true);
+      setShowCreateAccountButton(true);
+    }
+  }
 
-      console.log("LOGIN Trigger LogIn");
-      actions.triggerLogIn(userData);
-
-    };
-
-    const handleSignIn = (event) => {
-      event.preventDefault();
-      console.log("LOGIN SignIN");
-
-      setShowSignIn(false);
+  const handlePasswordChange = (value) => {
+    setPassword(value)
+    if (value === "" || userId === "")
+    {
       setShowLogInButton(false);
-      setsigning(true);
-      userData = {
-        userId: userId,
-        password: password
-      };
-
-      if (password === password2)
-      {
-        console.log("LOGIN Trigger SignIn");
-        actions.triggerSignIn(userData);
-      }
-      else
-      {
-        handleOpenSnackbar(700, "Tarkista salasanat");
-      }
-    };
-
-    const showSignIn = (status) => {
-      if (status)
-      {
-        setShowSignIn(true);
-        setShowLogInButton(false);
-      }
-      else {
-        setShowSignIn(false);
-        setShowLogInButton(true);
-      }
+      setShowCreateAccountButton(false);
     }
-
-    const handleTogglePasswordVisibility = (selection) => {
-      if (selection === "salasana")  setShowPassword(!showPassword);
-      else                           setShowPassword2(!showPassword2);
-    };
-
-    const handleUserIdChange = (value) => {
-      setUserId(value);
-      if (value === "" || password === "")
-      {
-        setShowLogInButton(false);
-        setShowCreateAccountButton(false);
-      }
-      else
-      {
-        setShowLogInButton(true);
-        setShowCreateAccountButton(true);
-      }
+    else
+    {
+      setShowLogInButton(true);
+      setShowCreateAccountButton(true);
     }
+  } 
 
+  const handlePassword2Change = (value) => {
+    setPassword2(value);
+    if (value === "")
+    {
+      setShowSignInButton(false);
+    }
+    else
+    {
+      setShowSignInButton(true);
+    }
+  } 
 
-    const handlePasswordChange = (value) => {
-      setPassword(value)
-      if (value === "" || userId === "")
-      {
-        setShowLogInButton(false);
-        setShowCreateAccountButton(false);
-      }
-      else
-      {
-        setShowLogInButton(true);
-        setShowCreateAccountButton(true);
-      }
-    } 
-
-    const handlePassword2Change = (value) => {
-      setPassword2(value);
-      if (value === "")
-      {
-        setShowSignInButton(false);
-      }
-      else
-      {
-        setShowSignInButton(true);
-      }
-    } 
-
-    return (
+  return (
       <div className="loginPage">
         <h1 data-testid="RFW_MainPageText">Pörssisähkökäppyrä harjoitus</h1>
 
@@ -298,24 +267,7 @@ const LogIn = ({returnResponse}) => {
             <button className="button" onClick={() => showSignIn(true)} >Luo tunnus</button>
           </div>
          }
-
-        <Snackbar
-          TransitionComponent={Slide}
-          ContentProps={{
-            sx: {
-              textAlign: 'left',
-              background: snackbarBGColor,
-              width: '100%',
-              height: 'auto', lineHeight: '28px'  //whiteSpace: "pre-wrap"
-            }
-          }}
-          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-          open={openSnackbar}
-          autoHideDuration={6000}
-          onClose={handleSnackbarClose}
-          message={snackbarContent}
-          action={action} />
-   
+ 
       </div>
     );
 };

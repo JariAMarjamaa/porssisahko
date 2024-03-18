@@ -8,66 +8,23 @@ import DialogTitle        from '@mui/material/DialogTitle';
 import Slide              from '@mui/material/Slide';
 import Button             from '@mui/material/Button';
 
-import Snackbar           from '@mui/material/Snackbar';
-import IconButton         from '@mui/material/IconButton';
-import CloseIcon          from '@mui/icons-material/Close';
-
 import PopupWindow        from "../PopupWindow/Popup.jsx";
 
-import { toc, CalendarInfoContent, priceInfo/*, APITestContent*/ }  from '../content/text_content.jsx';
+import {useStateValue} from "../State/index.js";
+
+import { toc, priceInfo/*, APITestContent*/ }  from '../content/text_content.jsx';
 
 
 const ButtonList = ({ lowestPrice, highestPrice, simulationCallback, logOut }) => { 
+  const { state, actions } = useStateValue();
+
   const [openDialog,      setDialogOpen]    = useState(false);
   const [dialogContent,   setDialogContent] = useState("");
   const [dialogTitle,     setdialogTitle]   = useState("");
 
-  const [openSnackbar,    setSnackbarOpen]    = useState(false);
-  const [snackbarBGColor, setSnackbarBGColor] = useState("green");
-  const [snackbarContent, setSnackbarContent] = useState("");
-  
   const [excelDonwload,   setExcelDownload]   = useState(false);
 
-  const handleSnackbarClick = (type) => {
-    if (type === "calendar")
-    {
-      setSnackbarBGColor("green");
-      setSnackbarContent(CalendarInfoContent);
-      setSnackbarOpen(true);
-    }
-    else
-    {
-      //setSnackbarBGColor("red");
-      //setSnackbarContent(APITestContent);
-      //setSnackbarOpen(true);
-      simulationCallback(); // make real api call, instead of showing snackbar note
-    }
-  };
-
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackbarOpen(false);
-  };
-
-  const action = (
-    <Fragment>
-      {/*<Button color="error" size="small" onClick={handleSnackbarClose}>
-        EIKU
-        </Button>*/}
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleSnackbarClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </Fragment>
-  );
-
-  const handleDialogClose = () => {
+   const handleDialogClose = () => {
     setDialogOpen(false);
     setDialogContent("");
   };
@@ -102,10 +59,10 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback, logOut }) =
     <button className="button" onClick={() => handleOpenDialog("prices")} >Hinta tiedot</button>
     <br></br>
     
-    <button className="button" onClick={() => handleSnackbarClick("calendar")}>Kalenterin ohje</button>
+    <button className="button" onClick={() => actions.triggerShowCalendarInfo()}>Kalenterin ohje</button>
     <br></br>
     
-    <button className="button" onClick={() => handleSnackbarClick("apiFailSimulation")} >Simuloi sähkökatko!</button>
+    <button className="button" onClick={() => simulationCallback()} >Simuloi sähkökatko!</button>
     <br></br>
 
     <button className="button" onClick={() => handleExcelDonwload(true)} >Excel</button>
@@ -130,26 +87,7 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback, logOut }) =
       </DialogActions>
     </Dialog>
 
-    <Snackbar
-      TransitionComponent={Slide}
-      ContentProps={{
-        sx: {
-          textAlign: 'left',
-          background: snackbarBGColor,
-          width: '100%',
-          height: 'auto', lineHeight: '28px'  //whiteSpace: "pre-wrap"
-        }
-      }}
-      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-      open={openSnackbar}
-      autoHideDuration={6000}
-      onClose={handleSnackbarClose}
-      message={snackbarContent}
-      action={action} />
-   
-      {excelDonwload &&  <PopupWindow onClose={closePopup} type="excelDownload" content=""></PopupWindow>
-    } 
-
+    { excelDonwload &&  <PopupWindow onClose={closePopup} type="excelDownload" content=""></PopupWindow> } 
 
     </div>
    

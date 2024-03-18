@@ -96,11 +96,11 @@ const SecondPage = () => {
               <br/>
               <br/>
               <br/>
-              Virhe tarkistuksia pääsivun kirjautumiseen ja rekisteröintiin
+              Re-faktoroitu infonoten näyttö yhteen komponenttiin
               <br/>
               <br/>
               <br/>
-              Sovellus versio 8.2
+              Sovellus versio 8.3
             </Typography>
           </AccordionDetails>
         </Accordion>
