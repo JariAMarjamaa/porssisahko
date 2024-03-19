@@ -20,7 +20,11 @@ function App() {
     switch(state.login.state)
     {
       case "INITIAL_STATE":
-        //console.log("APP INITIAL_STATE");
+        console.log("APP INITIAL_STATE. userIDs: ", state.login.userIds);
+        if (state.login.userIds.length !== 0)
+        {
+          setShowMainPage(true);
+        }
         break;
       case types.LOGGING:
         //console.log("APP LOGGING");
@@ -37,7 +41,7 @@ function App() {
         setLogging(false);
         break;
 
-        default:
+      default:
         break;
     }
   }, [state.login, actions]);

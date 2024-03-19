@@ -96,11 +96,12 @@ const SecondPage = () => {
               <br/>
               <br/>
               <br/>
-              Re-faktoroitu infonoten näyttö yhteen komponenttiin
+              Muutettu Staten hallinta, että sivun uudelleen lataaminen,
+              <br/>
+              ei hukkaa kirjautumistietoa
               <br/>
               <br/>
-              <br/>
-              Sovellus versio 8.3
+              Sovellus versio 8.4
             </Typography>
           </AccordionDetails>
         </Accordion>

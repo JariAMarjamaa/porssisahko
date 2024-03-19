@@ -12,19 +12,20 @@ const LOGOUT_REASONS = {
   normal: "NORMAL"
 }
 
-export const applyMiddleware = ({dispatch, logout}) => {
-    const responseErrorFn = (response) => {
-        if (response.status === 401) {
-          console.log("Got 401 starting automatic logout process");
-          //dispatch ({ type: types.LOGOUT_401_NOTIFICATION, payload: true });
-          logout(LOGOUT_REASONS.automatic);
-        }
-      }
+export const applyMiddleware = ({ dispatch, logout }) => {
+  
+  /*const responseErrorFn = (response) => {
+    if (response.status === 401) {
+      console.log("MIDDLEWARE Got 401 starting automatic logout process");
+        //dispatch ({ type: types.LOGOUT_401_NOTIFICATION, payload: true });
+        logout(LOGOUT_REASONS.automatic);
+    }
+  }*/
 
-    return async (action) => {
-    /*console.log("MIDDLEWARE"+
+  return async (action) => {
+    console.log("MIDDLEWARE"+
                 "\n action: ", action,
-                "\n actiotype: ", action.type);*/
+                "\n actiotype: ", action.type);
 
     switch (action.type) {
 

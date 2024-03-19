@@ -8,66 +8,73 @@ const initialState = {
   infoText: null
 };
   
-  const loggingReducer = (state = initialState, action) => {
-    const payload = action.data;
+const loggingReducer = (state = initialState, action) => {
+  const payload = action.data;
 
-    switch (action.type) {
-      case types.LOGGING:
+  switch (action.type) {
+    case types.LOGGING:
       console.log("REDUCER. LOGGING");  
-        return {
-          ...state,
-          state: action.type,
-          logging: true,
-          infoText: null
-        };
+      return {
+        ...state,
+        state: action.type,
+        logging: true,
+        infoText: null
+      };
       
-      case types.LOGIN_SUCCEEDED:
-      case types.SIGNIN_SUCCEEDED:
-      console.log("REDUCER. ",action.type," payload: ", payload);  
-        return {
-          ...state,
-          state: action.type,
-          status: payload.status,
-          logging: false,
-          infoText: null,
-          userIds: [...state.userIds, payload.userId]
-        };
+    case types.LOGIN_SUCCEEDED:
+    case types.SIGNIN_SUCCEEDED:
+      console.log("REDUCER. ",action.type," payload: ", payload);
+      var savedIds = [...state.userIds, payload.userId];
+      localStorage.setItem("userIds", JSON.stringify(savedIds));
 
-      case types.LOGIN_FAILED:
-      case types.SIGNIN_FAILED:
-      console.log("REDUCER. ",action.type," payload: ", payload);  
-        return {
-          ...state, 
-          state: action.type,
-          status: payload.status,
-          logging: false,
-          infoText: payload.msg
-        };
+      return {
+        ...state,
+        state: action.type,
+        status: payload.status,
+        logging: false,
+        infoText: null,
+        userIds: [...state.userIds, payload.userId]
+      };
 
-      case types.LOGOUT_SUCCEEDED:
+    case types.LOGIN_FAILED:
+    case types.SIGNIN_FAILED:
+      console.log("REDUCER. ",action.type," payload: ", payload);  
+      return {
+        ...state, 
+        state: action.type,
+        status: payload.status,
+        logging: false,
+        infoText: payload.msg
+      };
+
+    case types.LOGOUT_SUCCEEDED:
       console.log("REDUCER. LOGOUT_SUCCEEDED. payload: ", payload);  
-        return {
-          ...state,
-          state: action.type,
-          status: payload.status,
-          logging: false,
-          infoText: null,
-          userIds: state.userIds.filter(id => id !== payload.userId), // Remove the specified user ID
-        };
+      var userIds = state.userIds.filter(id => id !== payload.userId);
+      localStorage.setItem("userIds", JSON.stringify(userIds));
+        
+      return {
+        ...state,
+        state: action.type,
+        status: payload.status,
+        logging: false,
+        infoText: null,
+        userIds: state.userIds.filter(id => id !== payload.userId), // Remove the specified user ID
+      };
 
-      case types.LOGOUT_FAILED:
+    case types.LOGOUT_FAILED:
       console.log("REDUCER. LOGOUT_FAILED. payload: ", payload);  
-        return {
-          ...state, 
-          state: action.type,
-          status: payload.status,
-          logging: false,
-          infoText: payload.msg
-        };
+      return {
+        ...state, 
+        state: action.type,
+        status: payload.status,
+        logging: false,
+        infoText: payload.msg
+      };
 
-        default:
-          return state;
-    }
-  };
+    default:
+      console.log("REDUCER. DEFAULT. payload: ", payload);  
+    return state;
+  }
+};
   
 export default loggingReducer;

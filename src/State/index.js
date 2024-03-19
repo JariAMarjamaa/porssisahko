@@ -50,7 +50,7 @@ export const initialState = {
     state: "INITIAL_STATE",
     status: 0,
     logging: false,
-    userIds: [],
+    userIds: checkLocalStorage(),
     infoText: null
   },
   info: {
@@ -58,3 +58,22 @@ export const initialState = {
     text: null
   },
 };
+
+function checkLocalStorage()  {
+  //console.log("STATE. checkLocalStorage. ", localStorage.getItem("userIds"));
+
+  if (localStorage.getItem("userIds") === null){
+    return [];
+  }
+  else
+  {
+    var returnedIds = [];
+    var parsedIds = JSON.parse(localStorage.getItem("userIds"));
+    //console.log("STATE. checkLocalStorage. parsedIds", parsedIds);
+ 
+    parsedIds.forEach(element => {
+      returnedIds.push(element);
+    });
+    return returnedIds;
+  }
+}
