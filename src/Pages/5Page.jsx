@@ -18,7 +18,7 @@ const FifthPage = () => {
 
     
   return (
-      <div className="new-page-modal">
+      <div className="router-page">
         <h1>SW Dokumentointi:</h1>
         <h3>Tikku-Ukon seikkailut:</h3>
 

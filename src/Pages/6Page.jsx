@@ -4,7 +4,7 @@ import './Pages.css';
 
 const SixthPage = () => {
     return (
-      <div className="new-page-modal">
+      <div className="router-page">
         <h1>Todo-lista:</h1>
         <br/>
         <br/>

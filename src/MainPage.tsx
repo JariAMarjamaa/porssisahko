@@ -22,15 +22,21 @@ import { info, PriceRequestFail } from './content/text_content.jsx';
 import ChartSwitch from './Switch/switch.tsx';
 
 import './App.css';
+import { useStateValue } from './State/index.js';
+import { types }         from './store/actions/actionTypes.js';
+import { useNavigate }   from 'react-router-dom';
+import Linking           from "./Router/Linking.js"; 
 
-function MainPage({handleLogOut}) {
+function MainPage() {
+  const { state, actions } = useStateValue();
+
   const [priceData,    setPriceData]     = useState(null);
   const [priceOptions, setPriceOptions]  = useState(null);
   const [lowestValue,  setLowestValue]   = useState(0);
   const [highestValue, setHighestValue]  = useState(0);
   const [loading,      setLoadingValue]  = useState(true);
 
-  const [state,        setState]         = useState("");
+  const [error,        seterror]         = useState("");
   const [message,      setMessage]       = useState("");
   const [showPage,     setShowPage]      = useState(1);
 
@@ -46,6 +52,36 @@ function MainPage({handleLogOut}) {
   const [buttonListVisible, setButtonListVisible] = useState(false);
   const [buttonVisibleText, setButtonVisibleText] = useState("Näytä nappulat");
 
+  const navigate = useNavigate();
+
+  useEffect( () => {
+    switch(state.login.state)
+    {
+      case "INITIAL_STATE":
+        console.log("MAINPAGE INITIAL_STATE");
+        break;
+      case types.LOGGING:
+        //console.log("APP LOGGING");
+        break;
+      case types.LOGIN_SUCCEEDED:
+      case types.SIGNIN_SUCCEEDED:
+        console.log("MAINPAGE ", state.login.state);
+        break;
+      case types.LOGOUT_SUCCEEDED:
+        console.log("MAINPAGE LOGOUT_SUCCEEDED");
+        setLoadingValue(false);
+        navigate('/porssisahko');
+        break;
+      case types.LOGOUT_FAILED:
+      case types.SIGNIN_FAILED:
+        console.log("MAINPAGE ", state.login.state);
+        setLoadingValue(false);
+        break;
+      default:
+        break;
+    }
+  }, [state.login, navigate]);
+
   const toggleButtonList = () => {
     setButtonListVisible(!buttonListVisible);
     setButtonVisibleText(buttonListVisible ? "Näytä nappulat" : "Piilota nappulat");
@@ -58,6 +94,13 @@ function MainPage({handleLogOut}) {
   const closePopup = () => {
     setSystemFailure(false);
   }
+
+  const handleLogOut = () => {
+    console.log("MainPage LOGOUT");
+    setLoadingValue(true);
+    const user = state.login.userIds[0];
+    actions.triggerLogOut(user);
+  };
 
   var apiNotCalled = true
   const currentDate = new Date();
@@ -79,7 +122,7 @@ function MainPage({handleLogOut}) {
       else if (respState !== null)
       {
         setSystemFailure(false);
-        setState(respState);
+        seterror(respState);
         setMessage(msg);
       }
 
@@ -94,7 +137,7 @@ function MainPage({handleLogOut}) {
         createTitleText(priceOptions.scales.x.labels);
       } 
     } catch (error) {
-      setState("error");
+      seterror("error");
       setMessage(`Error fetching data: ${error}`);
     }
   };
@@ -158,16 +201,12 @@ function MainPage({handleLogOut}) {
     );
   };
 
-  //useEffect(() => {
-  // console.log("APP. handleSwitchChange. chartType: ", chartType);
-  //}, [chartType]);
-
   return (
     <div>
       {<Notication type="warning" text={info}/>  }
 
       {/*Handle the error, e.g., show an error message to the user*/}
-      {state !== "" && <Notication type={state} text={String(message)}/>  }
+      {error !== "" && <Notication type={error} text={String(message)}/>  }
       
       <div className="container">
 
@@ -213,12 +252,15 @@ function MainPage({handleLogOut}) {
         {/* hideTableOfContents sitä varten, että jos osio avataan sivulta 2, niin aukinainen sisällysluettelo piiloitetaan*/}
         {/* className={`${showPage === 1 ? 'white-text' : 'other-than-main-page'} ${hideTableOfContents ? 'hidden' : ''}`} */}
           
-        <div className="pagination">
-          <Stack spacing={2} alignItems="center">
-            <Pagination color="primary" count={6} page={showPage} onChange={handleOpenNewPage}/>
-          </Stack>
-        </div>
-        </div>
+        {!loading &&
+          <div className="pagination">
+            <Stack spacing={2} alignItems="center">
+              <Pagination color="primary" count={4} page={showPage} onChange={handleOpenNewPage}/>
+            </Stack>
+            <Linking></Linking>
+          </div>
+        }
+      </div>
     }
     </div>
     </div>

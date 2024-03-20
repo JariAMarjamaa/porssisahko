@@ -2,6 +2,17 @@ import { render, screen, act, waitFor } from '@testing-library/react';
 import MainPage from './MainPage.tsx';
 import { mockTestPrices} from "./mockData/Price-test.mock.jsx";
 
+import configureMockStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
+import { StateProvider } from './State';
+import mainReducer from "./store/reducers/index.js";
+
+import { mockStoreInitialState } from "./mockData/store.mock.jsx";
+
+const mockStore = configureMockStore([]);
+// Create a mock store with the initial state
+const store = mockStore(mockStoreInitialState);
+
 //Riippuen kumpi käytössä
 import * as apiModule from './api';
 //import { Prices } from './api';
@@ -51,7 +62,13 @@ describe('Mainpage component', () => {
     //jest.spyOn(Prices, 'getPrices').mockResolvedValue(mockTestPrices);
 
     await act(async () => {
-      render(<MainPage handleLogOut={mockHandleLogout} />);
+      render(
+        <Provider store={store}>
+          <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
+            <MainPage/>
+          </StateProvider>
+        </Provider>
+      );
     });
 
     // Regular expressions for flexible text matching

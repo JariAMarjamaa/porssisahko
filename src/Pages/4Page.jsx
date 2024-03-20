@@ -107,7 +107,7 @@ const FourthPage = () => {
   );
     
   return (
-      <div className="new-page-modal">
+      <div className="sub-page">
         <h1>Neljäs sivu</h1>
         <br/>
         <br/>

@@ -1,10 +1,29 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import ButtonList from './ButtonList';
 
+
+import configureMockStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
+import { StateProvider } from '../State';
+import mainReducer from "../store/reducers/index.js";
+
+import { mockStoreInitialState } from "../mockData/store.mock.jsx";
+
+const mockStore = configureMockStore([]);
+// Create a mock store with the initial state
+const store = mockStore(mockStoreInitialState);
+
 describe('ButtonList component', () => {
   test('Render TOC button and dialog correctly', async () => {
     // Render the ButtonList component
-    render(<ButtonList lowestPrice={10} highestPrice={20} />);
+    //render(<ButtonList lowestPrice={10} highestPrice={20} />);
+    render(
+      <Provider store={store}>
+        <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
+        <ButtonList lowestPrice={10} highestPrice={20} />
+        </StateProvider>
+      </Provider>
+    );
 
     // Test buttons
     const tocButton = screen.getByText('Sisällysluettelo');
@@ -29,7 +48,13 @@ describe('ButtonList component', () => {
 
   test('Render Prices info button and dialog correctly', async () => {
     // Render the ButtonList component
-    render(<ButtonList lowestPrice={10} highestPrice={20} />);
+    render(
+      <Provider store={store}>
+        <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
+        <ButtonList lowestPrice={10} highestPrice={20} />
+        </StateProvider>
+      </Provider>
+    );
 
     const pricesButton = screen.getByText('Hinta tiedot');
     fireEvent.click(pricesButton);
@@ -44,7 +69,13 @@ describe('ButtonList component', () => {
   });
 
   test('Render Calendar info button and dialog correctly', async () => {
-    render(<ButtonList lowestPrice={10} highestPrice={20} />);
+    render(
+      <Provider store={store}>
+        <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
+        <ButtonList lowestPrice={10} highestPrice={20} />
+        </StateProvider>
+      </Provider>
+    );
     const calendarButton = screen.getByText('Kalenterin ohje');
     fireEvent.click(calendarButton);
 
@@ -58,8 +89,14 @@ describe('ButtonList component', () => {
   test('Render API test info button and dialog correctly', async () => {
     // Create a mock function for the simulationCallback
     const mockSimulationCallback = jest.fn();
+    render(
+      <Provider store={store}>
+        <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
+        <ButtonList lowestPrice={10} highestPrice={20} simulationCallback={mockSimulationCallback}/>
+        </StateProvider>
+      </Provider>
+    );
 
-    render(<ButtonList lowestPrice={10} highestPrice={20} simulationCallback={mockSimulationCallback}/>);
     const apiButton = screen.getByText('Simuloi sähkökatko!');
     fireEvent.click(apiButton);
 

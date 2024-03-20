@@ -6,4 +6,8 @@ export const mockStoreInitialState = {
       userIds: [],
       infoText: null
     },
+    info: {
+      state: "MOCK_INFO_STATE",
+      text: null
+    },
   }; 

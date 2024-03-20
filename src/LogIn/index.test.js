@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor, act, renderHook } from '@testing-library/react';
-import LogIn from './index.jsx';
+import LogInPage from './index.jsx';
 
 //npm install --save-dev @reduxjs/toolkit redux-mock-store
 import configureMockStore from 'redux-mock-store';
@@ -26,19 +26,17 @@ jest.mock('../api', () => ({
 
 const mockStore = configureMockStore([]);
 // Create a mock store with the initial state
-const store = mockStore(mockStoreInitialState;
+const store = mockStore(mockStoreInitialState);
 
 
 describe('Login component', () => {
   test('renders Login component', () => {
     // Mock the callback function
     //const mockUserSelection = jest.fn();
-    //render(<LogIn returnResponse={mockUserSelection} />);
-    //render(<LogIn />);
     render(
       <Provider store={store}>
         <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
-          <LogIn/>
+          <LogInPage/>
         </StateProvider>
       </Provider>
     );
@@ -50,11 +48,10 @@ describe('Login component', () => {
   test('renders userid input', () => {
     // Mock the callback function
     const mockUserSelection = jest.fn();
-    //render(<LogIn returnResponse={mockUserSelection} />);
     render(
       <Provider store={store}>
-        <StateProvider reducer={mainReducer} initialState={mockInitialState}>
-          <LogIn />
+        <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
+          <LogInPage />
         </StateProvider>
       </Provider>
     );
@@ -71,11 +68,10 @@ describe('Login component', () => {
   test('renders password input with toggle visibility button', () => {
     // Mock the callback function
     const mockUserSelection = jest.fn();
-    //const { getByTestId } = render(<LogIn returnResponse={mockUserSelection} />);
     const { getByTestId } = render(
       <Provider store={store}>
-        <StateProvider reducer={mainReducer} initialState={mockInitialState}>
-          <LogIn />
+        <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
+          <LogInPage />
         </StateProvider>
       </Provider>
     );
@@ -125,11 +121,10 @@ describe('Login component', () => {
 
     const LogInResponseMock = jest.fn();
 
-    //const { getByTestId } = render(<LogIn returnResponse={LogInResponseMock} />);
     const { getByTestId } = render(
       <Provider store={store}>
-        <StateProvider reducer={mainReducer} initialState={mockInitialState}>
-          <LogIn returnResponse={LogInResponseMock}/>
+        <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
+          <LogInPage returnResponse={LogInResponseMock}/>
         </StateProvider>
       </Provider>
     );

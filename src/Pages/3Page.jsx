@@ -17,7 +17,7 @@ const ThirdPage = () => {
 
 
   return (
-    <div className="new-page-modal">
+    <div className="sub-page">
       <h1>Kolmas sivu</h1>
 
       <br/>

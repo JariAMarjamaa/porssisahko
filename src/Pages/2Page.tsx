@@ -16,7 +16,7 @@ const SecondPage = () => {
     };
 
   return (
-    <div className="new-page-modal padding20">
+    <div className="sub-page padding20">
         <div>Jartsan koodausnäyte</div>
         <div>React DemoApp</div> 
         <div>Kaikenlaisilla hienoilla kikkuloilla.</div> 

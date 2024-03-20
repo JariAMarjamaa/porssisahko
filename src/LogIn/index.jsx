@@ -9,9 +9,11 @@ import { types }       from '../store/actions/actionTypes';
 
 import ChartImage from "../content/chart.jpg";
 
+import { useNavigate } from 'react-router-dom';
+
 import './index.css';
 
-const LogIn = ({returnResponse}) => {
+const LogInPage = () => {
   const { state, actions } = useStateValue();
   
   const [ShowLogInButton,         setShowLogInButton]         = useState(false);
@@ -26,14 +28,21 @@ const LogIn = ({returnResponse}) => {
   const [showPassword2,    setShowPassword2]    = useState(false);
 
   const [signing,          setsigning]          = useState(false);
- 
+
+  const navigate = useNavigate();
+
   let userData = {};
 
   useEffect( () => {
     switch(state.login.state)
     {
       case "INITIAL_STATE":
-        //console.log("LogIn INITIAL_STATE");
+        console.log("LogIn INITIAL_STATE");
+        if (state.login.userIds.length !== 0)
+        {
+          setsigning(false);
+          navigate('/mainPage');
+        }
         break;
       case types.LOGGING:
         console.log("LOGIN LOGGING");
@@ -41,7 +50,7 @@ const LogIn = ({returnResponse}) => {
       case types.LOGIN_SUCCEEDED:
         console.log("LOGIN LOGIN_SUCCEEDED");
         setsigning(false);
-        returnResponse(true);
+        navigate('/mainPage');
         break;
       case types.LOGIN_FAILED:
         console.log("LOGIN LOGIN_FAILED");
@@ -50,17 +59,23 @@ const LogIn = ({returnResponse}) => {
       case types.SIGNIN_SUCCEEDED:
         console.log("LOGIN SIGNIN_SUCCEEDED");
         setsigning(false);
-        returnResponse(true);
+        navigate('/mainPage');
         break;
       case types.SIGNIN_FAILED:
         console.log("LOGIN SIGNIN_FAILED");
         setsigning(false);
         break;
 
+      case types.LOGOUT_SUCCEEDED:
+        console.log("LOGIN LOGOUT_SUCCEEDED");
+        setsigning(false);
+        navigate('/porssisahko');
+        break;
+
       default:
         break;
     }
-  }, [state.login, returnResponse]);
+  }, [state.login, navigate]);
 
   useEffect( () => {
     switch(state.info.state)
@@ -272,4 +287,4 @@ const LogIn = ({returnResponse}) => {
     );
 };
 
-export default LogIn;
+export default LogInPage;
