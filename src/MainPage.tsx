@@ -24,7 +24,6 @@ import ChartSwitch from './Switch/switch.tsx';
 import './App.css';
 import { useStateValue } from './State/index.js';
 import { types }         from './store/actions/actionTypes.js';
-import { useNavigate }   from 'react-router-dom';
 import Linking           from "./Router/Linking.js"; 
 
 function MainPage() {
@@ -34,7 +33,7 @@ function MainPage() {
   const [priceOptions, setPriceOptions]  = useState(null);
   const [lowestValue,  setLowestValue]   = useState(0);
   const [highestValue, setHighestValue]  = useState(0);
-  const [loading,      setLoadingValue]  = useState(true);
+  const [loading,      setLoadingValue]  = useState(false);
 
   const [error,        seterror]         = useState("");
   const [message,      setMessage]       = useState("");
@@ -52,8 +51,6 @@ function MainPage() {
   const [buttonListVisible, setButtonListVisible] = useState(false);
   const [buttonVisibleText, setButtonVisibleText] = useState("Näytä nappulat");
 
-  const navigate = useNavigate();
-
   useEffect( () => {
     switch(state.login.state)
     {
@@ -61,26 +58,29 @@ function MainPage() {
         console.log("MAINPAGE INITIAL_STATE");
         break;
       case types.LOGGING:
-        //console.log("APP LOGGING");
+        console.log("MAINPAGE LOGGING loading: ",loading);
+        //setLoadingValue(true);
         break;
       case types.LOGIN_SUCCEEDED:
       case types.SIGNIN_SUCCEEDED:
-        console.log("MAINPAGE ", state.login.state);
+        console.log("MAINPAGE ", state.login.state, " loading: ",loading);
+        //setLoadingValue(false);
         break;
       case types.LOGOUT_SUCCEEDED:
         console.log("MAINPAGE LOGOUT_SUCCEEDED");
-        setLoadingValue(false);
-        navigate('/porssisahko');
+        //setLoadingValue(false);
         break;
       case types.LOGOUT_FAILED:
       case types.SIGNIN_FAILED:
         console.log("MAINPAGE ", state.login.state);
-        setLoadingValue(false);
+        //setLoadingValue(false);
         break;
       default:
+        console.log("MAINPAGE - DEFAULT ", state.login.state);
+
         break;
     }
-  }, [state.login, navigate]);
+  }, [state.login]);
 
   const toggleButtonList = () => {
     setButtonListVisible(!buttonListVisible);
@@ -95,13 +95,6 @@ function MainPage() {
     setSystemFailure(false);
   }
 
-  const handleLogOut = () => {
-    console.log("MainPage LOGOUT");
-    setLoadingValue(true);
-    const user = state.login.userIds[0];
-    actions.triggerLogOut(user);
-  };
-
   var apiNotCalled = true
   const currentDate = new Date();
   // Title. Format the current date as DD.MM.YYYY
@@ -109,12 +102,10 @@ function MainPage() {
 
   //Data requestit
   const fetchData = async (date: Date, userRequest: string) => {
-    
     setLoadingValue(true);
     try {
       const { priceData, priceOptions, respState, msg } = await ReadElectricityPriceData(date, userRequest);
       setLoadingValue(false);
-
       if (respState === "error")
       {
         setSystemFailure(true);
@@ -235,7 +226,7 @@ function MainPage() {
           <button className="button mainButton" onClick={toggleButtonList}>{buttonVisibleText}</button>
 
           <div className={`buttonList ${buttonListVisible ? 'visible' : ''}`}>
-            <ButtonList lowestPrice={lowestValue} highestPrice={highestValue} simulationCallback={makeSimulatoinFailReq} logOut={handleLogOut}></ButtonList>
+            <ButtonList lowestPrice={lowestValue} highestPrice={highestValue} simulationCallback={makeSimulatoinFailReq} ></ButtonList>
           </div>
         </div>
         }
@@ -251,13 +242,12 @@ function MainPage() {
 
         {/* hideTableOfContents sitä varten, että jos osio avataan sivulta 2, niin aukinainen sisällysluettelo piiloitetaan*/}
         {/* className={`${showPage === 1 ? 'white-text' : 'other-than-main-page'} ${hideTableOfContents ? 'hidden' : ''}`} */}
-          
+
         {!loading &&
           <div className="pagination">
             <Stack spacing={2} alignItems="center">
               <Pagination color="primary" count={4} page={showPage} onChange={handleOpenNewPage}/>
             </Stack>
-            <Linking></Linking>
           </div>
         }
       </div>

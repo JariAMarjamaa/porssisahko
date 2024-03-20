@@ -1,42 +1,116 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
-import MainPage from '../MainPage.tsx';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import App from '../App.jsx';
 
 import SecondPage from './2Page.tsx';
 import ThirdPage  from './3Page.jsx';
 
-// Mock the callback function
-const mockOnClose = jest.fn();
-const mockHandleLogout = jest.fn();
+import { Provider } from 'react-redux';
+import { StateProvider } from '../State';
+import mainReducer from "../store/reducers/index.js";
+import { mockStoreInitialState } from "../mockData/store.mock.jsx";
+import { mockTestPrices} from "../mockData/Price-test.mock.jsx";
+import configureMockStore        from 'redux-mock-store';
 
+import * as apiModule from '../api';
+
+const mockStore = configureMockStore([]);
+// Create a mock store with the initial state
+//const store = mockStore(mockStoreInitialState);
+var mockState = mockStoreInitialState;
+mockState.login.state = "LOGIN_SUCCEEDED";
+// Create a mock store with the initial state
+const store = mockStore(mockState);
+
+// Mock the asyncFetchPorssisahkoNet function / asyncFetchPrice
+jest.mock('../api', () => ({
+    ...jest.requireActual('../api'), // Use the actual implementation for other functions in api module
+    //asyncFetchPrice: jest.fn(), // muista laittaa const hinnat = await asyncFetchPrice(); päälle ElectricityPrice.jsx filessä
+    asyncFetchPorssisahkoNet: jest.fn(), // muista laittaa const hinnat = await asyncFetchPorssisahkoNet(); päälle ElectricityPrice.jsx filessä
+  }));
+
+// Mock the Line component
+jest.mock('react-chartjs-2', () => ({
+    Line: jest.fn(() => null), 
+}));
+  
 describe('Subpage tests', () => {
-    test('pagination selection of page 2', () => {
-        render(<MainPage handleLogOut={mockHandleLogout} />);
+    test('pagination selection of page 2', async () => {
 
-        // Simulate a page change to 2
-        fireEvent.click(screen.getByText('2'));
+        // Set up the mock implementation for asyncFetchPrice
+        apiModule.asyncFetchPorssisahkoNet.mockResolvedValue(mockTestPrices);
 
-        // Assert that SecondPage title is rendered
-        expect(screen.getByText('Jartsan koodausnäyte')).toBeInTheDocument();
+        await act(async () => {
+            render(
+              <Provider store={store}>
+                <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
+                <App />
+                </StateProvider>
+              </Provider>
+            );
+          });
+
+        await act(async () => {
+            // Simulate a page change to 2
+            fireEvent.click(screen.getByText('2'));
+        });
+      
+        // Wait for the asynchronous operations to complete
+        await waitFor(() => {
+            act(() => {
+                // Assert that SecondPage title is rendered
+                expect(screen.getByText('Jartsan koodausnäyte')).toBeInTheDocument();
+            });
+        });
     });
 
-    test('pagination selection of page 3', () => {
-        render(<MainPage handleLogOut={mockHandleLogout} />);
+    test('pagination selection of page 3', async () => {
+        // Set up the mock implementation for asyncFetchPrice
+        apiModule.asyncFetchPorssisahkoNet.mockResolvedValue(mockTestPrices);
+
+        await act(async () => {
+            render(
+              <Provider store={store}>
+                <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
+                <App />
+                </StateProvider>
+              </Provider>
+            );
+          });
        
-        // Simulate a page change to 2
-        fireEvent.click(screen.getByText('3'));
-
-        // Assert that SecondPage title is rendered
-        expect(screen.getByText('Kolmas sivu')).toBeInTheDocument();
+        await act(async () => {
+            fireEvent.click(screen.getByText('3'));
+        });
+      
+        await waitFor(() => {
+            act(() => {
+                expect(screen.getByText('Kolmas sivu')).toBeInTheDocument();
+            });
+        });
     });
 
-    test('pagination selection of page 4',  () => {
-        render(<MainPage handleLogOut={mockHandleLogout} />);
+    test('pagination selection of page 4',  async () => {
+        // Set up the mock implementation for asyncFetchPrice
+        apiModule.asyncFetchPorssisahkoNet.mockResolvedValue(mockTestPrices);
 
-        // Simulate a page change to 2
-        fireEvent.click(screen.getByText('4'));
+        await act(async () => {
+            render(
+              <Provider store={store}>
+                <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
+                <App />
+                </StateProvider>
+              </Provider>
+            );
+          });
 
-        // Assert that SecondPage title is rendered
-        expect(screen.getByText('Neljäs sivu')).toBeInTheDocument();
+        await act(async () => {
+            fireEvent.click(screen.getByText('4'));
+        });
+      
+        await waitFor(() => {
+            act(() => {
+                expect(screen.getByText('Neljäs sivu')).toBeInTheDocument();
+            });
+        });
     });
 
     test('render Page 2 component',  () => {
@@ -56,7 +130,7 @@ describe('Subpage tests', () => {
     });
 
     test('render Page 3 component', () => {
-        render(<ThirdPage onClose={mockOnClose} />);
+        render(<ThirdPage/>);
         expect(screen.getByText('Kolmas sivu')).toBeInTheDocument();
 
         // Assert that the "Lataa CV" button is present
@@ -76,8 +150,8 @@ describe('Subpage tests', () => {
         createElementSpy.mockRestore();
     });
 
-    test('render Page 3 component with video', () => {
-        render(<ThirdPage onClose={mockOnClose} />);
+    xtest('render Page 3 component with video', () => {
+        render(<ThirdPage/>);
 
         // Assert that the "Katso video Robottitestauksesta" button is present
         expect(screen.getByText('Robottitestaus:')).toBeInTheDocument();

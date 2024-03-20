@@ -1,17 +1,14 @@
 import { render, screen, act, waitFor } from '@testing-library/react';
-import MainPage from './MainPage.tsx';
+import App from './App.jsx';
+
 import { mockTestPrices} from "./mockData/Price-test.mock.jsx";
 
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { StateProvider } from './State';
 import mainReducer from "./store/reducers/index.js";
-
 import { mockStoreInitialState } from "./mockData/store.mock.jsx";
-
 const mockStore = configureMockStore([]);
-// Create a mock store with the initial state
-const store = mockStore(mockStoreInitialState);
 
 //Riippuen kumpi käytössä
 import * as apiModule from './api';
@@ -30,15 +27,10 @@ import * as apiModule from './api';
   //  })(),
   }));*/
 
-// Mock the asyncFetchPrice function
-//jest.mock('./api', () => ({
-//  ...jest.requireActual('./api'), // Use the actual implementation for other functions in api module
-//asyncFetchPrice: jest.fn(), // muista laittaa const hinnat = await asyncFetchPrice(); päälle ElectricityPrice.jsx filessä
-//}));
-
-// Mock the asyncFetchPorssisahkoNet function
+// Mock the asyncFetchPorssisahkoNet function / asyncFetchPrice
 jest.mock('./api', () => ({
   ...jest.requireActual('./api'), // Use the actual implementation for other functions in api module
+  //asyncFetchPrice: jest.fn(), // muista laittaa const hinnat = await asyncFetchPrice(); päälle ElectricityPrice.jsx filessä
   asyncFetchPorssisahkoNet: jest.fn(), // muista laittaa const hinnat = await asyncFetchPorssisahkoNet(); päälle ElectricityPrice.jsx filessä
 }));
 
@@ -47,11 +39,18 @@ jest.mock('react-chartjs-2', () => ({
   Line: jest.fn(() => null), 
 }));
 
-// Mock the callback function
-const mockHandleLogout = jest.fn();
-
 describe('Mainpage component', () => {
   test('Renders Mainpage component', async () => {
+    // Update the mock state to simulate successful login
+    //const mockState = { ...mockStoreInitialState, login: { ...mockStoreInitialState.login, state: "LOGIN_SUCCEEDED" } };
+    // Create a mock store with the initial state
+    //const store = mockStore(mockState);
+    
+    var mockState = mockStoreInitialState;
+    mockState.login.state = "LOGIN_SUCCEEDED";
+    // Create a mock store with the initial state
+    const store = mockStore(mockState);
+
     // Set up the mock implementation for asyncFetchPrice
     //apiModule.asyncFetchPrice.mockResolvedValue(mockTestPrices);
     apiModule.asyncFetchPorssisahkoNet.mockResolvedValue(mockTestPrices);
@@ -62,15 +61,17 @@ describe('Mainpage component', () => {
     //jest.spyOn(Prices, 'getPrices').mockResolvedValue(mockTestPrices);
 
     await act(async () => {
+    //act(() => {
       render(
         <Provider store={store}>
           <StateProvider reducer={mainReducer} initialState={mockStoreInitialState}>
-            <MainPage/>
+          <App />
           </StateProvider>
         </Provider>
       );
     });
 
+    //screen.debug(); //koko DOM
     // Regular expressions for flexible text matching
     const dateTitle = /Päiväys:/;
 

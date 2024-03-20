@@ -1,4 +1,4 @@
-import { React, useState, Fragment } from 'react';
+import { React, useState } from 'react';
 
 import Dialog             from '@mui/material/Dialog';
 import DialogActions      from '@mui/material/DialogActions';
@@ -12,12 +12,11 @@ import PopupWindow        from "../PopupWindow/Popup.jsx";
 
 import {useStateValue} from "../State/index.js";
 
-import { toc, priceInfo/*, APITestContent*/ }  from '../content/text_content.jsx';
+import { toc, priceInfo }  from '../content/text_content.jsx';
 
 
-const ButtonList = ({ lowestPrice, highestPrice, simulationCallback, logOut }) => { 
+const ButtonList = ({ lowestPrice, highestPrice, simulationCallback }) => { 
   const { state, actions } = useStateValue();
-
   const [openDialog,      setDialogOpen]    = useState(false);
   const [dialogContent,   setDialogContent] = useState("");
   const [dialogTitle,     setdialogTitle]   = useState("");
@@ -43,16 +42,22 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback, logOut }) =
     }
   };
 
-  const handleExcelDonwload = (state) => {
-    setExcelDownload(state);
+  const handleExcelDonwload = (excelLoadingState) => {
+    setExcelDownload(excelLoadingState);
   };
 
   const closePopup = () => {
     setExcelDownload(false);
   }
 
+  const handleLogOut = () => {
+    console.log("BUTTONLIST LOGOUT");
+    const user = state.login.userIds[0];
+    actions.triggerLogOut(user);
+  };
+
   return (
-    <div style={{ backgroundColor: 'beige', padding: "15px" }}>
+    <div className="buttonList" style={{ backgroundColor: 'beige', padding: "15px" }}>
     <button className="button" onClick={() => handleOpenDialog("toc")} >Sisällysluettelo</button>
     <br></br>
     
@@ -68,7 +73,7 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback, logOut }) =
     <button className="button" onClick={() => handleExcelDonwload(true)} >Excel</button>
     <br></br>
     <br></br>
-    <button className="button bgColorGreen" onClick={() => logOut(true)} >Kirjaudu ulos</button>
+    <button className="button bgColorGreen" onClick={() => handleLogOut()} >Kirjaudu ulos</button>
 
     <Dialog
       open={openDialog}

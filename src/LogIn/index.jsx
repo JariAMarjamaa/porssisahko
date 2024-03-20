@@ -9,8 +9,6 @@ import { types }       from '../store/actions/actionTypes';
 
 import ChartImage from "../content/chart.jpg";
 
-import { useNavigate } from 'react-router-dom';
-
 import './index.css';
 
 const LogInPage = () => {
@@ -29,19 +27,16 @@ const LogInPage = () => {
 
   const [signing,          setsigning]          = useState(false);
 
-  const navigate = useNavigate();
-
   let userData = {};
 
   useEffect( () => {
     switch(state.login.state)
     {
       case "INITIAL_STATE":
-        console.log("LogIn INITIAL_STATE");
-        if (state.login.userIds.length !== 0)
+        console.log("LOGIN INITIAL_STATE. signing: ", signing, " userIds; ", state.login.userIds.length);
+        if (state.login.userIds.length !== 0 && signing)
         {
           setsigning(false);
-          navigate('/mainPage');
         }
         break;
       case types.LOGGING:
@@ -50,7 +45,6 @@ const LogInPage = () => {
       case types.LOGIN_SUCCEEDED:
         console.log("LOGIN LOGIN_SUCCEEDED");
         setsigning(false);
-        navigate('/mainPage');
         break;
       case types.LOGIN_FAILED:
         console.log("LOGIN LOGIN_FAILED");
@@ -59,23 +53,20 @@ const LogInPage = () => {
       case types.SIGNIN_SUCCEEDED:
         console.log("LOGIN SIGNIN_SUCCEEDED");
         setsigning(false);
-        navigate('/mainPage');
         break;
       case types.SIGNIN_FAILED:
         console.log("LOGIN SIGNIN_FAILED");
         setsigning(false);
         break;
-
       case types.LOGOUT_SUCCEEDED:
         console.log("LOGIN LOGOUT_SUCCEEDED");
         setsigning(false);
-        navigate('/porssisahko');
         break;
 
       default:
         break;
     }
-  }, [state.login, navigate]);
+  }, [state.login]);
 
   useEffect( () => {
     switch(state.info.state)
