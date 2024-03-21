@@ -201,7 +201,7 @@ function MainPage() {
       
       <div className="container">
 
-        {SystemFailure ?
+      {SystemFailure ?
           <PopupWindow onClose={closePopup} type="error-text" content={PriceRequestFail}></PopupWindow>
         :
         <div>
@@ -250,8 +250,8 @@ function MainPage() {
             </Stack>
           </div>
         }
-      </div>
-    }
+        </div>
+      }
     </div>
     </div>
   );

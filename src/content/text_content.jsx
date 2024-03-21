@@ -40,12 +40,6 @@ export const CalendarInfoContent = (
   </div>
 );
 
-export const APITestContent = (
-  <div>
-    API Fail simulaatiota ei vielä tehty!!
-  </div>
-);
-
 export const PriceRequestFail = (
   <div>
     Pörssi rikki!!
