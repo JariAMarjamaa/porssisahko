@@ -16,6 +16,7 @@ const FifthPage = () => {
     setchartNumber(number === chartNumber ? 0 : number);
   }
 
+  console.log("5 sivu");
     
   return (
       <div className="router-page">

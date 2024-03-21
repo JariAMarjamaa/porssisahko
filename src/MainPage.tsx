@@ -24,7 +24,9 @@ import ChartSwitch from './Switch/switch.tsx';
 import './App.css';
 import { useStateValue } from './State/index.js';
 import { types }         from './store/actions/actionTypes.js';
-import Linking           from "./Router/Linking.js"; 
+import RouteConfigs      from "./Router/router.js";
+
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 function MainPage() {
   const { state, actions } = useStateValue();
@@ -58,8 +60,8 @@ function MainPage() {
         console.log("MAINPAGE INITIAL_STATE");
         break;
       case types.LOGGING:
-        console.log("MAINPAGE LOGGING loading: ",loading);
-        //setLoadingValue(true);
+        console.log("MAINPAGE LOGGING");
+        setLoadingValue(true);
         break;
       case types.LOGIN_SUCCEEDED:
       case types.SIGNIN_SUCCEEDED:
@@ -182,7 +184,7 @@ function MainPage() {
     fetchData(currentDate, "RESET");
   }
 
-  const makeSimulatoinFailReq = (status) => {
+  const makeSimulatoinFailReq = (status: any) => {
     fetchData(currentDate, "PörssiFailSimulaatio");
   };
 
@@ -190,6 +192,11 @@ function MainPage() {
     setChartType((prevChartType) =>
       prevChartType === 'LineChartSelected' ? 'BarChartSelected' : 'LineChartSelected'
     );
+  };
+  const handleLocationChange = (location: string) => {
+    console.log("MAINPAGE. Route callback: ", location);
+    setShowPage(location === "Page5" ? 5 :
+                location === "Page6" ? 6 : 1 )
   };
 
   return (
@@ -248,6 +255,9 @@ function MainPage() {
             <Stack spacing={2} alignItems="center">
               <Pagination color="primary" count={4} page={showPage} onChange={handleOpenNewPage}/>
             </Stack>
+
+            {<RouteConfigs pageSelection={(route: any) => handleLocationChange(route)} />}
+
           </div>
         }
         </div>

@@ -21,7 +21,7 @@ function App() {
         console.log("APP INITIAL_STATE. showMainPage: ", showMainPage , " userIDs: ", state.login.userIds.length);
         if (state.login.userIds.length !== 0 && !showMainPage)
         {
-          setShowMainPage(true);
+          //setShowMainPage(true);
         }
         break;
       case types.LOGGING:
@@ -48,8 +48,11 @@ function App() {
     <div>
       <InfoNote></InfoNote>
       
-	    {showMainPage ? 
+	    {showMainPage || state.login.userIds.length !== 0 ? 
+       <div>
+       {/*<RouteConfigs/>*/}
         <MainPage />
+       </div>
       :
         <LogInPage />  
       }

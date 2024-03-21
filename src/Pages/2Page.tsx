@@ -34,7 +34,7 @@ const SecondPage = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography sx={{ bgcolor: 'lightgray' }} >
-                React + MaterialUI + Redux
+                React + MaterialUI + Redux + React Router
                 <br/>
                 <br/>
                 NodeJS + Google Sheet
@@ -89,19 +89,15 @@ const SecondPage = () => {
             <Typography sx={{ bgcolor: 'lightgray' }}>
               Viimeisimpänä isompana juttuna lisätty node serveri.
               <br/>
-              Ja Redux staten hallintaan.
+              Ja Redux Routerin käyttö.
               <br/>
               <br/>
-              - Muutettu rekisteröinti Reduxin kautta.
+              - Selaimessa voidaan surfata eri sivujen välillä.
               <br/>
               <br/>
               <br/>
-              Muutettu Staten hallinta, että sivun uudelleen lataaminen,
               <br/>
-              ei hukkaa kirjautumistietoa
-              <br/>
-              <br/>
-              Sovellus versio 8.4
+              Sovellus versio 9.0
             </Typography>
           </AccordionDetails>
         </Accordion>

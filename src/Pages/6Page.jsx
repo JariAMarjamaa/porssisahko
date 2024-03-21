@@ -3,7 +3,9 @@ import { React } from 'react';
 import './Pages.css';
 
 const SixthPage = () => {
-    return (
+  console.log("6 sivu");
+  
+  return (
       <div className="router-page">
         <h1>Todo-lista:</h1>
         <br/>

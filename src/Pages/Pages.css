@@ -14,6 +14,8 @@
   height: 100%;
   align-items: center;
   font-size: calc(10px + 2vmin);
+  top: 0;
+  left: 0;
   /* popup keskelle
   top: 50%;
   left: 50%;
