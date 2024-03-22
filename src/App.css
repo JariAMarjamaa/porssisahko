@@ -39,7 +39,7 @@
 }
 
 .mainButton {
-  position: fixed;
+  position: absolute;
   left: 40px;
 }
 
@@ -86,6 +86,10 @@
   position: fixed;
   bottom: 0;  
   width: 65%;
+}
+
+.link-button {
+  text-decoration: none;
 }
 
 .button {

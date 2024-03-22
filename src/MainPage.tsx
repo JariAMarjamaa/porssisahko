@@ -24,12 +24,12 @@ import ChartSwitch from './Switch/switch.tsx';
 import './App.css';
 import { useStateValue } from './State/index.js';
 import { types }         from './store/actions/actionTypes.js';
-import RouteConfigs      from "./Router/router.js";
 import Linking           from "./Router/Linking.js";
 
-
-import { Route, Routes, useLocation } from 'react-router-dom';
 import { useNavigate }   from 'react-router-dom';
+
+import InfoNote           from "./noteHandling/infoNotes.jsx";
+
 
 function MainPage() {
   const { state, actions } = useStateValue();
@@ -76,7 +76,6 @@ function MainPage() {
       case types.SIGNIN_SUCCEEDED:
         console.log("MAINPAGE ", state.login.state);
         navigate('/', { replace: true });
-        //setLoadingValue(false);
         break;
       case types.LOGOUT_SUCCEEDED:
         console.log("MAINPAGE LOGOUT_SUCCEEDED");
@@ -212,6 +211,8 @@ function MainPage() {
 
   return (
     <div>
+     <InfoNote></InfoNote>
+
       {<Notication type="warning" text={info}/>  }
 
       {/*Handle the error, e.g., show an error message to the user*/}
@@ -267,7 +268,6 @@ function MainPage() {
               <Pagination color="primary" count={4} page={showPage} onChange={handleOpenNewPage}/>
             </Stack>
 
-            {/*<RouteConfigs pageSelection={(route: any) => handleLocationChange(route)} />*/}
             {<Linking sendPageSelection={(route: any) => handleLocationChange(route)} ></Linking> }
 
 

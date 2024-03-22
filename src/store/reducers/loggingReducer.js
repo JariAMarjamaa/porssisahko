@@ -72,7 +72,6 @@ const loggingReducer = (state = initialState, action) => {
       };
 
     default:
-      console.log("REDUCER. DEFAULT. payload: ", payload);  
     return state;
   }
 };

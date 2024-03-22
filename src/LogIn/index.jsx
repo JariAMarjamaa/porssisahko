@@ -11,6 +11,9 @@ import ChartImage from "../content/chart.jpg";
 
 import { useNavigate }   from 'react-router-dom';
 
+import InfoNote         from "../noteHandling/infoNotes.jsx";
+
+
 import './index.css';
 
 const LogInPage = () => {
@@ -55,11 +58,12 @@ const LogInPage = () => {
       case types.LOGIN_FAILED:
         console.log("LOGIN LOGIN_FAILED");
         setsigning(false);
+        setShowLogInButton(true);
         break;
       case types.SIGNIN_SUCCEEDED:
         console.log("LOGIN SIGNIN_SUCCEEDED");
         setsigning(false);
-        navigate('/');
+        navigate('/', { replace: true });
         break;
       case types.SIGNIN_FAILED:
         console.log("LOGIN SIGNIN_FAILED");
@@ -188,6 +192,8 @@ const LogInPage = () => {
 
   return (
       <div className="loginPage">
+        <InfoNote></InfoNote>
+
         <h1 data-testid="RFW_MainPageText">Pörssisähkökäppyrä harjoitus</h1>
 
         <div className="chartImage">

@@ -1,12 +1,10 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import MainPage   from "./MainPage.tsx";
 import LogInPage      from "./LogIn/index.jsx";
-import InfoNote   from "./noteHandling/infoNotes.jsx";
 
 import {useStateValue} from "./State/index.js";
 import { types }       from './store/actions/actionTypes.js';
 
-import RouteConfigs      from "./Router/router.js";
 import { useNavigate }   from 'react-router-dom';
 
 import './App.css';
@@ -25,7 +23,6 @@ function App() {
         if (state.login.userIds.length !== 0 && !showMainPage)
         {
           setShowMainPage(true);
-          //navigate('/mainPage');
         }
         break;
       case types.LOGGING:
@@ -50,16 +47,8 @@ function App() {
     }
   }, [state.login, actions]);
 
-  const handleLocationChange = (location) => {
-    console.log("APP. Route callback: ", location);
-  };
-
-
   return (
     <div>
-      {/*<RouteConfigs showLinks={showMainPage || state.login.userIds.length !== 0 ? true : false} pageSelection={(route) => handleLocationChange(route)} />*/}
-      <InfoNote></InfoNote>
-      
 	    {showMainPage || state.login.userIds.length !== 0 ? 
        <div>
         <MainPage />

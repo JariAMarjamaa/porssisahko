@@ -29,8 +29,8 @@ export const StateProvider = ({ reducer, initialState }) => {
   return (
     <StateContext.Provider value={{ state, dispatch: enhancedDispatch, actions }}>
      <Router basename="/">
-     <RouteConfigs>
-      <App />
+      <RouteConfigs>
+        <App />
       </RouteConfigs>
      </Router>
     </StateContext.Provider>

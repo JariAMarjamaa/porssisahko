@@ -5,7 +5,8 @@ import LogInOkMsgSequence   from "../content/LogInOkMsgSequence.jpg";
 import LogOutMsgSequence    from "../content/LogOutMsgSequence.jpg";
 
 //npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
-import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+import PhotoLibraryIcon     from '@mui/icons-material/PhotoLibrary';
+import Linking              from "../Router/Linking.js";
 
 import './Pages.css';
 
@@ -15,6 +16,10 @@ const FifthPage = () => {
   const handleSelection = (number) => {
     setchartNumber(number === chartNumber ? 0 : number);
   }
+
+  const handleLocationChange = (location) => {
+    console.log("SIVU 5. Route callback: ", location);
+  };
    
   return (
       <div className="router-page">
@@ -34,6 +39,11 @@ const FifthPage = () => {
 
         <div>Ulos kirjautuminen:<PhotoLibraryIcon color="success" onClick={() => handleSelection(3)}></PhotoLibraryIcon></div>
         { chartNumber === 3 && <div> <img className="swChart" src={LogOutMsgSequence} alt="Kuva3"/> </div> }
+
+        <br></br>
+        <br></br>
+        <br></br>
+        {<Linking sendPageSelection={(route) => handleLocationChange(route)} ></Linking> }
 
       </div>
     );

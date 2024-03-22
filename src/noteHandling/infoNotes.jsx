@@ -13,24 +13,19 @@ const InfoNote = ({}) => {
   const [snackbarBGColor,  setSnackbarBGColor]  = useState("green");
   const [snackbarContent,  setSnackbarContent]  = useState("");
 
-   useEffect( () => {
+  useEffect( () => {
     switch(state.login.state)
     {
       case "INITIAL_STATE":
-        break;
+      break;
       case types.LOGGING:
         break;
       case types.LOGIN_SUCCEEDED:
-        break;
-      case types.CHECK_PASSWORDS:
-        console.log("INFONOTE CHECK_PASSWORDS");
-        handleOpenSnackbar(700, state.login.infoText);
         break;
       case types.LOGIN_FAILED:
         console.log("INFONOTE LOGIN_FAILED");
         handleOpenSnackbar(state.login.status, state.login.infoText);
         break;
-
       case types.SIGNIN_SUCCEEDED:
         break;
       case types.SIGNIN_FAILED:
@@ -42,6 +37,31 @@ const InfoNote = ({}) => {
       break;
     }
   }, [state.login]);
+
+  useEffect( () => {
+    switch(state.info.state)
+    {
+      case "INITIAL_STATE":
+        break;
+      case types.LOGGING:
+        break;
+      case types.LOGIN_SUCCEEDED:
+        break;
+      case types.SHOW_CHECK_PASSWORDS:
+        console.log("INFONOTE SHOW_CHECK_PASSWORDS");
+        handleOpenSnackbar(700, state.info.text);
+        break;
+      case types.SIGNIN_SUCCEEDED:
+        break;
+      case types.SIGNIN_FAILED:
+        console.log("INFONOTE SIGNIN_FAILED");
+        handleOpenSnackbar(state.info.status, state.info.text);
+        break;
+
+      default:
+      break;
+    }
+  }, [state.info]);
 
   useEffect( () => {
     switch(state.info.state)
