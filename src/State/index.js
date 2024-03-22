@@ -28,7 +28,7 @@ export const StateProvider = ({ reducer, initialState }) => {
   // APP TÄNNE. Palauttaa parametrina index.jsään
   return (
     <StateContext.Provider value={{ state, dispatch: enhancedDispatch, actions }}>
-     <Router basename="/porssisahko">
+     <Router basename="/">
       <RouteConfigs>
         <App />
       </RouteConfigs>
