@@ -25,8 +25,11 @@ import './App.css';
 import { useStateValue } from './State/index.js';
 import { types }         from './store/actions/actionTypes.js';
 import RouteConfigs      from "./Router/router.js";
+import Linking           from "./Router/Linking.js";
+
 
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { useNavigate }   from 'react-router-dom';
 
 function MainPage() {
   const { state, actions } = useStateValue();
@@ -53,11 +56,17 @@ function MainPage() {
   const [buttonListVisible, setButtonListVisible] = useState(false);
   const [buttonVisibleText, setButtonVisibleText] = useState("Näytä nappulat");
 
+  const navigate = useNavigate();
+
   useEffect( () => {
     switch(state.login.state)
     {
       case "INITIAL_STATE":
-        console.log("MAINPAGE INITIAL_STATE");
+        console.log("MAINPAGE INITIAL_STATE userIDs: ", state.login.userIds.length);
+        if (state.login.userIds.length === 0)
+        {
+          navigate('/porssisahko');
+        }
         break;
       case types.LOGGING:
         console.log("MAINPAGE LOGGING");
@@ -65,17 +74,19 @@ function MainPage() {
         break;
       case types.LOGIN_SUCCEEDED:
       case types.SIGNIN_SUCCEEDED:
-        console.log("MAINPAGE ", state.login.state, " loading: ",loading);
+        console.log("MAINPAGE ", state.login.state);
+        navigate('/', { replace: true });
         //setLoadingValue(false);
         break;
       case types.LOGOUT_SUCCEEDED:
         console.log("MAINPAGE LOGOUT_SUCCEEDED");
-        //setLoadingValue(false);
+        setLoadingValue(false);
+        navigate('/porssisahko');
         break;
       case types.LOGOUT_FAILED:
       case types.SIGNIN_FAILED:
         console.log("MAINPAGE ", state.login.state);
-        //setLoadingValue(false);
+        setLoadingValue(false);
         break;
       default:
         console.log("MAINPAGE - DEFAULT ", state.login.state);
@@ -256,7 +267,9 @@ function MainPage() {
               <Pagination color="primary" count={4} page={showPage} onChange={handleOpenNewPage}/>
             </Stack>
 
-            {<RouteConfigs pageSelection={(route: any) => handleLocationChange(route)} />}
+            {/*<RouteConfigs pageSelection={(route: any) => handleLocationChange(route)} />*/}
+            {<Linking sendPageSelection={(route: any) => handleLocationChange(route)} ></Linking> }
+
 
           </div>
         }

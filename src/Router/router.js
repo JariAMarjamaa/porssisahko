@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useNavigate }   from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 //import history from "../helpers/history.js";
@@ -20,33 +21,48 @@ import SixthPage    from '../Pages/6Page.jsx';
 
 import Linking      from "./Linking.js";
 
-function RouteConfigs({pageSelection}) {
+function RouteConfigs({showLinks, pageSelection}) {
     //const userIds = useSelector(state => state.login.userIds);
     //locationCallback(useLocation());
+    const { state } = useStateValue();
+    const navigate = useNavigate();
 
+    console.log("ROUTE ",state.login.state);
+    
+    useEffect(() => {
+        if (state.login.state !== "LOGIN_SUCCEEDED") {
+          navigate('/porssisahko', { replace: true });
+        }
+      }, [state.login.state, navigate]);
 
+    
     //basename="/porssisahko"
+    //  <Router basename="/" >
 
         return (
             <div >
-                <Router basename="/porssisahko" >
+              
                     <div>
-                    <Linking sendPageSelection={pageSelection} ></Linking>
+                    
+                    {showLinks && <Linking sendPageSelection={pageSelection} ></Linking> }
+
                     <Routes>
                          {/*<Route path="/" element={<div>Root route should not be possible</div>} /> 
                         <Route path='/porssisahko' /> {/* element={<LogInPage />} component={LogInPage} poistettu V6ssa 
-                        {/*<Route path='/mainPage'    element={<MainPage/>} />
-                        <Route path="/page2"       element={<SecondPage/>} />
-                        <Route path="/page3"       element={<ThirdPage/>} />
-                        <Route path="/page4"       element={<FourthPage/>} />*/}
+                        {/*<Route path='/mainPage'    element={<MainPage/>} />*/}
                         
-                        <Route path="/page5"       element={<FifthPage/>} />
-                        <Route path="/page6"       element={<SixthPage/>} />
+                        <Route path='/'    element={<MainPage/>} />
+                        <Route path='/porssisahko' element={<LogInPage />}/>                                               
 
+                        {state.login.state === "LOGIN_SUCCEEDED" &&
+                        <>
+                            <Route path="/page5" element={<FifthPage/>} />
+                            <Route path="/page6" element={<SixthPage/>} />
+                        </>
+                        }
 
                     </Routes>
                     </div>
-                </Router>
             </div>
         )
 }

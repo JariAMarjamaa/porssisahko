@@ -15,9 +15,7 @@ const FifthPage = () => {
   const handleSelection = (number) => {
     setchartNumber(number === chartNumber ? 0 : number);
   }
-
-  console.log("5 sivu");
-    
+   
   return (
       <div className="router-page">
         <h1>SW Dokumentointi:</h1>

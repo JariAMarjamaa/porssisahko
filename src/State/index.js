@@ -4,6 +4,11 @@ import { applyMiddleware } from '../store/reducers/middleware';
 import { useActions } from '../store/actions/actionCreators';
 import App from '../App.jsx';
 
+import RouteConfigs      from "../Router/router.js";
+
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+
 export const StateContext = createContext();
 
 export const StateProvider = ({ reducer, initialState }) => {
@@ -23,7 +28,11 @@ export const StateProvider = ({ reducer, initialState }) => {
   // APP TÄNNE. Palauttaa parametrina index.jsään
   return (
     <StateContext.Provider value={{ state, dispatch: enhancedDispatch, actions }}>
+     <Router basename="/">
+     <RouteConfigs>
       <App />
+      </RouteConfigs>
+     </Router>
     </StateContext.Provider>
   );
 }
@@ -47,7 +56,7 @@ export const initialState = {
     }
   },*/
   login: {
-    state: "INITIAL_STATE",
+    state: checkLocalStorageForState(), 
     status: 0,
     logging: false,
     userIds: checkLocalStorage(),
@@ -58,6 +67,24 @@ export const initialState = {
     text: null
   },
 };
+
+function checkLocalStorageForState()  {
+  if (localStorage.getItem("userIds") === null){
+    return "INITIAL_STATE";
+  }
+  else
+  {
+    var parsedIds = JSON.parse(localStorage.getItem("userIds"));
+    if (parsedIds.length === 0)
+    {
+      return "INITIAL_STATE";
+    }
+    else
+    {
+      return "LOGIN_SUCCEEDED";
+    }
+  }
+}
 
 function checkLocalStorage()  {
   //console.log("STATE. checkLocalStorage. ", localStorage.getItem("userIds"));

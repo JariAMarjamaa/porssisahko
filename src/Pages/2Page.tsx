@@ -87,17 +87,17 @@ const SecondPage = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography sx={{ bgcolor: 'lightgray' }}>
-              Viimeisimpänä isompana juttuna lisätty node serveri.
+              Viimeisimpänä isompana juttuna lisätty node serveri
               <br/>
-              Ja Redux Routerin käyttö.
-              <br/>
-              <br/>
-              - Selaimessa voidaan surfata eri sivujen välillä.
+              Ja Redux Routerin käyttö
               <br/>
               <br/>
+              - Routteriin korjauksia
               <br/>
               <br/>
-              Sovellus versio 9.0
+              <br/>
+              <br/>
+              Sovellus versio 9.1
             </Typography>
           </AccordionDetails>
         </Accordion>
