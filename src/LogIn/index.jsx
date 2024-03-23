@@ -44,7 +44,7 @@ const LogInPage = () => {
         if (state.login.userIds.length !== 0)
         {
           setsigning(false);
-          navigate('/', { replace: true });
+          navigate('/mainPage', { replace: true });
         }
         break;
       case types.LOGGING:
@@ -53,7 +53,7 @@ const LogInPage = () => {
       case types.LOGIN_SUCCEEDED:
         console.log("LOGIN LOGIN_SUCCEEDED");
         setsigning(false);
-        navigate('/', { replace: true });
+        navigate('/mainPage', { replace: true });
         break;
       case types.LOGIN_FAILED:
         console.log("LOGIN LOGIN_FAILED");
@@ -63,7 +63,7 @@ const LogInPage = () => {
       case types.SIGNIN_SUCCEEDED:
         console.log("LOGIN SIGNIN_SUCCEEDED");
         setsigning(false);
-        navigate('/', { replace: true });
+        navigate('/mainPage', { replace: true });
         break;
       case types.SIGNIN_FAILED:
         console.log("LOGIN SIGNIN_FAILED");
@@ -71,7 +71,7 @@ const LogInPage = () => {
         break;
       case types.LOGOUT_SUCCEEDED:
         console.log("LOGIN LOGOUT_SUCCEEDED");
-        navigate('/', { replace: true });
+        navigate('/porssisahko', { replace: true });
         setsigning(false);
         break;
 

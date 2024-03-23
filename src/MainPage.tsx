@@ -65,7 +65,7 @@ function MainPage() {
         console.log("MAINPAGE INITIAL_STATE userIDs: ", state.login.userIds.length);
         if (state.login.userIds.length === 0)
         {
-          navigate('/login');
+          navigate('/porssisahko');
         }
         break;
       case types.LOGGING:
@@ -75,12 +75,12 @@ function MainPage() {
       case types.LOGIN_SUCCEEDED:
       case types.SIGNIN_SUCCEEDED:
         console.log("MAINPAGE ", state.login.state);
-        navigate('/', { replace: true });
+        //navigate('/', { replace: true });
         break;
       case types.LOGOUT_SUCCEEDED:
         console.log("MAINPAGE LOGOUT_SUCCEEDED");
         setLoadingValue(false);
-        navigate('/login');
+        navigate('/porssisahko');
         break;
       case types.LOGOUT_FAILED:
       case types.SIGNIN_FAILED:
