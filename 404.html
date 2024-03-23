@@ -3,12 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="0;url=/mainPage">
-    <title>Routataan takaisin...</title>
+    <title>Public 404: Routataan takaisin...</title>
 </head>
 <body>
-    <p>Jos sivu ei päivity automaattisesti..., <a href="/mainPage">Napauta tästä</a>.</p>
-    <script>
-        window.location.href = '/mainPage';
-    </script>
+    <p>Jos sivu ei päivity automaattisesti... <a href="/mainPage">Napauta tästä</a>.</p>
+    <script type="text/javascript">  
+ 
+        var pathSegmentsToKeep = 0;
+  
+        var l = window.location;
+        l.replace(
+          l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+          l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash
+        );
+      </script>
 </body>
 </html>
