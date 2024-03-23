@@ -94,10 +94,11 @@ const SecondPage = () => {
               <br/>
               - Routteriin korjauksia
               <br/>
+              - 404-Not Found page ja re-direct fiksi
               <br/>
               <br/>
               <br/>
-              Sovellus versio 9.1
+              Sovellus versio 9.2
             </Typography>
           </AccordionDetails>
         </Accordion>

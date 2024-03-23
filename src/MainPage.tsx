@@ -205,8 +205,6 @@ function MainPage() {
   };
   const handleLocationChange = (location: string) => {
     console.log("MAINPAGE. Route callback: ", location);
-    setShowPage(location === "Page5" ? 5 :
-                location === "Page6" ? 6 : 1 )
   };
 
   return (
@@ -267,7 +265,7 @@ function MainPage() {
             <Stack spacing={2} alignItems="center">
               <Pagination color="primary" count={4} page={showPage} onChange={handleOpenNewPage}/>
             </Stack>
-
+            <br></br>
             {<Linking sendPageSelection={(route: any) => handleLocationChange(route)} ></Linking> }
 
 

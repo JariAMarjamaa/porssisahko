@@ -14,11 +14,9 @@ import LogInPage    from '../LogIn/index.jsx';
 import FifthPage    from '../Pages/5Page.jsx';
 import SixthPage    from '../Pages/6Page.jsx';
 
-import Linking      from "./Linking.js";
 import { types }    from '../store/actions/actionTypes.js';
 
-
-function RouteConfigs({showLinks, pageSelection}) {
+function RouteConfigs() {
     //const userIds = useSelector(state => state.login.userIds);
     //locationCallback(useLocation());
     const { state } = useStateValue();
@@ -36,8 +34,6 @@ function RouteConfigs({showLinks, pageSelection}) {
 
     return (
         <div>
-            {showLinks && <Linking sendPageSelection={pageSelection} ></Linking> }
-
             <Routes>
                 {/*<Route path="/" element={<div>Root route should not be possible</div>} /> 
                    <Route path='/porssisahko' /> {/* element={<LogInPage />} component={LogInPage} poistettu V6ssa */}
