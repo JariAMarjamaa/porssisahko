@@ -26,7 +26,7 @@ function RouteConfigs() {
         if (state.login.state !== types.LOGIN_SUCCEEDED &&
             state.login.state !== types.SIGNIN_SUCCEEDED) {
             console.log("ROUTE Log or SignIn failed");
-            navigate('/porssisahko', { replace: true });
+            navigate('/', { replace: true });
         }
       }, [state.login.state, navigate]);
 
@@ -36,7 +36,7 @@ function RouteConfigs() {
           <div style={{textAlign: "center", fontSize: "larger"}}>
             <h1>ROUTE 404 - Sivua ei löydy</h1>
             <p>Jartsan Ihanassa Routterissa on joku bugi</p>
-            <p><a href="/porssisahko">Napauta tästä</a>.</p>
+            <p><a href="/">Napauta tästä</a>.</p>
 
             {/* Add navigation links or buttons here */}
           </div>
@@ -52,9 +52,9 @@ function RouteConfigs() {
                 <Route path='*'            element={<NotFoundPage />} /> 
                 */}
                         
-                <Route path='/'            element={<NotFoundPage />} /> 
+                <Route path='/index'       element={<NotFoundPage />} /> 
                 <Route path='/mainPage'    element={<MainPage/>} />
-                <Route path='/porssisahko' element={<LogInPage />}/> 
+                <Route path='/' element={<LogInPage />}/> 
                                                              
 
                 {state.login.state === types.LOGIN_SUCCEEDED &&

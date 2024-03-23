@@ -65,7 +65,7 @@ function MainPage() {
         console.log("MAINPAGE INITIAL_STATE userIDs: ", state.login.userIds.length);
         if (state.login.userIds.length === 0)
         {
-          navigate('/porssisahko');
+          navigate('/');
         }
         break;
       case types.LOGGING:
@@ -80,7 +80,7 @@ function MainPage() {
       case types.LOGOUT_SUCCEEDED:
         console.log("MAINPAGE LOGOUT_SUCCEEDED");
         setLoadingValue(false);
-        navigate('/porssisahko');
+        navigate('/');
         break;
       case types.LOGOUT_FAILED:
       case types.SIGNIN_FAILED:
