@@ -98,7 +98,7 @@ const SecondPage = () => {
               <br/>
               <br/>
               <br/>
-              Sovellus versio 9.2
+              Sovellus versio 9.2.1
             </Typography>
           </AccordionDetails>
         </Accordion>
