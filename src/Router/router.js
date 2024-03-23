@@ -30,6 +30,19 @@ function RouteConfigs() {
         }
       }, [state.login.state, navigate]);
 
+    const NotFoundPage = () => {
+        console.log("ROUTE. PAGE NOT FOUND");
+        return (
+          <div>
+            <h1>404 - Sivua ei löydy</h1>
+            <p>Jartsan Ihanassa Routterissa on joku bugi</p>
+            <p><a href="/index.html">Napauta tästä</a>.</p>
+
+            {/* Add navigation links or buttons here */}
+          </div>
+        );
+      };
+
     console.log("ROUTE ",state.login.state);
 
     return (
@@ -39,7 +52,8 @@ function RouteConfigs() {
                    <Route path='/porssisahko' /> {/* element={<LogInPage />} component={LogInPage} poistettu V6ssa */}
                         
                 <Route path='/'             element={<MainPage/>} />
-                <Route path='/porssisahko'  element={<LogInPage />}/>                                               
+                <Route path='/porssisahko'  element={<LogInPage />}/> 
+                <Route path='*'             element={<NotFoundPage />} />                                              
 
                 {state.login.state === types.LOGIN_SUCCEEDED &&
                 <>
