@@ -33,7 +33,7 @@ function App() {
       case types.LOGIN_SUCCEEDED:
         console.log("APP ", state.login.state);
         setShowMainPage(state.login.state === types.LOGOUT_SUCCEEDED ? false : true);
-        navigate(state.login.state === types.LOGOUT_SUCCEEDED ? "/porssisahko" : '/mainPage');
+        navigate(state.login.state === types.LOGOUT_SUCCEEDED ? "/login" : '/mainPage');
 
         break;
       case types.LOGOUT_FAILED:

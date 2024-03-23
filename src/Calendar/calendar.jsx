@@ -21,7 +21,7 @@ import 'dayjs/locale/fi';
 
 import { getISOWeek, getISOWeekYear } from 'date-fns'; 
 
-// /porssisahko/ npm install date-fns
+// npm install date-fns
 // npm install @mui/x-date-pickers
 // npm install dayjs
 

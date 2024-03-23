@@ -26,7 +26,7 @@ function RouteConfigs() {
         if (state.login.state !== types.LOGIN_SUCCEEDED &&
             state.login.state !== types.SIGNIN_SUCCEEDED) {
             console.log("ROUTE Log or SignIn failed");
-            navigate('/porssisahko', { replace: true });
+            navigate('/login', { replace: true });
         }
       }, [state.login.state, navigate]);
 
@@ -48,11 +48,10 @@ function RouteConfigs() {
     return (
         <div>
             <Routes>
-                {/*<Route path="/" element={<div>Root route should not be possible</div>} /> 
-                   <Route path='/porssisahko' /> {/* element={<LogInPage />} component={LogInPage} poistettu V6ssa */}
+                {/*<Route path="/" element={<div>Root route should not be possible</div>} />  component={LogInPage} poistettu V6ssa */}
                         
                 <Route path='/'             element={<MainPage/>} />
-                <Route path='/porssisahko'  element={<LogInPage />}/> 
+                <Route path='/login'  element={<LogInPage />}/> 
                 <Route path='*'             element={<NotFoundPage />} />                                              
 
                 {state.login.state === types.LOGIN_SUCCEEDED &&
