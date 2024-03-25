@@ -9,10 +9,11 @@ import { useNavigate }   from 'react-router-dom';
 import { useStateValue } from '../State/index.js';
 //import { useSelector } from 'react-redux';
 
-import MainPage         from '../MainPage.tsx';
+import MainPage     from '../MainPage.tsx';
 import LogInPage    from '../LogIn/index.jsx';
 import FifthPage    from '../Pages/5Page.jsx';
 import SixthPage    from '../Pages/6Page.jsx';
+import DynamicPages from '../Pages/7-9Page.jsx';
 
 import { types }    from '../store/actions/actionTypes.js';
 
@@ -36,7 +37,7 @@ function RouteConfigs() {
           <div style={{textAlign: "center", fontSize: "larger"}}>
             <h1>ROUTE 404 - Sivua ei löydy</h1>
             <p>Jartsan Ihanassa Routterissa on joku bugi</p>
-            <p><a href="/">Napauta tästä</a>.</p>
+            <p><a href="/">Napauta tästä</a></p>
 
             {/* Add navigation links or buttons here */}
           </div>
@@ -48,19 +49,25 @@ function RouteConfigs() {
     return (
         <div>
             <Routes>
-                {/*<Route path="/" element={<div>Root route should not be possible</div>} />  component={LogInPage} poistettu V6ssa 
+                {/* 
+                Routtaus tehdään siinä järjestyksessä, kun match löytyy, niin järjestys on tärkeää
+
+                <Route path="/" element={<div>Root route should not be possible</div>} />  component={LogInPage} poistettu V6ssa 
                 <Route path='*'            element={<NotFoundPage />} /> 
                 */}
                         
-                <Route path='/index'       element={<NotFoundPage />} /> 
-                <Route path='/mainPage'    element={<MainPage/>} />
-                <Route path='/' element={<LogInPage />}/> 
+                <Route path='/index'    element={<NotFoundPage />} /> 
+                <Route path='/mainPage' element={<MainPage />} />
+                <Route path='/'         element={<LogInPage />}/> 
                                                              
 
                 {state.login.state === types.LOGIN_SUCCEEDED &&
                 <>
                     <Route path="/page5" element={<FifthPage/>} />
                     <Route path="/page6" element={<SixthPage/>} />
+
+                    <Route path="/page/:id" element={<DynamicPages/>} />
+
                 </>
                 }
 
