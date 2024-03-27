@@ -15,13 +15,18 @@ import FifthPage    from '../Pages/5Page.jsx';
 import SixthPage    from '../Pages/6Page.jsx';
 import DynamicPages from '../Pages/7-9Page.jsx';
 
+import CallBack     from "../auth/callback.jsx";
+import Auth         from "../utils/auth.js";
+import AuthCheck    from "../utils/authCheck.js";
 import { types }    from '../store/actions/actionTypes.js';
+
 
 function RouteConfigs() {
     //const userIds = useSelector(state => state.login.userIds);
     //locationCallback(useLocation());
     const { state } = useStateValue();
     const navigate = useNavigate();
+    const auth = new Auth();
 
     useEffect(() => {
         if (state.login.state !== types.LOGIN_SUCCEEDED &&
@@ -44,6 +49,13 @@ function RouteConfigs() {
         );
       };
 
+    const handleAuthentication = (props) => {
+      console.log("ROUTE handleAuthentication. props: ",props);
+
+      if (props.location.hash) {
+        auth.handleAuth();
+      }
+    }
     console.log("ROUTE ",state.login.state);
 
     return (
@@ -56,9 +68,22 @@ function RouteConfigs() {
                 <Route path='*'            element={<NotFoundPage />} /> 
                 */}
                         
-                <Route path='/index'    element={<NotFoundPage />} /> 
-                <Route path='/mainPage' element={<MainPage />} />
-                <Route path='/'         element={<LogInPage />}/> 
+                <Route path='/index'          element={<NotFoundPage />} /> 
+                <Route path='/mainPage'       element={<MainPage />} />
+
+                {/*
+               <Route path='/callback'       render={ (props) =>
+                {
+                  handleAuthentication(props);
+                  return <CallBack />}
+                }
+                />
+                 */}
+                 
+                {<Route path='/authcheck'     element={<AuthCheck auth={auth} />} />}
+                {<Route path='/callback'      element={<CallBack />} />}
+                
+                <Route path='/'               element={<LogInPage />}/> 
                                                              
 
                 {state.login.state === types.LOGIN_SUCCEEDED &&

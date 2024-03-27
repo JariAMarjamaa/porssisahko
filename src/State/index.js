@@ -4,7 +4,10 @@ import { applyMiddleware } from '../store/reducers/middleware';
 import { useActions } from '../store/actions/actionCreators';
 import App from '../App.jsx';
 
-import RouteConfigs      from "../Router/router.js";
+import RouteConfigs from "../Router/router.js";
+
+//import history      from "../utils/history.js";
+// history={history}
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -28,7 +31,7 @@ export const StateProvider = ({ reducer, initialState }) => {
   // APP TÄNNE. Palauttaa parametrina index.jsään
   return (
     <StateContext.Provider value={{ state, dispatch: enhancedDispatch, actions }}>
-     <Router basename="/porssisahko">
+     <Router basename="/porssisahko" >
       <RouteConfigs>
         <App />
       </RouteConfigs>
@@ -55,6 +58,10 @@ export const initialState = {
       message: ""
     }
   },*/
+  auth: {
+    state: "INITIAL_STATE",
+    is_authenticated: false
+  },
   login: {
     state: checkLocalStorageForState(), 
     status: 0,

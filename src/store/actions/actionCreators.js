@@ -9,4 +9,8 @@ export const useActions = (state, dispatch) => ({
   triggerLogIn  : data => dispatch({type: types.ASYNC_LOGGING_IN,  payload: data}),
   triggerLogOut : data => dispatch({type: types.ASYNC_LOGGING_OUT, payload: data}),
   triggerSignIn : data => dispatch({type: types.ASYNC_SIGNING,     payload: data}),
+
+  triggerGoogleLogInOk      : data => dispatch({type: types.GOOGLE_LOGIN_SUCCEEDED,  payload: data}),
+  triggerGoogleLogInFail    : data => dispatch({type: types.GOOGLE_LOGIN_FAILED,  payload: data}),
+  triggerGoogleLogInHandled : data => dispatch({type: types.GOOGLE_LOGIN_HANDLED,  payload: data}),
 });

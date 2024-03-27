@@ -13,6 +13,7 @@ import { useNavigate }   from 'react-router-dom';
 
 import InfoNote         from "../noteHandling/infoNotes.jsx";
 
+import Auth from "../utils/auth.js";
 
 import './index.css';
 
@@ -33,6 +34,8 @@ const LogInPage = () => {
   const [signing,          setsigning]          = useState(false);
 
   const navigate = useNavigate();
+
+  const auth = new Auth();
 
   let userData = {};
 
@@ -205,6 +208,9 @@ const LogInPage = () => {
         <h3>Sisäänkirjautuminen:</h3>
         <br></br>
         <br></br>
+
+        <button className="button mainButton" onClick={() => auth.login()}>Autentikointi</button>
+
 
         {signing && <div className="overlay">  <CircularProgress size={100}/> </div> }
 

@@ -1,6 +1,7 @@
 //import { combineReducers } from 'redux';
 import loggingReducer from './loggingReducer';
 import infoReducer from "./infoReducer";
+import authReducer from "./authReducer";
 import { initialState } from "../../State";
 import { types } from "../actions/actionTypes";
 import { combineReducers } from 'redux';
@@ -11,6 +12,7 @@ import { combineReducers } from 'redux';
 
 const mainReducer = (appState, action) => {
   const {
+    auth,
     login,
     info
   } = appState;
@@ -23,8 +25,9 @@ const mainReducer = (appState, action) => {
   }*/
   return {
     //const rootReducer = combineReducers({
+      auth:  authReducer(   auth, action),
       login: loggingReducer(login, action),
-      info:  infoReducer(info, action),
+      info:  infoReducer(   info, action),
     // Add other reducers here
   }
 };
