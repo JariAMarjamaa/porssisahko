@@ -8,7 +8,7 @@ export default class Auth {
         //auth0 sivulta
         domain:         "dev-fxyhd16ujhw0bqtp.eu.auth0.com",
         clientID:       "DkIQ76VmdcFKaFPxUPhDevDMSAfwTQNC",
-        redirectUri:    "http://localhost:3000/porssisahko/callback",
+        redirectUri:    "https://jariamarjamaa.github.io/porssisahko/callback", //"http://localhost:3000/porssisahko/callback",
         responseType:   "token id_token",
         scope:          "openid profile email"
     });
