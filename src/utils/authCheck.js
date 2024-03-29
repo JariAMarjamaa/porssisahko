@@ -13,12 +13,17 @@ function AuthCheck({auth}) {
         switch(state.auth.state)
         {
             case "INITIAL_STATE":
-                console.log("AUTH CHECK INITIAL_STATE. auth: ", auth);
+                console.log("AUTH CHECK INITIAL_STATE. auth.getAuthData: ", auth.getAuthData());
+
+                console.log("AUTH CHECK INITIAL_STATE. auth.isAuthenticated: ", auth.isAuthenticated());
                 if( auth.isAuthenticated) {
-                    actions.triggerGoogleLogInOk();
+                    console.log("=> trigger GoogleLogIn");
+                    actions.triggerGoogleLogIn(auth.getAuthData());
                 }
                 else
                 {
+                    console.log("AUTH CHECK INITIAL_STATE. Else");
+
                 }
             break;
             

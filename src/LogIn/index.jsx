@@ -40,18 +40,53 @@ const LogInPage = () => {
   let userData = {};
 
   useEffect( () => {
+    switch(state.auth.state)
+    {
+      case "INITIAL_STATE":
+        //console.log("LOGIN/AUTH INITIAL_STATE");
+        /*if (state.login.userIds.length !== 0)
+        {
+          console.log("LOGIN INITIAL_STATE. User login. Navigate to /mainPage");
+
+          setsigning(false);
+          navigate('/mainPage', { replace: true });
+        }*/
+        break;
+      case types.GOOGLE_LOGIN_SUCCEEDED:
+        console.log("LOGIN/AUTH GOOGLE_LOGIN_SUCCEEDED");
+        setsigning(false);
+        navigate('/mainPage', { replace: true });
+        break;
+      case types.GOOGLE_LOGIN_FAILED:
+        console.log("LOGIN/AUTH GOOGLE_LOGIN_FAILED");
+        setsigning(false);
+        setShowLogInButton(true);
+        break;
+      case types.GOOGLE_LOGGING_IN:
+        console.log("LOGIN/AUTH GOOGLE_LOGGING_IN");
+        setsigning(true);
+        break;
+      default:
+        break;
+    }
+  }, [state.auth, navigate]);
+
+  useEffect( () => {
     switch(state.login.state)
     {
       case "INITIAL_STATE":
-        console.log("LOGIN INITIAL_STATE");
+        //console.log("LOGIN INITIAL_STATE");
         if (state.login.userIds.length !== 0)
         {
+          console.log("LOGIN INITIAL_STATE. User login. Navigate to /mainPage");
+
           setsigning(false);
           navigate('/mainPage', { replace: true });
         }
         break;
       case types.LOGGING:
         console.log("LOGIN LOGGING");
+        setsigning(true);
         break;
       case types.LOGIN_SUCCEEDED:
         console.log("LOGIN LOGIN_SUCCEEDED");
@@ -74,6 +109,8 @@ const LogInPage = () => {
         break;
       case types.LOGOUT_SUCCEEDED:
         console.log("LOGIN LOGOUT_SUCCEEDED");
+        auth.logout();
+
         navigate('/porssisahko', { replace: true });
         setsigning(false);
         break;
@@ -94,6 +131,11 @@ const LogInPage = () => {
         break;
     }
   }, [state.info]);
+
+  const handleAuthentication = () => {
+    setsigning(true);
+    auth.login()
+  } 
 
   const handleLogIn = (event) => {
     event.preventDefault();
@@ -209,7 +251,7 @@ const LogInPage = () => {
         <br></br>
         <br></br>
 
-        <button className="button mainButton" onClick={() => auth.login()}>Autentikointi</button>
+        <button className="button mainButton" onClick={() => handleAuthentication()}>Autentikointi</button>
 
 
         {signing && <div className="overlay">  <CircularProgress size={100}/> </div> }

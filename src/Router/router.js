@@ -31,7 +31,7 @@ function RouteConfigs() {
     useEffect(() => {
         if (state.login.state !== types.LOGIN_SUCCEEDED &&
             state.login.state !== types.SIGNIN_SUCCEEDED) {
-            console.log("ROUTE Log or SignIn failed");
+            //console.log("ROUTE Log or SignIn failed. state: ", state.login.state);
             navigate('/', { replace: true });
         }
       }, [state.login.state, navigate]);
@@ -56,7 +56,6 @@ function RouteConfigs() {
         auth.handleAuth();
       }
     }
-    console.log("ROUTE ",state.login.state);
 
     return (
         <div>
@@ -81,7 +80,7 @@ function RouteConfigs() {
                  */}
                  
                 {<Route path='/authcheck'     element={<AuthCheck auth={auth} />} />}
-                {<Route path='/callback'      element={<CallBack />} />}
+                {<Route path='/callback'      element={<CallBack auth={auth} />} />}
                 
                 <Route path='/'               element={<LogInPage />}/> 
                                                              

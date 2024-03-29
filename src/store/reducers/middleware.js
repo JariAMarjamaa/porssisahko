@@ -23,11 +23,33 @@ export const applyMiddleware = ({ dispatch, logout }) => {
   }*/
 
   return async (action) => {
-    console.log("MIDDLEWARE"+
+    /*console.log("MIDDLEWARE"+
                 "\n action: ", action,
-                "\n actiotype: ", action.type);
+                "\n actiotype: ", action.type);*/
 
     switch (action.type) {
+
+      case types.GOOGLE_LOGGING_IN:
+        try {
+          console.log("MIDDLEWARE. GOOGLE_LOGGING_IN -> dispatch LOGGING");
+          dispatch({ type: types.LOGGING })
+          const response = await new BackendApi().logIn(action.payload);
+          processResponse(response, [200, 401, 406], "Sigin failed", dispatch /* tai näin: responseErrorFn*/);
+          console.log("MIDDLEWARE. GOOGLE_LOGGIN_SUCCEEDED. response: ", response);
+          dispatch({ type: response.status === 200 ? types.GOOGLE_LOGIN_SUCCEEDED : types.GOOGLE_LOGIN_FAILED, data: response });
+          dispatch({ type: response.status === 200 ? types.SIGNIN_SUCCEEDED : types.SIGNIN_FAILED, data: response });
+        } catch (error) {
+          console.log("MIDDLEWARE. GOOGLE_LOGGING_IN. ERROR: ", error);
+          if (error instanceof ApiError) {
+            console.log("MIDDLEWARE. GOOGLE_LOGGING_IN. CATCH API ERROR: ", error);
+            dispatch({ type: types.GOOGLE_LOGIN_FAILED, data: { status: 501, msg: "LogIn. Middleware error 501"} })
+          }
+          else {
+            console.log("MIDDLEWARE. GOOGLE_LOGGING_IN. CATCH MUU ERROR: ", error);
+            dispatch({ type: types.GOOGLE_LOGIN_FAILED, data: { status: 502, msg: "LogIn. Middleware error 502" } })
+          }
+        }
+        break;
 
       case types.ASYNC_SIGNING:
         try {
@@ -79,6 +101,7 @@ export const applyMiddleware = ({ dispatch, logout }) => {
           processResponse(response, [200], "Logout failed", dispatch /* tai näin: responseErrorFn*/);
           console.log("MIDDLEWARE. LOGOUT_SUCCEEDED");
           dispatch({ type: types.LOGOUT_SUCCEEDED, data: response });
+          dispatch({ type: types.GOOGLE_LOGGED_OUT, data: response });
         } catch (error) {
           console.log("MIDDLEWARE. LOGOUT. ERROR: ", error);
     

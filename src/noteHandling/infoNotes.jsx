@@ -26,6 +26,10 @@ const InfoNote = ({}) => {
         console.log("INFONOTE LOGIN_FAILED");
         handleOpenSnackbar(state.login.status, state.login.infoText);
         break;
+      case types.GOOGLE_LOGIN_FAILED:
+        console.log("INFONOTE GOOGLE_LOGIN_FAILED");
+        handleOpenSnackbar(state.login.status, state.login.infoText);
+      break;
       case types.SIGNIN_SUCCEEDED:
         break;
       case types.SIGNIN_FAILED:
