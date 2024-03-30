@@ -15,11 +15,13 @@ import FifthPage    from '../Pages/5Page.jsx';
 import SixthPage    from '../Pages/6Page.jsx';
 import DynamicPages from '../Pages/7-9Page.jsx';
 
+import UnauthReDirect from "./unauthredirect.js";
+import ProtectedRoute from "./protectedRoute.js";
+
 import CallBack     from "../auth/callback.jsx";
 import Auth         from "../utils/auth.js";
 import AuthCheck    from "../utils/authCheck.js";
 import { types }    from '../store/actions/actionTypes.js';
-
 
 function RouteConfigs() {
     //const userIds = useSelector(state => state.login.userIds);
@@ -49,12 +51,14 @@ function RouteConfigs() {
         );
       };
 
-    const handleAuthentication = (props) => {
-      console.log("ROUTE handleAuthentication. props: ",props);
-
-      if (props.location.hash) {
-        auth.handleAuth();
+    const PrivateRoute = ({auth} ) => {
+      console.log("ROUTE PrivateRoute");
+     
+      if (/*state.login.state === types.LOGIN_SUCCEEDED ||*/ state.auth.isAuthenticated === true )
+      {
+        return <ProtectedRoute auth={auth} /> ; 
       }
+      return  navigate('/redirect', { replace: true });
     }
 
     return (
@@ -62,7 +66,6 @@ function RouteConfigs() {
             <Routes>
                 {/* 
                 Routtaus tehdään siinä järjestyksessä, kun match löytyy, niin järjestys on tärkeää
-
                 <Route path="/" element={<div>Root route should not be possible</div>} />  component={LogInPage} poistettu V6ssa 
                 <Route path='*'            element={<NotFoundPage />} /> 
                 */}
@@ -70,28 +73,20 @@ function RouteConfigs() {
                 <Route path='/index'          element={<NotFoundPage />} /> 
                 <Route path='/mainPage'       element={<MainPage />} />
 
-                {/*
-               <Route path='/callback'       render={ (props) =>
-                {
-                  handleAuthentication(props);
-                  return <CallBack />}
-                }
-                />
-                 */}
-                 
                 {<Route path='/authcheck'     element={<AuthCheck auth={auth} />} />}
                 {<Route path='/callback'      element={<CallBack auth={auth} />} />}
+                {<Route path='/redirect'      element={<UnauthReDirect />} />}
                 
+                {<Route path='/privateroute'  element={<PrivateRoute auth={auth} /> } />}
+
                 <Route path='/'               element={<LogInPage />}/> 
                                                              
 
                 {state.login.state === types.LOGIN_SUCCEEDED &&
                 <>
-                    <Route path="/page5" element={<FifthPage/>} />
-                    <Route path="/page6" element={<SixthPage/>} />
-
+                    <Route path="/page5"    element={<FifthPage/>} />
+                    <Route path="/page6"    element={<SixthPage/>} />
                     <Route path="/page/:id" element={<DynamicPages/>} />
-
                 </>
                 }
 

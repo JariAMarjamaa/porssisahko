@@ -22,6 +22,8 @@ function Linking({sendPageSelection}) {
             <Link to="/page5" className="link-button"> <button className="button" onClick={ () => sendPageSelection("Page5") } >5-sivu</button> </Link>
             <Link to="/page6" className="link-button"> <button className="button" onClick={ () => sendPageSelection("Page6") } >6-sivu</button> </Link>
             <br/>
+            <Link to="/privateroute" className="link-button"> <button className="button" onClick={ () => sendPageSelection("PrivateRoute") } >Private Route</button> </Link>
+            
             <br/>
 
             {/*state.nums.map(num => 
