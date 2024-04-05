@@ -8,7 +8,7 @@ const CallBack = ({auth}) => {
   // id_token: json formaatissa
 
   const { id } = useParams();
-  console.log("CALLBACK props auth.isAuthenticated: ", auth.isAuthenticated() );
+  console.log("CALLBACK auth.isAuthenticated: ", auth.isAuthenticated() );
   console.log("CALLBACK -> auth.handleAuth" );
   
   auth.handleAuth();

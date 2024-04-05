@@ -4,8 +4,7 @@ const initialState = {
   is_authenticated: false,
   accessToken: null,
   id_token: null,
-  experiation: null,
-  userIds: []
+  experiation: null
 };
   
 const authReducer = (state = initialState, action) => {
@@ -22,7 +21,6 @@ const authReducer = (state = initialState, action) => {
         //accessToken: payload.accessToken,
         //id_token:    payload.id_token,
         //experiation: payload.experiation,
-        userIds:          [...state.userIds, payload.userId]
       };
 
     case types.GOOGLE_LOGIN_FAILED:
@@ -31,8 +29,7 @@ const authReducer = (state = initialState, action) => {
         ...state, 
         state:            action.type,
         is_authenticated: false,
-        status:           payload.status,
-        infoText:         payload.msg
+        status:           payload.status
       };
  
     case types.GOOGLE_LOGGING_IN:
@@ -42,15 +39,13 @@ const authReducer = (state = initialState, action) => {
           ...state
         };
 
-    case types.GOOGLE_LOGGED_OUT:
-        console.log("AUTH REDUCER GOOGLE_LOGGED_OUT. payload: ", payload);
+    case types.LOGOUT_SUCCEEDED:
+        console.log("AUTH REDUCER LOGOUT_SUCCEEDED. payload: ", payload);
           return {
             ...state,
             state:            action.type,
             is_authenticated: false,
-            status:           payload.status,
-            infoText:         null,
-            userIds:          state.userIds.filter(id => id !== payload.userId), // Remove the specified user ID
+            status:           payload.status
       };
   
     default:

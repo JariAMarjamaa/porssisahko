@@ -60,8 +60,7 @@ export const initialState = {
   },*/
   auth: {
     state: "INITIAL_STATE",
-    is_authenticated: false,
-    userIds: []
+    is_authenticated: false
   },
   login: {
     state: checkLocalStorageForState(), 

@@ -90,11 +90,12 @@ const SecondPage = () => {
               Viimeisimpänä isompana juttuna lisätty Autentikointi Googletilin kautta
               <br/>
               <br/>
+              - Muutettu Googlen tunnistautumisen epäonnistumisen ohjaus omalle sivulle
               <br/>
               <br/>
               <br/>
               <br/>
-              Sovellus versio 9.3
+              Sovellus versio 9.4
             </Typography>
           </AccordionDetails>
         </Accordion>

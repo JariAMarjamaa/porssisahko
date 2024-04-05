@@ -53,23 +53,20 @@ const LogInPage = () => {
         }*/
         break;
       case types.GOOGLE_LOGIN_SUCCEEDED:
-        console.log("LOGIN/AUTH GOOGLE_LOGIN_SUCCEEDED");
-        setsigning(false);
-        navigate('/mainPage', { replace: true });
+        //console.log("LOGIN/AUTH GOOGLE_LOGIN_SUCCEEDED");
+        //setsigning(false);
+        //navigate('/mainPage', { replace: true });
         break;
       case types.GOOGLE_LOGIN_FAILED:
-        console.log("LOGIN/AUTH GOOGLE_LOGIN_FAILED");
-        setsigning(false);
-        setShowLogInButton(true);
+        //console.log("LOGIN/AUTH GOOGLE_LOGIN_FAILED");
         break;
       case types.GOOGLE_LOGGING_IN:
-        console.log("LOGIN/AUTH GOOGLE_LOGGING_IN");
-        setsigning(true);
+        //console.log("LOGIN/AUTH GOOGLE_LOGGING_IN");
         break;
       default:
         break;
     }
-  }, [state.auth, navigate]);
+  }, [state.auth]);
 
   useEffect( () => {
     switch(state.login.state)
@@ -89,7 +86,8 @@ const LogInPage = () => {
         setsigning(true);
         break;
       case types.LOGIN_SUCCEEDED:
-        console.log("LOGIN LOGIN_SUCCEEDED");
+      case types.GOOGLE_LOGIN_SUCCEEDED:
+        console.log("LOGIN ",state.login.state);
         setsigning(false);
         navigate('/mainPage', { replace: true });
         break;
@@ -97,6 +95,13 @@ const LogInPage = () => {
         console.log("LOGIN LOGIN_FAILED");
         setsigning(false);
         setShowLogInButton(true);
+        break;
+      case types.GOOGLE_LOGIN_FAILED:
+        console.log("LOGIN/AUTH GOOGLE_LOGIN_FAILED -> navigate to /privateroute");
+        setsigning(false);
+        setShowLogInButton(true);
+        navigate("/privateroute");
+        auth.logout();
         break;
       case types.SIGNIN_SUCCEEDED:
         console.log("LOGIN SIGNIN_SUCCEEDED");
@@ -251,7 +256,7 @@ const LogInPage = () => {
         <br></br>
         <br></br>
 
-        <button className="button mainButton" onClick={() => handleAuthentication()}>Autentikointi</button>
+        <button className="button mainButton" onClick={() => handleAuthentication()}>Googlella kirjautuminen</button>
 
 
         {signing && <div className="overlay">  <CircularProgress size={100}/> </div> }

@@ -28,7 +28,7 @@ export default class Auth {
                 console.log("AUTH handleAuth. authResult: ", authResult);
                 localStorage.setItem("access_token", authResult.accessToken);
                 localStorage.setItem("id_token",     authResult.idToken); 
-                localStorage.setItem("googleUser",     authResult.idTokenPayload.nickname); 
+                localStorage.setItem("googleUser",   authResult.idTokenPayload.email/* .nickname*/); 
                 
                 let expiresAt = JSON.stringify( (authResult.expiresIn * 1000 + new Date().getTime()) );
                 localStorage.setItem("expiresAt", expiresAt);
@@ -42,6 +42,7 @@ export default class Auth {
             else
             {
                 console.error("HANDLE AUTH error: ", err);
+                navigate("/privateroute");
             }
         });
     }

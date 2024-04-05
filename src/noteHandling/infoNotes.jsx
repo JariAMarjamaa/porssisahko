@@ -29,7 +29,7 @@ const InfoNote = ({}) => {
       case types.GOOGLE_LOGIN_FAILED:
         console.log("INFONOTE GOOGLE_LOGIN_FAILED");
         handleOpenSnackbar(state.login.status, state.login.infoText);
-      break;
+        break;
       case types.SIGNIN_SUCCEEDED:
         break;
       case types.SIGNIN_FAILED:
@@ -61,26 +61,17 @@ const InfoNote = ({}) => {
         console.log("INFONOTE SIGNIN_FAILED");
         handleOpenSnackbar(state.info.status, state.info.text);
         break;
-
-      default:
-      break;
-    }
-  }, [state.info]);
-
-  useEffect( () => {
-    switch(state.info.state)
-    {
-      case "INITIAL_STATE":
-        break;
       case types.SHOW_CALENDAR_INFO:
       case types.SHOW_CHECK_PASSWORDS:
         console.log("INFONOTE ",state.info.state);
         handleOpenSnackbar(200, state.info.text);
         break;
+    
       default:
-        break;
+      break;
     }
   }, [state.info]);
+
 
   const handleOpenSnackbar = (status, text) => {
       //401 = väärä tunnus/salasana. 406 = validointi virhe, 500 = tunnus käytössä, 700 = salasana väärin kirjautumisessa

@@ -13,8 +13,6 @@ function AuthCheck({auth}) {
         switch(state.auth.state)
         {
             case "INITIAL_STATE":
-                console.log("AUTH CHECK INITIAL_STATE. auth.getAuthData: ", auth.getAuthData());
-
                 console.log("AUTH CHECK INITIAL_STATE. auth.isAuthenticated: ", auth.isAuthenticated());
                 if( auth.isAuthenticated) {
                     console.log("=> trigger GoogleLogIn");
@@ -33,7 +31,7 @@ function AuthCheck({auth}) {
                 break;
             case types.GOOGLE_LOGIN_FAILED:
                 console.log("AUTH CHECK GOOGLE_LOGIN_FAILED");
-                navigate("/");
+                //navigate("/");
                 break;
             default:
                 break;

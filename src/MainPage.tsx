@@ -75,7 +75,6 @@ function MainPage() {
       case types.LOGIN_SUCCEEDED:
       case types.SIGNIN_SUCCEEDED:
         console.log("MAINPAGE ", state.login.state);
-        //navigate('/', { replace: true });
         break;
       case types.LOGOUT_SUCCEEDED:
         console.log("MAINPAGE LOGOUT_SUCCEEDED");

@@ -23,6 +23,7 @@ const loggingReducer = (state = initialState, action) => {
       
     case types.LOGIN_SUCCEEDED:
     case types.SIGNIN_SUCCEEDED:
+    case types.GOOGLE_LOGIN_SUCCEEDED:
       console.log("REDUCER. ",action.type," payload: ", payload);
       var savedIds = [...state.userIds, payload.userId];
       localStorage.setItem("userIds", JSON.stringify(savedIds));
@@ -38,6 +39,7 @@ const loggingReducer = (state = initialState, action) => {
 
     case types.LOGIN_FAILED:
     case types.SIGNIN_FAILED:
+    case types.GOOGLE_LOGIN_FAILED:
       console.log("REDUCER. ",action.type," payload: ", payload);  
       return {
         ...state, 
@@ -48,7 +50,7 @@ const loggingReducer = (state = initialState, action) => {
       };
 
     case types.LOGOUT_SUCCEEDED:
-      console.log("REDUCER. LOGOUT_SUCCEEDED. payload: ", payload);  
+      console.log("REDUCER. ", action.type," payload: ", payload);  
       var userIds = state.userIds.filter(id => id !== payload.userId);
       localStorage.setItem("userIds", JSON.stringify(userIds));
         

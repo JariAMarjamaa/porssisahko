@@ -32,8 +32,9 @@ function RouteConfigs() {
 
     useEffect(() => {
         if (state.login.state !== types.LOGIN_SUCCEEDED &&
-            state.login.state !== types.SIGNIN_SUCCEEDED) {
-            //console.log("ROUTE Log or SignIn failed. state: ", state.login.state);
+            state.login.state !== types.SIGNIN_SUCCEEDED &&
+            state.login.state !== types.GOOGLE_LOGIN_FAILED) {
+            console.log("ROUTE Log or SignIn failed. state: ", state.login.state);
             navigate('/', { replace: true });
         }
       }, [state.login.state, navigate]);
@@ -52,13 +53,13 @@ function RouteConfigs() {
       };
 
     const PrivateRoute = ({auth} ) => {
-      console.log("ROUTE PrivateRoute");
+      console.log("ROUTE PrivateRoute. auth.isAuthenticated(): ", auth.isAuthenticated());
      
-      if (/*state.login.state === types.LOGIN_SUCCEEDED ||*/ state.auth.isAuthenticated === true )
+      if (/*state.login.state === types.LOGIN_SUCCEEDED ||*/ auth.isAuthenticated() === true )
       {
         return <ProtectedRoute auth={auth} /> ; 
       }
-      return  navigate('/redirect', { replace: true });
+      return <UnauthReDirect auth={auth}/>;
     }
 
     return (
@@ -75,10 +76,11 @@ function RouteConfigs() {
 
                 {<Route path='/authcheck'     element={<AuthCheck auth={auth} />} />}
                 {<Route path='/callback'      element={<CallBack auth={auth} />} />}
-                {<Route path='/redirect'      element={<UnauthReDirect />} />}
+                {<Route path='/redirect'      element={<UnauthReDirect auth={auth}/>} />}
                 
                 {<Route path='/privateroute'  element={<PrivateRoute auth={auth} /> } />}
 
+                <Route path='/authorize'      element={<LogInPage />}/> 
                 <Route path='/'               element={<LogInPage />}/> 
                                                              
 

@@ -37,7 +37,6 @@ export const applyMiddleware = ({ dispatch, logout }) => {
           processResponse(response, [200, 401, 406], "Sigin failed", dispatch /* tai näin: responseErrorFn*/);
           console.log("MIDDLEWARE. GOOGLE_LOGGIN_SUCCEEDED. response: ", response);
           dispatch({ type: response.status === 200 ? types.GOOGLE_LOGIN_SUCCEEDED : types.GOOGLE_LOGIN_FAILED, data: response });
-          dispatch({ type: response.status === 200 ? types.SIGNIN_SUCCEEDED : types.SIGNIN_FAILED, data: response });
         } catch (error) {
           console.log("MIDDLEWARE. GOOGLE_LOGGING_IN. ERROR: ", error);
           if (error instanceof ApiError) {
@@ -101,7 +100,6 @@ export const applyMiddleware = ({ dispatch, logout }) => {
           processResponse(response, [200], "Logout failed", dispatch /* tai näin: responseErrorFn*/);
           console.log("MIDDLEWARE. LOGOUT_SUCCEEDED");
           dispatch({ type: types.LOGOUT_SUCCEEDED, data: response });
-          dispatch({ type: types.GOOGLE_LOGGED_OUT, data: response });
         } catch (error) {
           console.log("MIDDLEWARE. LOGOUT. ERROR: ", error);
     
