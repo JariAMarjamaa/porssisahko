@@ -97,7 +97,7 @@ const LogInPage = () => {
         setShowLogInButton(true);
         break;
       case types.GOOGLE_LOGIN_FAILED:
-        console.log("LOGIN/AUTH GOOGLE_LOGIN_FAILED -> navigate to /privateroute");
+        console.log("LOGIN GOOGLE_LOGIN_FAILED -> navigate to /privateroute");
         setsigning(false);
         setShowLogInButton(true);
         navigate("/privateroute");

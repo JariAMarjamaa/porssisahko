@@ -33,8 +33,9 @@ function RouteConfigs() {
     useEffect(() => {
         if (state.login.state !== types.LOGIN_SUCCEEDED &&
             state.login.state !== types.SIGNIN_SUCCEEDED &&
+            state.login.state !== types.GOOGLE_LOGIN_SUCCEEDED &&
             state.login.state !== types.GOOGLE_LOGIN_FAILED) {
-            console.log("ROUTE Log or SignIn failed. state: ", state.login.state);
+            console.log("ROUTE to Root / cause state: ", state.login.state);
             navigate('/', { replace: true });
         }
       }, [state.login.state, navigate]);

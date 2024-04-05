@@ -5,11 +5,6 @@ import { useParams } from 'react-router';
 const UnauthReDirect = ({auth}) => {
   const { id } = useParams();
 
-  console.log("UnauthReDirect id: ", id );
-  console.log("UnauthReDirect auth: ", auth );
-
-
-  
   return (
       <div className="router-page">
         <h1>Google Autentikointi epäonnistui</h1>

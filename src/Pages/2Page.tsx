@@ -92,10 +92,11 @@ const SecondPage = () => {
               <br/>
               - Muutettu Googlen tunnistautumisen epäonnistumisen ohjaus omalle sivulle
               <br/>
+              - Router fiksi, kun Google kirjautuminen onnistuu
               <br/>
               <br/>
               <br/>
-              Sovellus versio 9.4
+              Sovellus versio 9.4.1
             </Typography>
           </AccordionDetails>
         </Accordion>
