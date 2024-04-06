@@ -14,6 +14,7 @@ function AuthCheck({auth}) {
         {
             case "INITIAL_STATE":
                 console.log("AUTH CHECK INITIAL_STATE. auth.isAuthenticated: ", auth.isAuthenticated());
+
                 if( auth.isAuthenticated) {
                     console.log("=> trigger GoogleLogIn");
                     actions.triggerGoogleLogIn(auth.getAuthData());
@@ -25,15 +26,18 @@ function AuthCheck({auth}) {
                 }
             break;
             
-            case types.GOOGLE_LOGIN_SUCCEEDED:
+            //loput tarpeettomia!!
+            /*case types.GOOGLE_LOGIN_SUCCEEDED:
                 console.log("AUTH CHECK GOOGLE_LOGIN_SUCCEEDED");
+                //actions.triggerCreateGoogleProfile(auth.getProfile());
                 navigate("/");
                 break;
             case types.GOOGLE_LOGIN_FAILED:
                 console.log("AUTH CHECK GOOGLE_LOGIN_FAILED");
                 //navigate("/");
-                break;
+                break;*/
             default:
+                console.log("AUTH CHECK DEFAULT state: ", state.auth.state);
                 break;
         }
     }, [state.auth, actions, navigate]);

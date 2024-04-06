@@ -90,13 +90,13 @@ const SecondPage = () => {
               Viimeisimpänä isompana juttuna lisätty Autentikointi Googletilin kautta
               <br/>
               <br/>
-              - Muutettu Googlen tunnistautumisen epäonnistumisen ohjaus omalle sivulle
+              - Korjattu googlen kirjautumista. Näytetään oma ikoni ja fin kielet
               <br/>
-              - Router fiksi, kun Google kirjautuminen onnistuu
+              - Pääsivulla näytetään google profiilikuva, jos kirjauduttu googlen kautta
               <br/>
               <br/>
               <br/>
-              Sovellus versio 9.4.1
+              Sovellus versio 9.5
             </Typography>
           </AccordionDetails>
         </Accordion>

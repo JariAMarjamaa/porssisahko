@@ -31,7 +31,7 @@ import { useNavigate }   from 'react-router-dom';
 import InfoNote           from "./noteHandling/infoNotes.jsx";
 
 
-function MainPage() {
+function MainPage({auth}) {
   const { state, actions } = useStateValue();
 
   const [priceData,    setPriceData]     = useState(null);
@@ -55,6 +55,9 @@ function MainPage() {
 
   const [buttonListVisible, setButtonListVisible] = useState(false);
   const [buttonVisibleText, setButtonVisibleText] = useState("Näytä nappulat");
+
+  const [picture,           setPicture] = useState(localStorage.getItem("googlePicture"));
+
 
   const navigate = useNavigate();
 
@@ -88,7 +91,8 @@ function MainPage() {
         break;
       default:
         console.log("MAINPAGE - DEFAULT ", state.login.state);
-
+        const picture = localStorage.getItem("googlePicture");
+        setPicture(picture);
         break;
     }
   }, [state.login]);
@@ -209,6 +213,8 @@ function MainPage() {
   return (
     <div>
      <InfoNote></InfoNote>
+
+      <img style={{ float: 'right' }} className="profilePicture" src={picture} alt="Profiilikuva" />
 
       {<Notication type="warning" text={info}/>  }
 

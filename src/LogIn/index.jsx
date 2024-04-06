@@ -64,6 +64,7 @@ const LogInPage = () => {
         //console.log("LOGIN/AUTH GOOGLE_LOGGING_IN");
         break;
       default:
+        console.log("LOGIN auth.isAuthenticated: ", auth.isAuthenticated())
         break;
     }
   }, [state.auth]);
@@ -121,6 +122,7 @@ const LogInPage = () => {
         break;
 
       default:
+        console.log("LOGIN auth.isAuthenticated: ", auth.isAuthenticated())
         break;
     }
   }, [state.login, navigate]);
@@ -154,7 +156,6 @@ const LogInPage = () => {
       password: password
     };
 
-    console.log("LOGIN Trigger LogIn");
     actions.triggerLogIn(userData);
   };
 
@@ -173,12 +174,10 @@ const LogInPage = () => {
 
     if (password === password2)
     {
-      console.log("LOGIN Trigger SignIn");
       actions.triggerSignIn(userData);
     }
     else
     {
-      console.log("LOGIN Trigger Checkpasswords");
       actions.triggerShowCheckPasswords();
     }
   };

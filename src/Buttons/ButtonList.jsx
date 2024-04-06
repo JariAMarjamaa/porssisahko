@@ -53,6 +53,12 @@ const ButtonList = ({ lowestPrice, highestPrice, simulationCallback }) => {
   const handleLogOut = () => {
     console.log("BUTTONLIST LOGOUT");
     const user = state.login.userIds[0];
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("expiresAt");
+    localStorage.removeItem("googleUser");
+    localStorage.removeItem("googlePicture"); 
+
     actions.triggerLogOut(user);
   };
 

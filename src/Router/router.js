@@ -73,7 +73,7 @@ function RouteConfigs() {
                 */}
                         
                 <Route path='/index'          element={<NotFoundPage />} /> 
-                <Route path='/mainPage'       element={<MainPage />} />
+                <Route path='/mainPage'       element={<MainPage auth={auth}/>} />
 
                 {<Route path='/authcheck'     element={<AuthCheck auth={auth} />} />}
                 {<Route path='/callback'      element={<CallBack auth={auth} />} />}
