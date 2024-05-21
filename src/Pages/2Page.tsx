@@ -94,9 +94,10 @@ const SecondPage = () => {
               <br/>
               - Pääsivulla näytetään google profiilikuva, jos kirjauduttu googlen kautta
               <br/>
+              - Fiksejä googlen hanskaukseen
               <br/>
               <br/>
-              Sovellus versio 9.5
+              Sovellus versio 9.5.1
             </Typography>
           </AccordionDetails>
         </Accordion>

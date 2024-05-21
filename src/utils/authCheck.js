@@ -44,8 +44,8 @@ function AuthCheck({auth}) {
 
     return (
         <div>
-
-            </div>
+            AUTH CHECK -page
+        </div>
     );
 }
 

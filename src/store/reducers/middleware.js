@@ -76,7 +76,7 @@ export const applyMiddleware = ({ dispatch, logout }) => {
           console.log("MIDDLEWARE. LOGIN -> dispatch LOGGING");
           dispatch({ type: types.LOGGING })
           const response = await new BackendApi().logIn(action.payload);
-          processResponse(response, [200, 401, 402], "Login failed", dispatch /* tai näin: responseErrorFn*/);
+          processResponse(response, [200, 401, 402, 502], "Login failed", dispatch /* tai näin: responseErrorFn*/);
           console.log("MIDDLEWARE. LOGIN_SUCCEEDED");
           dispatch({ type: response.status === 200 ? types.LOGIN_SUCCEEDED : types.LOGIN_FAILED, data: response });
         } catch (error) {

@@ -56,7 +56,8 @@ function MainPage({auth}) {
   const [buttonListVisible, setButtonListVisible] = useState(false);
   const [buttonVisibleText, setButtonVisibleText] = useState("Näytä nappulat");
 
-  const [picture,           setPicture] = useState(localStorage.getItem("googlePicture"));
+  const [picture,           setPicture] = useState( localStorage.getItem("googlePicture") === undefined ||
+                                                    localStorage.getItem("googlePicture") === null ? "" : localStorage.getItem("googlePicture") );
 
 
   const navigate = useNavigate();
@@ -91,7 +92,8 @@ function MainPage({auth}) {
         break;
       default:
         console.log("MAINPAGE - DEFAULT ", state.login.state);
-        const picture = localStorage.getItem("googlePicture");
+        const picture = localStorage.getItem("googlePicture") === undefined ||
+                        localStorage.getItem("googlePicture") === null ? "" : localStorage.getItem("googlePicture");
         setPicture(picture);
         break;
     }

@@ -85,7 +85,8 @@ function RouteConfigs() {
                 <Route path='/'               element={<LogInPage />}/> 
                                                              
 
-                {state.login.state === types.LOGIN_SUCCEEDED &&
+                {state.login.state === types.LOGIN_SUCCEEDED ||
+                 state.login.state === types.GOOGLE_LOGIN_SUCCEEDED &&
                 <>
                     <Route path="/page5"    element={<FifthPage/>} />
                     <Route path="/page6"    element={<SixthPage/>} />
